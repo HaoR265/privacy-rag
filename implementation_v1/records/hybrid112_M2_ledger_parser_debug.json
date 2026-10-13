@@ -1,0 +1,11 @@
+{
+  "scope": "isolated ledger parser debug only; no model, protocol or formal acceptance",
+  "rejected": {
+    "duplicate": "LEDGER_REUSED_OR_MISSING_SEQUENCE",
+    "gap": "LEDGER_REUSED_OR_MISSING_SEQUENCE",
+    "after_close": "LEDGER_CONTENT_AFTER_CLOSE",
+    "missing_close": "LEDGER_MISSING_CLOSE",
+    "wrong_binding": "LEDGER_BINDING"
+  },
+  "temporary_directory_removed": true
+}

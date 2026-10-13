@@ -1,0 +1,161 @@
+{
+  "observed_utc": "2026-10-13T20:42:13.326800+00:00",
+  "scope": "completed M2 evidence and resource closure; no new model execution",
+  "record": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json",
+  "record_sha256": "eb1b96e4f473821bc68ded56388093d297a94553328421e39b8386a9da4a097b",
+  "execution_source_archive": "records/hybrid112_M2_running_source_snapshot.tar.gz",
+  "archive_sha256": "222bbe249197100765080d6239a7f7801449bcd264540451a79bfc9e975137b1",
+  "archived_identities_verified": 71,
+  "audited_execution_source_sha256": {
+    "compute/model.hpp": "42570daa03856f59a5bc4cf719f8ce35e55eac83faa119f252d0902d64d71b3a",
+    "compute/artifacts.hpp": "5e183820953909178532677949bf79fe91e86387ebce005a08b4d5241af37c8e",
+    "compute/local_shares.cu": "e31dfe43754ada3631043824f62ce8dbf83f672ef553f52c143b444215f869c4",
+    "experiments/hybrid112/decode_worker.cpp": "65463daddec17201ca66cb083152089923214e71f2a9e581bdf9f99031b22a51",
+    "experiments/hybrid112/run_decode.py": "9aee20cb122c9ecdb2825fb8d9eb6bb5099fc3eb9d85e87f4d20f5a1dede478d",
+    "native/src/channel.cpp": "61411745b9ac3506f1fb1927bb9c8efb02ccbbcb60107041fee7a1973817f3d9",
+    "native/src/secure_ops.cpp": "20e2c7340d6f5042b21ea6b83dc38e426258d7c34a3b368d20e0513c1897a25c"
+  },
+  "manual_source_audit": "records/hybrid112_M2_closure.md",
+  "final_comparison": {
+    "final_token_and_KV_matched": true,
+    "failure_matched": true,
+    "numeric_failure": false,
+    "output_words": 57345,
+    "expected_sha256": "2ed5b80a24e6017977c83c1ec54f24c0155ef3eea3f4a7ba10436188fb9c87f1",
+    "device": "NVIDIA GeForce RTX 2060"
+  },
+  "ledgers": [
+    {
+      "party": "C",
+      "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.C.ledger",
+      "sha256": "5355a8918221d43f6954f2fec740a42daf74396023fa2d56a7069d466fc76e11",
+      "reservations": 390360,
+      "first_sequence": 0,
+      "last_sequence": 390359,
+      "kinds": {
+        "session": 1,
+        "development_public_cache_sharing": 1,
+        "boolean_cross_OT": 4776,
+        "ot_C_to_S": 10158,
+        "beaver": 10157,
+        "ot_S_to_C": 10271,
+        "token_descriptor": 1,
+        "token_onehot_fixed_155648": 1,
+        "bfv_key_and_GC_independent_OT": 1,
+        "token_acyclic_keys_9_levels": 1,
+        "token_fixed_input": 19,
+        "token_return_tile_mask_Enc0": 4,
+        "token_exact_tile_GC": 4,
+        "batch_descriptor": 47109,
+        "batch_GC_AND": 36057,
+        "batch_input_OT": 36057,
+        "batch_mask_words": 36057,
+        "batch_mask_bits": 36057,
+        "private_diagonal_descriptor": 113,
+        "bfv_joint_descriptor": 56,
+        "bfv_matrix_descriptor": 33713,
+        "bfv_matrix_input": 46944,
+        "bfv_matrix_tile_mask_Enc0": 43305,
+        "bfv_matrix_tile_GC": 35913,
+        "BFV_matrix_beaver": 896,
+        "matrix_A_random_words": 896,
+        "matrix_B_random_words": 896,
+        "matrix_masked_opening_words": 896
+      },
+      "contiguous_unique_sequence": true,
+      "terminal": "closed",
+      "all_reserved": "burned"
+    },
+    {
+      "party": "S",
+      "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.S.ledger",
+      "sha256": "5355a8918221d43f6954f2fec740a42daf74396023fa2d56a7069d466fc76e11",
+      "reservations": 390360,
+      "first_sequence": 0,
+      "last_sequence": 390359,
+      "kinds": {
+        "session": 1,
+        "development_public_cache_sharing": 1,
+        "boolean_cross_OT": 4776,
+        "ot_C_to_S": 10158,
+        "beaver": 10157,
+        "ot_S_to_C": 10271,
+        "token_descriptor": 1,
+        "token_onehot_fixed_155648": 1,
+        "bfv_key_and_GC_independent_OT": 1,
+        "token_acyclic_keys_9_levels": 1,
+        "token_fixed_input": 19,
+        "token_return_tile_mask_Enc0": 4,
+        "token_exact_tile_GC": 4,
+        "batch_descriptor": 47109,
+        "batch_GC_AND": 36057,
+        "batch_input_OT": 36057,
+        "batch_mask_words": 36057,
+        "batch_mask_bits": 36057,
+        "private_diagonal_descriptor": 113,
+        "bfv_joint_descriptor": 56,
+        "bfv_matrix_descriptor": 33713,
+        "bfv_matrix_input": 46944,
+        "bfv_matrix_tile_mask_Enc0": 43305,
+        "bfv_matrix_tile_GC": 35913,
+        "BFV_matrix_beaver": 896,
+        "matrix_A_random_words": 896,
+        "matrix_B_random_words": 896,
+        "matrix_masked_opening_words": 896
+      },
+      "contiguous_unique_sequence": true,
+      "terminal": "closed",
+      "all_reserved": "burned"
+    }
+  ],
+  "public_trace_checks": [
+    {
+      "party": "C",
+      "trace": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.C.trace.jsonl",
+      "trace_sha256": "769bd8566645ea6e35df69ec965907e865a38e9363bf018e932e5a09b78288ac",
+      "counts": {
+        "Transformer_layer": 28,
+        "RoPE_shared_public_coefficients": 28,
+        "shared_QK": 448,
+        "shared_PV": 448,
+        "SiLU": 56,
+        "coordinate_range": 113
+      },
+      "token_lookup_trace_available": false
+    },
+    {
+      "party": "S",
+      "trace": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.S.trace.jsonl",
+      "trace_sha256": "b95804a6e8b4f50399573ab708b35714e12dcde55c4e8f345a625657792686ae",
+      "counts": {
+        "Transformer_layer": 28,
+        "RoPE_shared_public_coefficients": 28,
+        "shared_QK": 448,
+        "shared_PV": 448,
+        "SiLU": 56,
+        "coordinate_range": 113
+      },
+      "token_lookup_trace_available": false
+    }
+  ],
+  "cleanup": {
+    "worker_pids": [
+      993849,
+      993850
+    ],
+    "workers_absent": true,
+    "matching_active_processes": [],
+    "observed_temporary_directory": "/tmp/prag-hybrid112-7v7lam0t",
+    "temporary_directory_absent": true,
+    "oracle_persistence": "archived controller uses RAM and memfd only; no raw oracle file written",
+    "GPU_release_basis": "worker and controller exit; cache.clear precedes close in archived worker",
+    "ledger_evidence_retained": true,
+    "device_forensic_erasure_proven": false
+  },
+  "verification_boundary": "public-input controller compares final shares only after endpoints exit; no oracle data or reconstruction enters R2",
+  "prefix_was_computed_by_R2": false,
+  "full_R2_complete": false,
+  "production_enabled": false,
+  "formal_acceptance_defined": false,
+  "checker_sha256": "818f8afbf66a0a80a99526a0eb219d84452e420f1bef8448d148e6e0a680b989"
+}

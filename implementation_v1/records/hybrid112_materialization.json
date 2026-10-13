@@ -60,7 +60,7 @@
   "finite_evidence": "artifacts/hybrid112_evidence.json",
   "historical_runs_are_current_library_runs": false,
   "M1_complete_finite_shapes": true,
-  "M2_complete": false,
+  "M2_complete": true,
   "M3_complete": false,
   "full_R2_complete": false,
   "production_enabled": false,

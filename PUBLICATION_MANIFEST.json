@@ -1,11 +1,11 @@
 {
   "format": "public-source-snapshot-v1",
   "scope": "Distributed source and public metadata; excludes this manifest itself",
-  "date": "2026-10-13",
-  "file_count": 694,
-  "total_bytes": 14022769,
+  "date": "2026-10-14",
+  "file_count": 698,
+  "total_bytes": 14056826,
   "checks": {
-    "python_syntax_files": 135,
+    "python_syntax_files": 136,
     "machine_spec_rules": 62,
     "machine_spec_errors": [],
     "git_whitespace_check": "passed",
@@ -23,18 +23,18 @@
     },
     {
       "path": "PUBLICATION.md",
-      "bytes": 2712,
-      "sha256": "c54fdcc17d5b989b5a5cb0778bc533dbe7172830fbe338f830415b146cbbb1da"
+      "bytes": 3004,
+      "sha256": "c857205b06dd45ab934e02532f35ecdcc5a1ee87e0f08a6bdec77b097ed4d6d8"
     },
     {
       "path": "README.md",
-      "bytes": 4441,
-      "sha256": "cdd75a5b80c49d1e59819c4dccfcd873edd19d51de4fa7db9978c18e620ec5df"
+      "bytes": 4558,
+      "sha256": "938be2e3ff74ac590e93781524c125089ea2825abd48ec58ae8cd962153479f4"
     },
     {
       "path": "implementation_v1/README.md",
-      "bytes": 23038,
-      "sha256": "f6329acac020b3551cd90c530cd4584212cb2162ed9dec955c5653e6cb3b9028"
+      "bytes": 23113,
+      "sha256": "ac4ad2f77b6f214f5fa38a89c2c266cb0fde2908ce607bc1e3b7da35033d4e1c"
     },
     {
       "path": "implementation_v1/artifacts/bfv_context.json",
@@ -48,18 +48,18 @@
     },
     {
       "path": "implementation_v1/artifacts/bfv_native_manifest.json",
-      "bytes": 15200,
-      "sha256": "44699c0447cdea628c640bac4d6901420cce437b70a5161646f9021c358bcc99"
+      "bytes": 15658,
+      "sha256": "a62c97bf8a90f1ff6f270a6db3564d2fdd782f29b7c72bd317c782d53490773f"
     },
     {
       "path": "implementation_v1/artifacts/configuration.json",
       "bytes": 137366,
-      "sha256": "8548469b2138c85c4f0c2220c62a7346f90731ed9410fb2031c66b9a710b1dfb"
+      "sha256": "13b4342c97b65d310c7374f27c1c78bc78ae1f2f11c18c6a5cdfb94a2cd0b69d"
     },
     {
       "path": "implementation_v1/artifacts/configuration.sha256",
       "bytes": 65,
-      "sha256": "a5705757414e390af2dcb9c9b5d119a1b95d22d82d07c002986d930520ae7b04"
+      "sha256": "c4aeeabc6f80f5f10358f3de40308fc29c52e7bd51e3b7c273f7a76343ccf3d4"
     },
     {
       "path": "implementation_v1/artifacts/constants/constants_v1.bin",
@@ -134,7 +134,7 @@
     {
       "path": "implementation_v1/artifacts/hybrid112_evidence.json",
       "bytes": 9405,
-      "sha256": "33c767b7c52b62811f4762a495b3706457ffa3a93a51639ad1f9e1dd91d75517"
+      "sha256": "59d34af3f56d1b092a4e88aca415ad603a58993c2f08a9870b10c4c270cfa352"
     },
     {
       "path": "implementation_v1/artifacts/interface_delivery.json",
@@ -1668,8 +1668,8 @@
     },
     {
       "path": "implementation_v1/records/configuration_bindings_debug.json",
-      "bytes": 559,
-      "sha256": "3fa1e28979922514d2df4bafa5c41676750096e85b9954556e39e1d1967bd0fb"
+      "bytes": 558,
+      "sha256": "3f0833f121d4b32566720b7f9980640671588650875fba1d0dc3f1e8f28b734e"
     },
     {
       "path": "implementation_v1/records/crypto-batch-debug-run.json",
@@ -1942,6 +1942,21 @@
       "sha256": "4a0fc12005295f25a1512f2cca0d6e3fdd3555e32ec099ddd853906f87aa9276"
     },
     {
+      "path": "implementation_v1/records/hybrid112_M2_closure.json",
+      "bytes": 6352,
+      "sha256": "e4ffc29c37d03771c7ffd9d1192321f531c9a0e9456850917ac9ce94d0e9848c"
+    },
+    {
+      "path": "implementation_v1/records/hybrid112_M2_closure.md",
+      "bytes": 5177,
+      "sha256": "0522004139792c318a7f4d57911b784fa31cc92766450b97e5ed627fd265908d"
+    },
+    {
+      "path": "implementation_v1/records/hybrid112_M2_ledger_parser_debug.json",
+      "bytes": 386,
+      "sha256": "c5854a98119a8f6112f4ea82d929c0287332527c2c6a013ae0b2835413e13215"
+    },
+    {
       "path": "implementation_v1/records/hybrid112_actual_context.json",
       "bytes": 3114,
       "sha256": "b8de8cea65703556f5dc00ca6161f052fd6e79301485faf5e425a060c50b729a"
@@ -1953,8 +1968,8 @@
     },
     {
       "path": "implementation_v1/records/hybrid112_configuration_closure.json",
-      "bytes": 1054,
-      "sha256": "45fa4213c8d7356421cbc5bcb8d08d03ffec3c8885a2dfcce79cf4d63dc4d826"
+      "bytes": 1272,
+      "sha256": "d1941db493741bde60a4ae2b5f7bd2e6d4a5bb70364801909b091935f8df8605"
     },
     {
       "path": "implementation_v1/records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json",
@@ -1973,8 +1988,8 @@
     },
     {
       "path": "implementation_v1/records/hybrid112_implementation.md",
-      "bytes": 9460,
-      "sha256": "d21be4c8299c1b13d62f7ad342eb2739c81e8f1babec6c7e33a1274268c57f34"
+      "bytes": 9414,
+      "sha256": "768b4c922de8a9ec01d7fcd0dc2eacb74cc62791865d1633f30b947d384b0c8c"
     },
     {
       "path": "implementation_v1/records/hybrid112_layer_embedding_2_0_1ff4142dbc84438db1e7382d6715cf32.json",
@@ -2008,8 +2023,8 @@
     },
     {
       "path": "implementation_v1/records/hybrid112_materialization.json",
-      "bytes": 3523,
-      "sha256": "3db16058fecc6d14ae083e6a208d234713980eba44f90557ccded8740329db8a"
+      "bytes": 3522,
+      "sha256": "8d041e1a634fdc1ead09b7880aae4c140aa69d7760b9f65f08d009c364a3ad39"
     },
     {
       "path": "implementation_v1/records/hybrid112_postprocess_fcc69841b66f4fa08782cef499ac1c8a.json",
@@ -2023,8 +2038,8 @@
     },
     {
       "path": "implementation_v1/records/hybrid112_public_schedule.json",
-      "bytes": 9395,
-      "sha256": "b3188e65e1c456d56bb6dbf360dc59772c8828211bd4ba785340b8ce5f04920a"
+      "bytes": 9225,
+      "sha256": "4c108ce092472a90320cc6962b5cb89bf815f630bac64ed42aa5df591b9e7eff"
     },
     {
       "path": "implementation_v1/records/hybrid112_registered_development_build.json",
@@ -2038,8 +2053,8 @@
     },
     {
       "path": "implementation_v1/records/implementation_progress.md",
-      "bytes": 19071,
-      "sha256": "1a24b8f5703950476c56e2704029cb47b3e5e6fb89962dc0556c97649b1b2a6e"
+      "bytes": 19137,
+      "sha256": "340e1af0d991d4ab5688a39301070b383132fd366f3ed52e4560cd15fefb28d0"
     },
     {
       "path": "implementation_v1/records/input109_v108_baseline.json",
@@ -2919,7 +2934,7 @@
     {
       "path": "implementation_v1/records/spec_revision_manifest.json",
       "bytes": 6302,
-      "sha256": "bbea2832f39515a66a86013bc91c597ce3fa124deabea553bf30ecdc568f058f"
+      "sha256": "534be756d98da48adbf7c65b040eef01811538f861da1d02b8817ecfb1933aa3"
     },
     {
       "path": "implementation_v1/records/tile108_algebra_candidate.json",
@@ -3173,8 +3188,8 @@
     },
     {
       "path": "implementation_v1/tools/build_hybrid112_manifest.py",
-      "bytes": 6867,
-      "sha256": "b5123f081ec169becdb45a180b5d3517d6489d4af19010e303232e59f4ef5f73"
+      "bytes": 6987,
+      "sha256": "75b657b522c3c0be4c585e3f8bf06ac7b78235ba02962381afcdb1ca20bbaca6"
     },
     {
       "path": "implementation_v1/tools/build_matrix_cost.py",
@@ -3230,6 +3245,11 @@
       "path": "implementation_v1/tools/check_cuda_environment.py",
       "bytes": 4104,
       "sha256": "bc97628c874a84bef27684343afda86a7cfb69b4d787e9425d1bf8194065abc0"
+    },
+    {
+      "path": "implementation_v1/tools/check_m2_completion.py",
+      "bytes": 7537,
+      "sha256": "818f8afbf66a0a80a99526a0eb219d84452e420f1bef8448d148e6e0a680b989"
     },
     {
       "path": "implementation_v1/tools/check_management.py",
@@ -3373,8 +3393,8 @@
     },
     {
       "path": "implementation_v1/tools/sync_spec_artifacts.py",
-      "bytes": 8677,
-      "sha256": "baccc67e9b8901d74ccc50382987712840f89a6e6d9d91de25145f1c48444ef5"
+      "bytes": 8850,
+      "sha256": "b96b88f4686e6183d075875a47112114acef17ac879fb468e641a90986a89897"
     },
     {
       "path": "项目文档/第一版机读规范/01_目标与项目背景.md",
@@ -3399,7 +3419,7 @@
     {
       "path": "项目文档/第一版机读规范/README.md",
       "bytes": 5405,
-      "sha256": "f3792e965e991b13edc079bdf47ee78e7d2760b80026a9106cd8def8ef4e4a17"
+      "sha256": "f54a8536127a12bc646147597d622ad7422e1dc2ae6546dc88469d221f0bc781"
     },
     {
       "path": "项目文档/第一版机读规范/代理规则.yaml",
@@ -3408,8 +3428,8 @@
     },
     {
       "path": "项目文档/第一版机读规范/决策与工件.yaml",
-      "bytes": 12452,
-      "sha256": "7abdc1988725d114f784e1100839caa2ceb33f115f4602bff545edc1a7600159"
+      "bytes": 12493,
+      "sha256": "c65feca567a3cd08d7d5ca5441a92b3f4d0404475fd516263ce9077e1fc4c447"
     },
     {
       "path": "项目文档/第一版机读规范/参数与接口.yaml",
@@ -3423,8 +3443,8 @@
     },
     {
       "path": "项目文档/第一版机读规范/实施工件/bfv.json",
-      "bytes": 600706,
-      "sha256": "c933ec58b86d808eadf92645c26b424f59e562c2db2fe4b9fca16a0d3161f68b"
+      "bytes": 613969,
+      "sha256": "6f8c7ca485fac459ede184dfef3513ff557ba189075c2bb96c0c6fb79cbfdb7c"
     },
     {
       "path": "项目文档/第一版机读规范/实施工件/coordinated_domain_evidence_v1.json",

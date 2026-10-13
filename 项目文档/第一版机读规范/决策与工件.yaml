@@ -112,7 +112,7 @@ implementation_normalizations:
   semantic_change: false
   unchanged: 环59、数值域、尺度、全部floor、六轮NR、固定预算和秘密失败位规则
   evidence: 实施工件/bfv.json
-  boundary: 两模型各2行完整层及独立L2/检索已有实际依据；完整单Token Decode已完成并匹配CUDA R1，固定预算两文档检索尚待完成。GPU本方份额运算不解密或重构，CPU密码协议不是CPU明文模型回退；完整R2生产门仍关闭。
+  boundary: 两模型各2行完整层及独立L2/检索已有实际依据；完整单Token Decode六项收尾已核对，最终57345整数及失败位匹配CUDA R1，固定预算两文档检索尚待完成。GPU本方份额运算不解密或重构，CPU密码协议不是CPU明文模型回退；完整R2生产门仍关闭。
 artifacts:
 - id: ART-001
   topic: 生成输入模板
@@ -144,7 +144,7 @@ artifacts:
   - 全会话失败概率≤2^-64解析证据
   completion_boundary: autonomous_materialization_within_fixed_constraints
   path: 实施工件/bfv.json
-  sha256: c933ec58b86d808eadf92645c26b424f59e562c2db2fe4b9fca16a0d3161f68b
+  sha256: 6f8c7ca485fac459ede184dfef3513ff557ba189075c2bb96c0c6fb79cbfdb7c
   required_for_reproducible_configuration: true
   decision: DEC-010
   decision_authority: implementation_agent

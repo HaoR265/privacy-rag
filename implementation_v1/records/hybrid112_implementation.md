@@ -22,7 +22,7 @@ L2与检索连接已作独立真实双进程核对：三条1024维L2输入含零
 
 新增RoPE查表操作码14的边界核对：0、1、1278、1279正常；1280、环负一、高40位和符号位的无符号越界位置均返回零与秘密失败位。1024个整数和8位标记匹配CUDA独立生成的公开oracle，0.755701秒/5846137字节。`hybrid112_lookup_97ece7006ee243c0912d17ed95acb7a3.json`绑定实际源码和库；这是算子调试，不是正式验收。
 
-实际M2：`hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json`。真实28层Decode、词表头、秘密argmax和GPU KV更新完成，57345个整数及失败位全部匹配CUDA R1，numeric_failure=false。C端6249.32秒、应用层双向累计500658003539字节（取单端计量，不把两端重复相加）。两方正常退出，账本closed/all_reserved=burned；源码归档身份、最终trace的28层、448 QK、448 PV、113坐标范围和56 SiLU计数已核对，见`publication_M2_verification.json`。初始1024槽零KV为已登记公开开发输入，不是已完成的R2 Prefill。结果只属于其原始构建，不代表后续源码改动均已重跑。
+实际M2已完成并经六项收尾复核：final RMSNorm、真实2048→151936词表头、秘密argmax、Token/失败位核对、28层KV更新和材料/资源关闭。57345个最终整数与失败位匹配CUDA R1，numeric_failure=false；C端6249.32秒、应用层双向累计500658003539字节。每方390360项预留连续唯一，账本closed/all_reserved=burned；原进程和临时目录已退出。完整依据与开发边界见`hybrid112_M2_closure.md`及`hybrid112_M2_closure.json`。公开零KV前缀不是R2 Prefill；最终份额仅在协议结束后由独立公开样例控制器合并核对，没有反馈到R2。
 
 当前活动M3：`hybrid112_M3_0ef42a29ee7b4f499a4a70681b65c868`；实际257/257/160槽、每次28层、固定全表Token查询，D侧AES-GCM/OS密钥库、真实HPKE授权交付、完整U同步、PG不可变快照以及Top2/I7/证据输出。`run_m3.py`协调真实受理/claim/computing/releasing/final ACK持久化，原生产门不修改；查询不进入Generation。独立CUDA参考三次均无数值失败，峰值分配1349014528字节。当前仅已启动首份资料准备，尚无完整M3结果。源码和实际二进制已在运行前归档，禁止重建正在运行的`build/compute112m3`。临时PG、PKI、AES/HPKE密钥在该运行结束后由控制器清理；活动阶段保留它们是后续计算所必需，不是遗留后台服务。
 

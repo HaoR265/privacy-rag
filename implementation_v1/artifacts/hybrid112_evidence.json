@@ -192,9 +192,6 @@
       "registration_sha256": "bfe81f2cec30ac3d4a995ee89647606504427b3837f7090fbb495320fd5f7891",
       "execution_source_archive": "records/hybrid112_M2_running_source_snapshot.tar.gz",
       "archive_sha256": "222bbe249197100765080d6239a7f7801449bcd264540451a79bfc9e975137b1",
-      "record": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json",
-      "record_sha256": "eb1b96e4f473821bc68ded56388093d297a94553328421e39b8386a9da4a097b",
-      "result": "matched_CUDA_R1",
       "ledger_observations": [
         {
           "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.C.ledger",
@@ -204,7 +201,10 @@
           "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.S.ledger",
           "observation": "closed_and_burned"
         }
-      ]
+      ],
+      "record": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json",
+      "record_sha256": "eb1b96e4f473821bc68ded56388093d297a94553328421e39b8386a9da4a097b",
+      "result": "matched_CUDA_R1"
     }
   ],
   "pending": [

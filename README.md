@@ -30,7 +30,7 @@
 
 - 完整 GPU R1 公开样例已执行：两段资料、问题、1024 槽 Prefill 和 255 次 Decode，生成 256 个输出槽，`numeric_failure=false`。
 - 两个模型各 2 行的完整第 0 层，以及独立 L2、两记录全扫描、Top-2、I7 和证据装配，已在真实两方协议中与 CUDA R1 匹配。
-- 单 Token Decode 已完成全部 28 层、LM Head、秘密 argmax 和 KV 更新，57,345 个整数及失败位匹配 CUDA R1，`numeric_failure=false`；C 端约 6,249.32 秒，应用层双向累计 500,658,003,539 字节。公开零 KV 前缀不构成私有 Prefill 的运行证据。
+- 单 Token Decode 已完成全部 28 层、LM Head、秘密 argmax 和 KV 更新，57,345 个整数及失败位匹配 CUDA R1，`numeric_failure=false`；C 端约 6,249.32 秒，应用层双向累计 500,658,003,539 字节。公开零 KV 前缀不构成私有 Prefill 的运行证据。六项收尾与资源关闭已复核，详见 [M2 完成依据](implementation_v1/records/hybrid112_M2_closure.md)。
 - 两文档固定预算私有检索仍在运行，尚无完整结果。
 - 正式测试内容、规模和验收标准尚未制定。编译通过、文档检查通过、局部运行成功和完整系统成功分别记录。
 

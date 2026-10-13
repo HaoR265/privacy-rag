@@ -91,6 +91,8 @@ def main():
         'tools/build_hybrid.py', 'tools/build_crypto.sh',
         'tools/hybrid112_status.py', 'tools/hybrid112_schedule.py',
         'records/hybrid112_public_schedule.json',
+        'tools/check_m2_completion.py', 'records/hybrid112_M2_closure.md',
+        'records/hybrid112_M2_closure.json',
         'experiments/hybrid112/registered_build.py',
         'experiments/hybrid112/run_layer.py', 'experiments/hybrid112/run_decode.py',
         'experiments/hybrid112/run_m3.py',

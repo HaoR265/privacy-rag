@@ -47,7 +47,7 @@
     {
       "name": "README.md",
       "bytes": 5405,
-      "sha256": "f3792e965e991b13edc079bdf47ee78e7d2760b80026a9106cd8def8ef4e4a17",
+      "sha256": "f54a8536127a12bc646147597d622ad7422e1dc2ae6546dc88469d221f0bc781",
       "original_read_sha256": "8cd936b71e24f5b7818a625be82903c75e082d46b17d3a93b8d36472410d5b5c"
     },
     {
@@ -58,8 +58,8 @@
     },
     {
       "name": "决策与工件.yaml",
-      "bytes": 12452,
-      "sha256": "7abdc1988725d114f784e1100839caa2ceb33f115f4602bff545edc1a7600159",
+      "bytes": 12493,
+      "sha256": "c65feca567a3cd08d7d5ca5441a92b3f4d0404475fd516263ce9077e1fc4c447",
       "original_read_sha256": "2f8184c75ae50a59d69f41a2b1a18f5c0b7bd8af161e4fd801e91114bb86327b"
     },
     {
@@ -76,8 +76,8 @@
     },
     {
       "name": "实施工件/bfv.json",
-      "bytes": 600706,
-      "sha256": "c933ec58b86d808eadf92645c26b424f59e562c2db2fe4b9fca16a0d3161f68b",
+      "bytes": 613969,
+      "sha256": "6f8c7ca485fac459ede184dfef3513ff557ba189075c2bb96c0c6fb79cbfdb7c",
       "original_read_sha256": null
     },
     {

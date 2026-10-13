@@ -1,20 +1,23 @@
 {
-  "observed_utc": "2026-10-13T03:51:14.697752+00:00",
-  "scope": "current configuration/artifact/document closure only, not completion of live M2/M3",
+  "observed_utc": "2026-10-13T20:44:36.854841+00:00",
+  "scope": "original implementation configuration/artifact closure with completed M2; public snapshot identities are recorded separately in PUBLICATION_MANIFEST.json",
   "native_version": "prag-native-v1.0.12",
-  "configuration_sha256": "8548469b2138c85c4f0c2220c62a7346f90731ed9410fb2031c66b9a710b1dfb",
-  "current_manifest_files_verified": 133,
+  "configuration_sha256": "13b4342c97b65d310c7374f27c1c78bc78ae1f2f11c18c6a5cdfb94a2cd0b69d",
+  "current_manifest_files_verified": 137,
   "actual_configuration_files_verified": 653,
   "quantized_payloads": 620,
   "rules_checked": 62,
   "machine_files": 22,
+  "M2_complete": true,
+  "M3_complete": false,
   "full_R2_completed": false,
   "production_enabled": false,
-  "M2_and_M3": "independently registered executions still pending",
+  "active_M3_payload_and_binary_identities_unchanged": 10,
   "records": {
-    "artifacts/bfv_native_manifest.json": "44699c0447cdea628c640bac4d6901420cce437b70a5161646f9021c358bcc99",
-    "records/hybrid112_materialization.json": "3db16058fecc6d14ae083e6a208d234713980eba44f90557ccded8740329db8a",
-    "records/configuration_bindings_debug.json": "3fa1e28979922514d2df4bafa5c41676750096e85b9954556e39e1d1967bd0fb",
-    "records/spec_revision_manifest.json": "3ebe4cff596a929b48a0b36c7f53f21c7681454162121c48498d8819546427a0"
+    "artifacts/bfv_native_manifest.json": "a62c97bf8a90f1ff6f270a6db3564d2fdd782f29b7c72bd317c782d53490773f",
+    "records/hybrid112_materialization.json": "8d041e1a634fdc1ead09b7880aae4c140aa69d7760b9f65f08d009c364a3ad39",
+    "records/hybrid112_M2_closure.json": "e4ffc29c37d03771c7ffd9d1192321f531c9a0e9456850917ac9ce94d0e9848c",
+    "records/configuration_bindings_debug.json": "3f0833f121d4b32566720b7f9980640671588650875fba1d0dc3f1e8f28b734e",
+    "records/spec_revision_manifest.json": "e47ea1f8464308f2ee153c87da0ba1073e0e80f67c544a54d9b8b1fe21f1ea6a"
   }
 }

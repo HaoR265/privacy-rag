@@ -309,7 +309,7 @@
     },
     {
       "name": "bfv_native_manifest.json",
-      "sha256": "44699c0447cdea628c640bac4d6901420cce437b70a5161646f9021c358bcc99",
+      "sha256": "a62c97bf8a90f1ff6f270a6db3564d2fdd782f29b7c72bd317c782d53490773f",
       "content": {
         "artifact": "ART-002-native-materialization",
         "native_interface_version": "prag-native-v1.0.12",
@@ -324,7 +324,7 @@
         "files": {
           "artifacts/bfv_context.json": "b8de8cea65703556f5dc00ca6161f052fd6e79301485faf5e425a060c50b729a",
           "artifacts/bfv_correctness_bound.json": "1c7258d2698a36ac99857fa2886f43dc574d608873ecb82e9239f00f1cff2f72",
-          "artifacts/hybrid112_evidence.json": "1f978f3062db44ebdf2f473efb17c5bf2a36ecf96a4c821ce4c3b7330971a439",
+          "artifacts/hybrid112_evidence.json": "59d34af3f56d1b092a4e88aca415ad603a58993c2f08a9870b10c4c270cfa352",
           "build/compute112release/CMakeCache.txt": "6071ca83ea067b4dd25fe2edde2888aa430033247b504d2a40f148511e38ed17",
           "build/compute112release/libprag_local_cuda.a": "3a3be3b469b691916f86946e0aa8fc7f6e3f6cf48055e7421bc7abc91a178a37",
           "build/compute112release/native/libprag_crypto.a": "520bdda59f6fd5e00c7f31dde7f1248e27b275081de3626e369566aeb7bf2ec4",
@@ -418,23 +418,26 @@
           "private_rag/wire.py": "a712ee08d5571cf4a45668966e19cbdd3aa8f2bef9f01a9713d4d164afd2396c",
           "records/crypto-dependencies.json": "8e004f91c77a0553c441e41bdf6f0dfdc3d444fc5d0cec6f2c58cd87689ca9fd",
           "records/hybrid112_M1_source_snapshot.tar.gz": "bf0e6d14dfbed3f37a747d9709699a726d7b576b537229a14937fefbd2a0977b",
+          "records/hybrid112_M2_closure.json": "e4ffc29c37d03771c7ffd9d1192321f531c9a0e9456850917ac9ce94d0e9848c",
+          "records/hybrid112_M2_closure.md": "0522004139792c318a7f4d57911b784fa31cc92766450b97e5ed627fd265908d",
           "records/hybrid112_M2_running_source_snapshot.tar.gz": "222bbe249197100765080d6239a7f7801449bcd264540451a79bfc9e975137b1",
           "records/hybrid112_M3_0ef42a29ee7b4f499a4a70681b65c868.registration.json": "18aadd485b723b905ec49ec2d700d1cc01123b91275a0529e71bd9d01c1700f6",
           "records/hybrid112_M3_0ef42a29ee7b4f499a4a70681b65c868.source.tar.gz": "c7002946df04ed5a1c2c5b3bb90653691bd31556c8b676592ecdb89caaa131ed",
           "records/hybrid112_actual_context.json": "b8de8cea65703556f5dc00ca6161f052fd6e79301485faf5e425a060c50b729a",
           "records/hybrid112_cache_cleanup_54c56e0a08434c7d8b0675c856f4b054.json": "9a7eb39ad457318f06a137100b809452297b2d3f591a89acefeb0b63623ea103",
+          "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json": "eb1b96e4f473821bc68ded56388093d297a94553328421e39b8386a9da4a097b",
           "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.registration.json": "bfe81f2cec30ac3d4a995ee89647606504427b3837f7090fbb495320fd5f7891",
           "records/hybrid112_fresh_build_entry.json": "0df0e1a64b0bdf2d61fa0bb2dd15240845f37da9f7fba716127a8bf49a0248c2",
           "records/hybrid112_fresh_build_source_snapshot.tar.gz": "96793b4d40b205ce1103014e0933ce992c0ad16e6c8fffcf503f29c402fa12ea",
-          "records/hybrid112_implementation.md": "485bf5cd7dce1b693ec060a3ddf1987d41083adf3cb5ef44a203be8cf35a10d6",
+          "records/hybrid112_implementation.md": "d07e9f47e5f85f66608baaa0ca1119b1ea6c92ca3d561bf278ee0b222fb9ca7e",
           "records/hybrid112_layer_embedding_2_0_1ff4142dbc84438db1e7382d6715cf32.json": "2e15c9ed97917b251edf840b85643cd877ef8249b1435786f088252d773ca558",
           "records/hybrid112_layer_generation_2_0_2296cff92f6345f28be2dfde120bec00.json": "e0a7c03c1b876527989737d2532c9ed312ef3e1b09a8c5a8d7600a1a35e96010",
           "records/hybrid112_lookup_97ece7006ee243c0912d17ed95acb7a3.json": "0905ed9a84038f52947fec40f124705522d45b2b341a3b0eec277bb4c7f2c79f",
-          "records/hybrid112_materialization.json": "3db16058fecc6d14ae083e6a208d234713980eba44f90557ccded8740329db8a",
+          "records/hybrid112_materialization.json": "8d041e1a634fdc1ead09b7880aae4c140aa69d7760b9f65f08d009c364a3ad39",
           "records/hybrid112_postprocess_fcc69841b66f4fa08782cef499ac1c8a.json": "e4d6598a7269dd97797a67962c4712de83b1020f0c387342d018b25d62d23cb6",
           "records/hybrid112_postprocess_source_snapshot.tar.gz": "30139209539d2bbdbbe34a2343216b28c4c0882319d227b97fee541974da73fd",
           "records/hybrid112_production_build.json": "d25d0007cbf9c64e5e78e214e19889c9ca7cb47a5a715373fe37a21c46edbc00",
-          "records/hybrid112_public_schedule.json": "e4335043ae6d34724bd3f56521cdbe1cd227dd7770df90e3a1f08dc1420117e1",
+          "records/hybrid112_public_schedule.json": "4c108ce092472a90320cc6962b5cb89bf815f630bac64ed42aa5df591b9e7eff",
           "records/hybrid112_registered_development_build.json": "1439e31d50dc90ae63b76e5e8aba4d315c139280dfbf8d12454458f361265318",
           "records/hybrid112_registered_development_build.source.tar.gz": "f4facd583e4aab2dc1cc14f99e1da0a28092236b29b29d8ac4dec3b4294bd220",
           "records/hybrid112_release_cleanup_source_snapshot.tar.gz": "b099c5d711ba626865481e303c52345a8c719a1879a0eae89d83ebdc658f8b6c",
@@ -452,7 +455,8 @@
           "tools/build_crypto.sh": "bd17adb9ebaae5ee88c4b8e19625c86edab3150f8607fe995957ec85ea9c6b66",
           "tools/build_hybrid.py": "dfe969ad86d90ecefcb72025f75b29c9022e2ddd1f5df1688cedfa826cabf782",
           "tools/build_hybrid112_evidence.py": "93649dbfee4bbc48fae613166cb036fb613c8f6f415d753c6e67d851d12e6632",
-          "tools/build_hybrid112_manifest.py": "b5123f081ec169becdb45a180b5d3517d6489d4af19010e303232e59f4ef5f73",
+          "tools/build_hybrid112_manifest.py": "75b657b522c3c0be4c585e3f8bf06ac7b78235ba02962381afcdb1ca20bbaca6",
+          "tools/check_m2_completion.py": "818f8afbf66a0a80a99526a0eb219d84452e420f1bef8448d148e6e0a680b989",
           "tools/hybrid112_schedule.py": "4dadbad38d7011619d5fe4a581fcc2b9b816b075a001a679000d4c1b5bbfb4a5",
           "tools/hybrid112_status.py": "a2b89ac9d2580cfe8a59b1f5da1e0c74ca99185a327a01030ce9d5d7242c98e0"
         }
@@ -13185,7 +13189,7 @@
     },
     {
       "name": "hybrid112_evidence.json",
-      "sha256": "33c767b7c52b62811f4762a495b3706457ffa3a93a51639ad1f9e1dd91d75517",
+      "sha256": "59d34af3f56d1b092a4e88aca415ad603a58993c2f08a9870b10c4c270cfa352",
       "content": {
         "scope": "finite actual hybrid R2 development evidence; no formal acceptance",
         "development_native_version": "prag-native-v1.0.12",
@@ -13380,9 +13384,6 @@
             "registration_sha256": "bfe81f2cec30ac3d4a995ee89647606504427b3837f7090fbb495320fd5f7891",
             "execution_source_archive": "records/hybrid112_M2_running_source_snapshot.tar.gz",
             "archive_sha256": "222bbe249197100765080d6239a7f7801449bcd264540451a79bfc9e975137b1",
-            "record": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json",
-            "record_sha256": "eb1b96e4f473821bc68ded56388093d297a94553328421e39b8386a9da4a097b",
-            "result": "matched_CUDA_R1",
             "ledger_observations": [
               {
                 "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.C.ledger",
@@ -13392,7 +13393,10 @@
                 "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.S.ledger",
                 "observation": "closed_and_burned"
               }
-            ]
+            ],
+            "record": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json",
+            "record_sha256": "eb1b96e4f473821bc68ded56388093d297a94553328421e39b8386a9da4a097b",
+            "result": "matched_CUDA_R1"
           }
         ],
         "pending": [
@@ -13419,12 +13423,182 @@
     },
     {
       "name": "hybrid112_implementation.md",
-      "sha256": "d21be4c8299c1b13d62f7ad342eb2739c81e8f1babec6c7e33a1274268c57f34",
-      "content": "# 完整层与单 Token Decode 实施记录\n\n本阶段按已授权范围推进 M1 完整层、M2 单 Token Decode、M3 两文档私有检索。M4 完整 Prefill 与 255 次 Decode 整链不在本阶段运行范围。生产门禁保持关闭。\n\nv1.0.11 的历史运行记录继续绑定其原始来源身份。历史完整归档不随本次源码发布；旧运行结果不改写为当前源码的执行证据。\n\n当前混合后端候选：CPU 执行既有 SEAL/SCI BFV、OT、GC、Beaver；RTX2060 执行本方份额的模 2^59 加法、公开整数乘法、公开布局和 KV 份额存储。GPU 接口不包含联网、秘密重构、解密或秘密下标访问。CPU/GPU 传输只能包含本方份额、S 自有权重与公开参数。完整 Transformer 入口要求实际 LocalShares 后端；独立旧原语诊断仍可保持 CPU 局部运算。\n\n模环依据：uint64 加法与乘法先模 2^64 再取低 59 位，与直接模 2^59 等价。GPU 不对份额使用浮点运算。KV 固定容量为 2×28×8×1280×128 个 uint64，每参与方 587202560 字节，析构/中止时清零并释放；不把该操作称为设备取证级擦除证明。\n\nRoPE 候选：公开的 1280×128 表，每行含 64 个 cos 和 64 个 sin。GC 对每个秘密位置执行固定 11 位 one-hot 解码，一次解码复用于 128 列；位置无符号值大于 1279 时输出零且置共享失败位。公开表按小端 uint64 序列计算 SHA256 并与对端绑定。原有四次共享乘法、加减、floor20 和专用输出域不变，Q/K 头仅复用公开系数的秘密份额。\n\nSwiGLU 保持输入检查、绝对值分支、三段 exp LUT、六轮倒数 NR、SiLU floor24、joint floor12 与范围顺序。最后 Token 的 argmax 改为固定平衡树，严格大于才选右侧，输入 ID 递增，因此相等时保持最小 ID。未改变允许的 ID 集。\n\n完整层及L2/检索组件已有下述有限实际结果；单Token Decode已完成，固定预算两文档链路仍在运行。编译成功、GPU局部运算成功、全层成功分别登记，不能相互代替。已验证的等价实现直接更新原规范对应篇章。\n\n实际 M1 Embedding：2 行、完整第 0 层、hidden=1024、16Q/8KV，最终 2048 个整数和失败位匹配独立 CUDA R1，numeric_failure=false。C 计时 103.759 秒、应用层双向累计 10735518208 字节（只取一个端点避免重复），GPU 本地 10 次 kernel。双端 ledger 均 closed/all_reserved=burned。记录：`hybrid112_layer_embedding_2_0_1ff4142dbc84438db1e7382d6715cf32.json`。该结果不包含257/160固定预算完整Embedding，不能据此声称M3完成。\n\n实际 M1 Generation：2 行、完整第 0 层、hidden=2048、16Q/8KV，最终4096整数与失败位逐值匹配CUDA R1，numeric_failure=false。C计时213.51秒、应用层18377618914字节，双方ledger关闭并烧毁。记录`hybrid112_layer_generation_2_0_2296cff92f6345f28be2dfde120bec00.json`。两种M1对应源码及证据已另存`hybrid112_M1_source_snapshot.tar.gz`；完成层采用候选构建，之后正式原生版本记为1.0.12。\n\nL2与检索连接已作独立真实双进程核对：三条1024维L2输入含零向量，随后固定全扫描两记录、Top2/I7与两槽证据提取。4103个最终整数（含eligibility、证据和独立诊断中的keep份额重构）及失败位匹配CUDA参考；numeric_failure=false，32.0751秒、1250243754字节。记录`hybrid112_postprocess_fcc69841b66f4fa08782cef499ac1c8a.json`及源码快照。此记录不包含完整28层Embedding，不能代替M3实际结果。\n\n新增RoPE查表操作码14的边界核对：0、1、1278、1279正常；1280、环负一、高40位和符号位的无符号越界位置均返回零与秘密失败位。1024个整数和8位标记匹配CUDA独立生成的公开oracle，0.755701秒/5846137字节。`hybrid112_lookup_97ece7006ee243c0912d17ed95acb7a3.json`绑定实际源码和库；这是算子调试，不是正式验收。\n\n实际M2：`hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json`。真实28层Decode、词表头、秘密argmax和GPU KV更新完成，57345个整数及失败位全部匹配CUDA R1，numeric_failure=false。C端6249.32秒、应用层双向累计500658003539字节（取单端计量，不把两端重复相加）。两方正常退出，账本closed/all_reserved=burned；源码归档身份、最终trace的28层、448 QK、448 PV、113坐标范围和56 SiLU计数已核对，见`publication_M2_verification.json`。初始1024槽零KV为已登记公开开发输入，不是已完成的R2 Prefill。结果只属于其原始构建，不代表后续源码改动均已重跑。\n\n当前活动M3：`hybrid112_M3_0ef42a29ee7b4f499a4a70681b65c868`；实际257/257/160槽、每次28层、固定全表Token查询，D侧AES-GCM/OS密钥库、真实HPKE授权交付、完整U同步、PG不可变快照以及Top2/I7/证据输出。`run_m3.py`协调真实受理/claim/computing/releasing/final ACK持久化，原生产门不修改；查询不进入Generation。独立CUDA参考三次均无数值失败，峰值分配1349014528字节。当前仅已启动首份资料准备，尚无完整M3结果。源码和实际二进制已在运行前归档，禁止重建正在运行的`build/compute112m3`。临时PG、PKI、AES/HPKE密钥在该运行结束后由控制器清理；活动阶段保留它们是后续计算所必需，不是遗留后台服务。\n\n`python -m tools.build_hybrid112_evidence`逐项核对完成记录的原始源码归档与材料账本，生成`artifacts/hybrid112_evidence.json`。活动registration单独列为pending，不采用日志中间值宣称完整通过。没有密码中间状态恢复或材料重用路径。\n\n\n当前生产形状构建位于`build/compute112release`，全部开发编译选项为OFF，原生版本1.0.12。实际BFV上下文逐字段等于锁定工件；条件解码界登记的源码身份逐项一致。v1.0.11的272项归档验证独立保留，其中40项BFV、OT/GC底层及依赖源码仍相同，变化限于批量接口新增公开表秘密查表操作码。条件界文件保留原版本与来源，新的`hybrid112_materialization.json`说明其适用前提；没有把历史运行重新命名为1.0.12运行。生产库不含开发解码符号，worker实际返回BACKEND_NOT_READY，见`hybrid112_production_build.json`。\n\nGPU KV中止清理补全：`Transformer::forward`覆盖输入Token查表到final RMS的整个异常区间，先清空调用方持有的KV，再中止密码会话。实际两个故障注入（权重加载器、阶段回调，在模型算术前触发）验证双方各560MiB缓存立即释放、不能复用、validity清零，账本aborted/all_reserved=burned；见`hybrid112_cache_cleanup_54c56e0a08434c7d8b0675c856f4b054.json`。此为故障清理依据，不是模型输出依据；已完成的M2和活动M3均绑定各自启动时归档，未冒用此补丁的核对结果。相应源码与新生产构建归档在`hybrid112_release_cleanup_source_snapshot.tar.gz`。\n\n当前登记命令依次为`tools.build_hybrid112_manifest`、`tools.materialize_configuration`、`tools.materialize_spec_parameters`、`tools.sync_spec_artifacts`、`tools.record_spec_revision`，均使用项目venv和PYTHONPATH=.。完成运行后先重新登记其真实终态和源归档，再刷新工件；配置字节变化不会改变已经运行的M2/M3自有configuration。禁止覆盖活动二进制、常量或权重。`tools.check_configuration_bindings`独立核对实际配置文件与620项量化载荷，文档校验不代替该步骤。\n\n可复用构建入口`tools.build_hybrid`只接受新目录并绑定构建前后350项源码/依赖；当前一次实际构建、BFV Context及C/S两方prepare/query四个关闭门禁均通过，见`hybrid112_fresh_build_entry.json`与其独立源码归档。构建本身没有运行模型。`build_crypto.sh --dependencies-only`仅准备锁定依赖，不重建旧原生目录；M3开发入口可通过`--build-directory`指定新构建，复制二进制后再次匹配已登记SHA。现有活动M3仍按启动归档执行，不能把后续入口修改记为该次运行已验证。公开进度工具`tools.hybrid112_status`逐行读取trace，不持有秘密份额或启动常驻轮询；`hybrid112_public_schedule.json`是公开算子次数推导，已核对两模型M1四份端点trace，不是完整通信量、耗时预测或正式验收规范。\n\n后续开发入口统一采用`registered_build.py`：完整层、Decode和M3均要求显式新构建目录，核对构建源码/依赖与全部输出，禁止把改变后的源码登记成旧二进制的来源。运行前独立归档，临时副本再次核对；层与Decode控制器异常也保存未完成记录。`hybrid112_registered_development_build.json`及其源码归档实际绑定375项来源和输出，三个入口的可执行文件复制检查已通过；编译和登记核对没有执行模型。M2结果和活动M3均绑定各自原先归档，后续修改不冒充其执行结果。\n\n终态证据检查严格区分closed、aborted和没有确认终态标记：成功记录必须有双方closed/all_reserved=burned账本；未成功记录保留实际终态，不补写标记。三个合成解析分支已核对并删除临时文件，见`hybrid112_evidence_terminal_debug.json`；该检查不执行密码协议。公开算子次数核对入口会在已登记M2/M3真正完成后核对最终trace，不把部分trace当通过。\n"
+      "sha256": "768b4c922de8a9ec01d7fcd0dc2eacb74cc62791865d1633f30b947d384b0c8c",
+      "content": "# 完整层与单 Token Decode 实施记录\n\n本阶段按已授权范围推进 M1 完整层、M2 单 Token Decode、M3 两文档私有检索。M4 完整 Prefill 与 255 次 Decode 整链不在本阶段运行范围。生产门禁保持关闭。\n\nv1.0.11 的历史运行记录继续绑定其原始来源身份。历史完整归档不随本次源码发布；旧运行结果不改写为当前源码的执行证据。\n\n当前混合后端候选：CPU 执行既有 SEAL/SCI BFV、OT、GC、Beaver；RTX2060 执行本方份额的模 2^59 加法、公开整数乘法、公开布局和 KV 份额存储。GPU 接口不包含联网、秘密重构、解密或秘密下标访问。CPU/GPU 传输只能包含本方份额、S 自有权重与公开参数。完整 Transformer 入口要求实际 LocalShares 后端；独立旧原语诊断仍可保持 CPU 局部运算。\n\n模环依据：uint64 加法与乘法先模 2^64 再取低 59 位，与直接模 2^59 等价。GPU 不对份额使用浮点运算。KV 固定容量为 2×28×8×1280×128 个 uint64，每参与方 587202560 字节，析构/中止时清零并释放；不把该操作称为设备取证级擦除证明。\n\nRoPE 候选：公开的 1280×128 表，每行含 64 个 cos 和 64 个 sin。GC 对每个秘密位置执行固定 11 位 one-hot 解码，一次解码复用于 128 列；位置无符号值大于 1279 时输出零且置共享失败位。公开表按小端 uint64 序列计算 SHA256 并与对端绑定。原有四次共享乘法、加减、floor20 和专用输出域不变，Q/K 头仅复用公开系数的秘密份额。\n\nSwiGLU 保持输入检查、绝对值分支、三段 exp LUT、六轮倒数 NR、SiLU floor24、joint floor12 与范围顺序。最后 Token 的 argmax 改为固定平衡树，严格大于才选右侧，输入 ID 递增，因此相等时保持最小 ID。未改变允许的 ID 集。\n\n完整层及L2/检索组件已有下述有限实际结果；单Token Decode已完成，固定预算两文档链路仍在运行。编译成功、GPU局部运算成功、全层成功分别登记，不能相互代替。已验证的等价实现直接更新原规范对应篇章。\n\n实际 M1 Embedding：2 行、完整第 0 层、hidden=1024、16Q/8KV，最终 2048 个整数和失败位匹配独立 CUDA R1，numeric_failure=false。C 计时 103.759 秒、应用层双向累计 10735518208 字节（只取一个端点避免重复），GPU 本地 10 次 kernel。双端 ledger 均 closed/all_reserved=burned。记录：`hybrid112_layer_embedding_2_0_1ff4142dbc84438db1e7382d6715cf32.json`。该结果不包含257/160固定预算完整Embedding，不能据此声称M3完成。\n\n实际 M1 Generation：2 行、完整第 0 层、hidden=2048、16Q/8KV，最终4096整数与失败位逐值匹配CUDA R1，numeric_failure=false。C计时213.51秒、应用层18377618914字节，双方ledger关闭并烧毁。记录`hybrid112_layer_generation_2_0_2296cff92f6345f28be2dfde120bec00.json`。两种M1对应源码及证据已另存`hybrid112_M1_source_snapshot.tar.gz`；完成层采用候选构建，之后正式原生版本记为1.0.12。\n\nL2与检索连接已作独立真实双进程核对：三条1024维L2输入含零向量，随后固定全扫描两记录、Top2/I7与两槽证据提取。4103个最终整数（含eligibility、证据和独立诊断中的keep份额重构）及失败位匹配CUDA参考；numeric_failure=false，32.0751秒、1250243754字节。记录`hybrid112_postprocess_fcc69841b66f4fa08782cef499ac1c8a.json`及源码快照。此记录不包含完整28层Embedding，不能代替M3实际结果。\n\n新增RoPE查表操作码14的边界核对：0、1、1278、1279正常；1280、环负一、高40位和符号位的无符号越界位置均返回零与秘密失败位。1024个整数和8位标记匹配CUDA独立生成的公开oracle，0.755701秒/5846137字节。`hybrid112_lookup_97ece7006ee243c0912d17ed95acb7a3.json`绑定实际源码和库；这是算子调试，不是正式验收。\n\n实际M2已完成并经六项收尾复核：final RMSNorm、真实2048→151936词表头、秘密argmax、Token/失败位核对、28层KV更新和材料/资源关闭。57345个最终整数与失败位匹配CUDA R1，numeric_failure=false；C端6249.32秒、应用层双向累计500658003539字节。每方390360项预留连续唯一，账本closed/all_reserved=burned；原进程和临时目录已退出。完整依据与开发边界见`hybrid112_M2_closure.md`及`hybrid112_M2_closure.json`。公开零KV前缀不是R2 Prefill；最终份额仅在协议结束后由独立公开样例控制器合并核对，没有反馈到R2。\n\n当前活动M3：`hybrid112_M3_0ef42a29ee7b4f499a4a70681b65c868`；实际257/257/160槽、每次28层、固定全表Token查询，D侧AES-GCM/OS密钥库、真实HPKE授权交付、完整U同步、PG不可变快照以及Top2/I7/证据输出。`run_m3.py`协调真实受理/claim/computing/releasing/final ACK持久化，原生产门不修改；查询不进入Generation。独立CUDA参考三次均无数值失败，峰值分配1349014528字节。当前仅已启动首份资料准备，尚无完整M3结果。源码和实际二进制已在运行前归档，禁止重建正在运行的`build/compute112m3`。临时PG、PKI、AES/HPKE密钥在该运行结束后由控制器清理；活动阶段保留它们是后续计算所必需，不是遗留后台服务。\n\n`python -m tools.build_hybrid112_evidence`逐项核对完成记录的原始源码归档与材料账本，生成`artifacts/hybrid112_evidence.json`。活动registration单独列为pending，不采用日志中间值宣称完整通过。没有密码中间状态恢复或材料重用路径。\n\n\n当前生产形状构建位于`build/compute112release`，全部开发编译选项为OFF，原生版本1.0.12。实际BFV上下文逐字段等于锁定工件；条件解码界登记的源码身份逐项一致。v1.0.11的272项归档验证独立保留，其中40项BFV、OT/GC底层及依赖源码仍相同，变化限于批量接口新增公开表秘密查表操作码。条件界文件保留原版本与来源，新的`hybrid112_materialization.json`说明其适用前提；没有把历史运行重新命名为1.0.12运行。生产库不含开发解码符号，worker实际返回BACKEND_NOT_READY，见`hybrid112_production_build.json`。\n\nGPU KV中止清理补全：`Transformer::forward`覆盖输入Token查表到final RMS的整个异常区间，先清空调用方持有的KV，再中止密码会话。实际两个故障注入（权重加载器、阶段回调，在模型算术前触发）验证双方各560MiB缓存立即释放、不能复用、validity清零，账本aborted/all_reserved=burned；见`hybrid112_cache_cleanup_54c56e0a08434c7d8b0675c856f4b054.json`。此为故障清理依据，不是模型输出依据；已完成的M2和活动M3均绑定各自启动时归档，未冒用此补丁的核对结果。相应源码与新生产构建归档在`hybrid112_release_cleanup_source_snapshot.tar.gz`。\n\n当前登记命令依次为`tools.build_hybrid112_manifest`、`tools.materialize_configuration`、`tools.materialize_spec_parameters`、`tools.sync_spec_artifacts`、`tools.record_spec_revision`，均使用项目venv和PYTHONPATH=.。完成运行后先重新登记其真实终态和源归档，再刷新工件；配置字节变化不会改变已经运行的M2/M3自有configuration。禁止覆盖活动二进制、常量或权重。`tools.check_configuration_bindings`独立核对实际配置文件与620项量化载荷，文档校验不代替该步骤。\n\n可复用构建入口`tools.build_hybrid`只接受新目录并绑定构建前后350项源码/依赖；当前一次实际构建、BFV Context及C/S两方prepare/query四个关闭门禁均通过，见`hybrid112_fresh_build_entry.json`与其独立源码归档。构建本身没有运行模型。`build_crypto.sh --dependencies-only`仅准备锁定依赖，不重建旧原生目录；M3开发入口可通过`--build-directory`指定新构建，复制二进制后再次匹配已登记SHA。现有活动M3仍按启动归档执行，不能把后续入口修改记为该次运行已验证。公开进度工具`tools.hybrid112_status`逐行读取trace，不持有秘密份额或启动常驻轮询；`hybrid112_public_schedule.json`是公开算子次数推导，已核对两模型M1四份端点trace，不是完整通信量、耗时预测或正式验收规范。\n\n后续开发入口统一采用`registered_build.py`：完整层、Decode和M3均要求显式新构建目录，核对构建源码/依赖与全部输出，禁止把改变后的源码登记成旧二进制的来源。运行前独立归档，临时副本再次核对；层与Decode控制器异常也保存未完成记录。`hybrid112_registered_development_build.json`及其源码归档实际绑定375项来源和输出，三个入口的可执行文件复制检查已通过；编译和登记核对没有执行模型。M2结果和活动M3均绑定各自原先归档，后续修改不冒充其执行结果。\n\n终态证据检查严格区分closed、aborted和没有确认终态标记：成功记录必须有双方closed/all_reserved=burned账本；未成功记录保留实际终态，不补写标记。三个合成解析分支已核对并删除临时文件，见`hybrid112_evidence_terminal_debug.json`；该检查不执行密码协议。公开算子次数核对入口会在已登记M2/M3真正完成后核对最终trace，不把部分trace当通过。\n"
+    },
+    {
+      "name": "hybrid112_M2_closure.json",
+      "sha256": "e4ffc29c37d03771c7ffd9d1192321f531c9a0e9456850917ac9ce94d0e9848c",
+      "content": {
+        "observed_utc": "2026-10-13T20:42:13.326800+00:00",
+        "scope": "completed M2 evidence and resource closure; no new model execution",
+        "record": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json",
+        "record_sha256": "eb1b96e4f473821bc68ded56388093d297a94553328421e39b8386a9da4a097b",
+        "execution_source_archive": "records/hybrid112_M2_running_source_snapshot.tar.gz",
+        "archive_sha256": "222bbe249197100765080d6239a7f7801449bcd264540451a79bfc9e975137b1",
+        "archived_identities_verified": 71,
+        "audited_execution_source_sha256": {
+          "compute/model.hpp": "42570daa03856f59a5bc4cf719f8ce35e55eac83faa119f252d0902d64d71b3a",
+          "compute/artifacts.hpp": "5e183820953909178532677949bf79fe91e86387ebce005a08b4d5241af37c8e",
+          "compute/local_shares.cu": "e31dfe43754ada3631043824f62ce8dbf83f672ef553f52c143b444215f869c4",
+          "experiments/hybrid112/decode_worker.cpp": "65463daddec17201ca66cb083152089923214e71f2a9e581bdf9f99031b22a51",
+          "experiments/hybrid112/run_decode.py": "9aee20cb122c9ecdb2825fb8d9eb6bb5099fc3eb9d85e87f4d20f5a1dede478d",
+          "native/src/channel.cpp": "61411745b9ac3506f1fb1927bb9c8efb02ccbbcb60107041fee7a1973817f3d9",
+          "native/src/secure_ops.cpp": "20e2c7340d6f5042b21ea6b83dc38e426258d7c34a3b368d20e0513c1897a25c"
+        },
+        "manual_source_audit": "records/hybrid112_M2_closure.md",
+        "final_comparison": {
+          "final_token_and_KV_matched": true,
+          "failure_matched": true,
+          "numeric_failure": false,
+          "output_words": 57345,
+          "expected_sha256": "2ed5b80a24e6017977c83c1ec54f24c0155ef3eea3f4a7ba10436188fb9c87f1",
+          "device": "NVIDIA GeForce RTX 2060"
+        },
+        "ledgers": [
+          {
+            "party": "C",
+            "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.C.ledger",
+            "sha256": "5355a8918221d43f6954f2fec740a42daf74396023fa2d56a7069d466fc76e11",
+            "reservations": 390360,
+            "first_sequence": 0,
+            "last_sequence": 390359,
+            "kinds": {
+              "session": 1,
+              "development_public_cache_sharing": 1,
+              "boolean_cross_OT": 4776,
+              "ot_C_to_S": 10158,
+              "beaver": 10157,
+              "ot_S_to_C": 10271,
+              "token_descriptor": 1,
+              "token_onehot_fixed_155648": 1,
+              "bfv_key_and_GC_independent_OT": 1,
+              "token_acyclic_keys_9_levels": 1,
+              "token_fixed_input": 19,
+              "token_return_tile_mask_Enc0": 4,
+              "token_exact_tile_GC": 4,
+              "batch_descriptor": 47109,
+              "batch_GC_AND": 36057,
+              "batch_input_OT": 36057,
+              "batch_mask_words": 36057,
+              "batch_mask_bits": 36057,
+              "private_diagonal_descriptor": 113,
+              "bfv_joint_descriptor": 56,
+              "bfv_matrix_descriptor": 33713,
+              "bfv_matrix_input": 46944,
+              "bfv_matrix_tile_mask_Enc0": 43305,
+              "bfv_matrix_tile_GC": 35913,
+              "BFV_matrix_beaver": 896,
+              "matrix_A_random_words": 896,
+              "matrix_B_random_words": 896,
+              "matrix_masked_opening_words": 896
+            },
+            "contiguous_unique_sequence": true,
+            "terminal": "closed",
+            "all_reserved": "burned"
+          },
+          {
+            "party": "S",
+            "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.S.ledger",
+            "sha256": "5355a8918221d43f6954f2fec740a42daf74396023fa2d56a7069d466fc76e11",
+            "reservations": 390360,
+            "first_sequence": 0,
+            "last_sequence": 390359,
+            "kinds": {
+              "session": 1,
+              "development_public_cache_sharing": 1,
+              "boolean_cross_OT": 4776,
+              "ot_C_to_S": 10158,
+              "beaver": 10157,
+              "ot_S_to_C": 10271,
+              "token_descriptor": 1,
+              "token_onehot_fixed_155648": 1,
+              "bfv_key_and_GC_independent_OT": 1,
+              "token_acyclic_keys_9_levels": 1,
+              "token_fixed_input": 19,
+              "token_return_tile_mask_Enc0": 4,
+              "token_exact_tile_GC": 4,
+              "batch_descriptor": 47109,
+              "batch_GC_AND": 36057,
+              "batch_input_OT": 36057,
+              "batch_mask_words": 36057,
+              "batch_mask_bits": 36057,
+              "private_diagonal_descriptor": 113,
+              "bfv_joint_descriptor": 56,
+              "bfv_matrix_descriptor": 33713,
+              "bfv_matrix_input": 46944,
+              "bfv_matrix_tile_mask_Enc0": 43305,
+              "bfv_matrix_tile_GC": 35913,
+              "BFV_matrix_beaver": 896,
+              "matrix_A_random_words": 896,
+              "matrix_B_random_words": 896,
+              "matrix_masked_opening_words": 896
+            },
+            "contiguous_unique_sequence": true,
+            "terminal": "closed",
+            "all_reserved": "burned"
+          }
+        ],
+        "public_trace_checks": [
+          {
+            "party": "C",
+            "trace": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.C.trace.jsonl",
+            "trace_sha256": "769bd8566645ea6e35df69ec965907e865a38e9363bf018e932e5a09b78288ac",
+            "counts": {
+              "Transformer_layer": 28,
+              "RoPE_shared_public_coefficients": 28,
+              "shared_QK": 448,
+              "shared_PV": 448,
+              "SiLU": 56,
+              "coordinate_range": 113
+            },
+            "token_lookup_trace_available": false
+          },
+          {
+            "party": "S",
+            "trace": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.S.trace.jsonl",
+            "trace_sha256": "b95804a6e8b4f50399573ab708b35714e12dcde55c4e8f345a625657792686ae",
+            "counts": {
+              "Transformer_layer": 28,
+              "RoPE_shared_public_coefficients": 28,
+              "shared_QK": 448,
+              "shared_PV": 448,
+              "SiLU": 56,
+              "coordinate_range": 113
+            },
+            "token_lookup_trace_available": false
+          }
+        ],
+        "cleanup": {
+          "worker_pids": [
+            993849,
+            993850
+          ],
+          "workers_absent": true,
+          "matching_active_processes": [],
+          "observed_temporary_directory": "/tmp/prag-hybrid112-7v7lam0t",
+          "temporary_directory_absent": true,
+          "oracle_persistence": "archived controller uses RAM and memfd only; no raw oracle file written",
+          "GPU_release_basis": "worker and controller exit; cache.clear precedes close in archived worker",
+          "ledger_evidence_retained": true,
+          "device_forensic_erasure_proven": false
+        },
+        "verification_boundary": "public-input controller compares final shares only after endpoints exit; no oracle data or reconstruction enters R2",
+        "prefix_was_computed_by_R2": false,
+        "full_R2_complete": false,
+        "production_enabled": false,
+        "formal_acceptance_defined": false,
+        "checker_sha256": "818f8afbf66a0a80a99526a0eb219d84452e420f1bef8448d148e6e0a680b989"
+      }
+    },
+    {
+      "name": "hybrid112_M2_closure.md",
+      "sha256": "0522004139792c318a7f4d57911b784fa31cc92766450b97e5ed627fd265908d",
+      "content": "# M2 单 Token Decode 收尾依据\n\n真实两进程 M2 已完成：Generation 的 28 层、final RMSNorm、实际 2048→151936 LM Head、允许集合上的秘密 argmax，以及全部 28 层新位置的 KV 更新。57,345 个输出整数和失败位匹配独立 RTX2060 CUDA R1，`numeric_failure=false`。这次收尾复核使用既有完整运行，没有为更新记录重复运行模型。\n\n执行结果是 `hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json`，SHA-256 为 `eb1b96e4f473821bc68ded56388093d297a94553328421e39b8386a9da4a097b`。执行源码归档为 `hybrid112_M2_running_source_snapshot.tar.gz`，SHA-256 为 `222bbe249197100765080d6239a7f7801449bcd264540451a79bfc9e975137b1`。下列源码行号属于该归档，不能用后续工作树修改冒充当次执行版本。\n\n| 收尾项 | 实际依据 | 结论范围 |\n| --- | --- | --- |\n| final RMSNorm | 归档 `compute/model.hpp:250–253` 在全部 28 层之后调用真实 `model.norm.weight` 和 `rms_many`；`compute/artifacts.hpp:106–130` 只在 S 读取并核对实际权重身份 | 已包含在最终逐整数匹配的计算路径内；没有单独公开中间激活 |\n| 实际 LM Head | `compute/model.hpp:269–272` 使用真实 tied Token 表，输入 2048、输出 151936，保留 raw f24；权重加载核对哈希、形状和行 L1 界 | 已执行完整词表投影；没有缩小词表或用占位 logits |\n| 允许集合秘密 argmax | `compute/model.hpp:273–285` 对 ID 0…151645 排除 151644，固定平衡树执行秘密比较与选择；严格大于才取右侧，相等保留较小 ID | 产生一个 Token 的秘密份额；不是由控制器明文 argmax 代替 R2 |\n| 最终值与失败位 | 归档控制器先独立生成 CUDA R1 参考；双方退出后才比较 `1+28×2×8×128=57345` 个整数及共享失败位；最终记录的两项匹配均为 true | 只覆盖本次公开样例的 Token、新位置 KV 和失败位；不公开中间秘密，也不声称完整会话状态已验证 |\n| 28 层 KV | `decode_worker.cpp:55–65` 调用完整 forward，逐层读取本方新位置 1024 的 K/V，要求 `next_write=1025` 且缓存可用；随后清空缓存 | 两方只持有各自份额；1024 槽前缀是新鲜分享的公开零向量，不是私有 Prefill 结果 |\n| 材料和资源关闭 | 两方退出码 0、stderr 为空；完整账本逐行验证 390360 次预留，序号 0…390359 连续唯一，两方账本 SHA 相同且末行 `closed/all_reserved=burned`；复核 worker、控制器和已观察临时目录退出/消失 | 无同一账本内材料序号复用。原始账本保留用于防重用及审计；不宣称随机性被实验完全证明或显存取证级擦除 |\n\n两方通过三个 mTLS 通道通信。归档 worker 对角色、session、configuration、snapshot、密封输入 memfd 和对端证书指纹逐项绑定；`SecureOps(..., false)` 要求认证通道，账本采用 `O_EXCL` 新建并在预留后 fsync。秘密计算没有参考值输入。这里的“秘密份额只由本方持有”指两个 R2 参与进程；公开样例的独立调试控制器在双方完成后合并最终输出用于核对，这个诊断行为没有进入生产运行，也没有反馈到协议。\n\n正常路径在关闭材料会话前执行 `cache.clear()`，GPU 存储实现调用清零、同步和释放；worker 退出进一步释放其 CUDA 上下文。控制器用 RAM 和匿名 memfd 保存参考与最终份额，关闭文件描述符和 socket，退出临时目录上下文后才写最终 JSON。收尾时原 worker PID 993849/993850 已不存在，先前观察到的 `/tmp/prag-hybrid112-7v7lam0t` 已不存在，无对应 Decode 控制器或 worker。没有需要删除的落盘原始 oracle；哈希、公开轨迹和材料使用账本继续保留。后续 KV 异常清理补丁有自己的故障注入记录，不属于此次 M2 的执行身份。\n\nC 端耗时 6249.32 秒，应用层双向累计 500658003539 字节；只取单端计量，不把两个端点重复相加。这是本机公开开发样例的协议成本，包含诊断和调度开销，不是网络性能保证。双方分别运行 672/224 个 GPU kernel，本方 GPU 峰值计量为 589299712/587251712 字节；独立 CUDA R1 峰值分配 4241016320 字节。进程 `ru_maxrss` 记录可能包含继承的高水位，不能相加为机器峰值。\n\n可复用复核入口为 `PYTHONPATH=. .venv/bin/python -m tools.check_m2_completion`，生成 `hybrid112_M2_closure.json`。它需要原运行归档、原始账本和轨迹；仅包含源码的公开克隆不能独立复核未分发的原始材料。检查器核对来源、终态、形状、账本全序列、公开阶段数和当前清理观察；上表的算法接线来自归档源码审阅，不由匹配源码字符串替代证明。\n\nM3 的固定 257/257/160 槽两文档私有 Embedding、交付及检索仍待完整终态；保留该任务的进程、临时服务和运行工件。M4 的完整 R2 Prefill 与 255 次 Decode 未执行，完整 R2 仍未完成，生产入口继续 `BACKEND_NOT_READY`。本次没有改变模型、数值规则、密码参数、预算，也没有制定正式测试或验收标准。\n"
     },
     {
       "name": "hybrid112_materialization.json",
-      "sha256": "3db16058fecc6d14ae083e6a208d234713980eba44f90557ccded8740329db8a",
+      "sha256": "8d041e1a634fdc1ead09b7880aae4c140aa69d7760b9f65f08d009c364a3ad39",
       "content": {
         "kind": "current_hybrid_build_and_finite_evidence_not_full_R2",
         "native_interface_version": "prag-native-v1.0.12",
@@ -13487,7 +13661,7 @@
         "finite_evidence": "artifacts/hybrid112_evidence.json",
         "historical_runs_are_current_library_runs": false,
         "M1_complete_finite_shapes": true,
-        "M2_complete": false,
+        "M2_complete": true,
         "M3_complete": false,
         "full_R2_complete": false,
         "production_enabled": false,

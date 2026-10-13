@@ -74,6 +74,8 @@ def main():
     # distinguishes active registrations from completed model milestones.
     if (ROOT / 'artifacts/hybrid112_evidence.json').is_file():
         groups['ART-002'][2].extend(['artifacts/hybrid112_evidence.json', 'records/hybrid112_implementation.md'])
+    if (ROOT / 'records/hybrid112_M2_closure.json').is_file():
+        groups['ART-002'][2].extend(['records/hybrid112_M2_closure.json', 'records/hybrid112_M2_closure.md'])
     if (ROOT / 'records/hybrid112_materialization.json').is_file():
         groups['ART-002'][2].append('records/hybrid112_materialization.json')
         groups['ART-004'][2].extend(['records/hybrid112_production_build.json',

@@ -52,7 +52,7 @@ v1.0.11 当次生产构建、worker构建和诊断构建的密码库哈希一致
 
 混合后端已实际完成两种模型的完整第0层（各2行，真实权重、全部16Q/8KV头）：Embedding 的2048个最终整数与Generation的4096个整数及失败位均匹配独立CUDA R1，均无数值失败；C端分别约103.759秒/10.736GB、213.51秒/18.378GB。独立L2与两记录全扫描/Top2/I7/证据装配的4103个整数也已匹配，约32.0751秒/1.250GB。这些是有限公开开发样例，不代表完整Embedding或系统成功。
 
-完整单Token Decode（真实28层、词表头、秘密argmax和KV更新）已完成，57345个整数及失败位匹配CUDA R1，numeric_failure=false，C端6249.32秒、应用层500658003539字节；两文档固定257/257/160槽私有Embedding和交付/检索仍在运行。Decode使用明确登记的公开零KV前缀，经新鲜分享后只读写本方GPU份额；没有声称已完成私有Prefill。本阶段不运行完整1024 Prefill及255次Decode。原生与Python生产入口仍在处理输入前返回 `BACKEND_NOT_READY`。当前记录见 [混合后端实施记录](records/hybrid112_implementation.md)，原v1.0.11结果见 `records/crypto_batch111_stage_completion.json`。
+完整单Token Decode（真实28层、词表头、秘密argmax和KV更新）已完成，57345个整数及失败位匹配CUDA R1，numeric_failure=false，C端6249.32秒、应用层500658003539字节；两文档固定257/257/160槽私有Embedding和交付/检索仍在运行。Decode使用明确登记的公开零KV前缀，经新鲜分享后只读写本方GPU份额；没有声称已完成私有Prefill。本阶段不运行完整1024 Prefill及255次Decode。原生与Python生产入口仍在处理输入前返回 `BACKEND_NOT_READY`。六项收尾依据见 [M2 完成记录](records/hybrid112_M2_closure.md)。当前记录见 [混合后端实施记录](records/hybrid112_implementation.md)，原v1.0.11结果见 `records/crypto_batch111_stage_completion.json`。
 
 ## 构建
 

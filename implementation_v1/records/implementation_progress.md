@@ -4,7 +4,7 @@
 
 ## 当前实施位置
 
-混合后端已实际完成两模型各2行的完整第0层，16Q/8KV、真实权重与全部残差/FFN均在内；最终整数与失败位匹配RTX2060 R1。另已完成独立L2、两记录全扫描/Top2/I7/证据装配及RoPE查表边界核对。28层单Token Decode已完成，57345个最终整数与失败位匹配CUDA R1，numeric_failure=false；固定257/257/160槽的两文档私有Embedding/交付/检索仍在运行，未记作成功。CPU只执行授权的SEAL/SCI密码协议，GPU承担本方份额运算和KV；没有CPU明文模型回退。详情与唯一续做入口见`hybrid112_implementation.md`，完成证据和pending登记见`artifacts/hybrid112_evidence.json`。生产整链仍关闭，本阶段不运行完整1024 Prefill与255 Decode。
+混合后端已实际完成两模型各2行的完整第0层，16Q/8KV、真实权重与全部残差/FFN均在内；最终整数与失败位匹配RTX2060 R1。另已完成独立L2、两记录全扫描/Top2/I7/证据装配及RoPE查表边界核对。28层单Token Decode已完成，57345个最终整数与失败位匹配CUDA R1，numeric_failure=false；固定257/257/160槽的两文档私有Embedding/交付/检索仍在运行，未记作成功。CPU只执行授权的SEAL/SCI密码协议，GPU承担本方份额运算和KV；没有CPU明文模型回退。M2六项收尾与资源关闭已复核，见`hybrid112_M2_closure.md`。详情与续做入口见`hybrid112_implementation.md`，完成证据和pending登记见`artifacts/hybrid112_evidence.json`。生产整链仍关闭，本阶段不运行完整1024 Prefill与255 Decode。
 
 ## 已完成的可复用阶段
 

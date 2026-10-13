@@ -1,9 +1,9 @@
 {
   "scope": "actual identity check, no model execution or formal acceptance",
-  "configuration_sha256": "8548469b2138c85c4f0c2220c62a7346f90731ed9410fb2031c66b9a710b1dfb",
+  "configuration_sha256": "13b4342c97b65d310c7374f27c1c78bc78ae1f2f11c18c6a5cdfb94a2cd0b69d",
   "checked_files_server": 653,
   "checked_files_client": 33,
-  "server_hash_seconds": 10.636207514995476,
+  "server_hash_seconds": 9.216383221995784,
   "server_all_files_valid": true,
   "client_without_server_weights_valid": true,
   "same_size_mutated_tokenizer_rejected": true,
