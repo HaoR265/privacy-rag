@@ -1,0 +1,8 @@
+{
+  "format_version": "constant-manifest-v1",
+  "path": "constants_v1.json",
+  "sha256": "1582764ed3503b73e8d42fc61d99d6a1f18159c6c77865a2437e919645fa9a40",
+  "generation": "mpmath floor at 80 and 120 decimal digits; identical integer tables",
+  "precision_agreement": true,
+  "formal_interval_certificate": false
+}

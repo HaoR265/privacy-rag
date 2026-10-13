@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools==75.8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "private-rag-v1"
+version = "0.1.0"
+description = "Implementation of the standalone private RAG v1 specification"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "cryptography==49.0.0", "fastapi==0.115.12", "uvicorn==0.34.2",
+  "psycopg[binary]==3.2.9", "PyYAML==6.0.2", "httpx==0.28.1", "keyring==25.6.0", "tokenizers==0.21.4",
+]
+
+[project.scripts]
+private-rag = "private_rag.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["private_rag*"]
+
+[tool.setuptools.package-data]
+private_rag = ["schema/*.sql"]

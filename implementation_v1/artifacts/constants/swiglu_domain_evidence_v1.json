@@ -1,0 +1,806 @@
+{
+  "status": "AUTHORIZED_COORDINATED_REVISION_APPLIED",
+  "numeric_profile_version": "v1-f12-coordinated-20261013",
+  "joint_and_down_proj_input_abs_f12": 17179869184,
+  "raw_elementwise_product_abs_f24_bound": 70368744177664,
+  "models": [
+    {
+      "model": "embedding",
+      "layers": [
+        {
+          "tensor": "model.layers.0.mlp.down_proj.weight",
+          "sha256": "a5cacfe6d62fd205fad80da62aa10f768504605a0bc5028188137c932bccdbe5",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 606198,
+          "maximum_absolute_weight_f12": 1728,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 10414402339602432,
+          "layer": 0
+        },
+        {
+          "tensor": "model.layers.1.mlp.down_proj.weight",
+          "sha256": "ccbbf62512377f58e341458fb0ea306168e849600d82e98dd18e410fd672fc49",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 595791,
+          "maximum_absolute_weight_f12": 1536,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 10235611441004544,
+          "layer": 1
+        },
+        {
+          "tensor": "model.layers.10.mlp.down_proj.weight",
+          "sha256": "0cc35e738d8525b6c1bec9bc2222598bd6e910b7b19a34356083a4d3aec4af80",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 596409,
+          "maximum_absolute_weight_f12": 1656,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 10246228600160256,
+          "layer": 10
+        },
+        {
+          "tensor": "model.layers.11.mlp.down_proj.weight",
+          "sha256": "951095b1d568355680b8a3719ab099cd8f65e5cb2e7070927109ad3c598b2884",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 741314,
+          "maximum_absolute_weight_f12": 1664,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 12735677544267776,
+          "layer": 11
+        },
+        {
+          "tensor": "model.layers.12.mlp.down_proj.weight",
+          "sha256": "5b620b5bb703463a39ecac84c5e5d9523116f07ff417d801c764d1cfd70105a1",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 767244,
+          "maximum_absolute_weight_f12": 2016,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 13181151552208896,
+          "layer": 12
+        },
+        {
+          "tensor": "model.layers.13.mlp.down_proj.weight",
+          "sha256": "3b1492f0d95f5b9e90818aa23e656f072c90a75a23cac74c9c01155ba6c6528f",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 732335,
+          "maximum_absolute_weight_f12": 1944,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 12581419498864640,
+          "layer": 13
+        },
+        {
+          "tensor": "model.layers.14.mlp.down_proj.weight",
+          "sha256": "6580e024443ebd2ecdce2f64f837fea69130ae258fd2a989aaa37b5879859b35",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 671463,
+          "maximum_absolute_weight_f12": 1448,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 11535646501896192,
+          "layer": 14
+        },
+        {
+          "tensor": "model.layers.15.mlp.down_proj.weight",
+          "sha256": "3b2fad437a688dd3647b365f7853d8146ffc2203a0e13e47052ce7709848fd93",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 567320,
+          "maximum_absolute_weight_f12": 1624,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 9746483385466880,
+          "layer": 15
+        },
+        {
+          "tensor": "model.layers.16.mlp.down_proj.weight",
+          "sha256": "67ea11b6b19deddeeeddf520d103556c37cbc392c07579655949643a2b7fe93c",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 630635,
+          "maximum_absolute_weight_f12": 1992,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 10834226802851840,
+          "layer": 16
+        },
+        {
+          "tensor": "model.layers.17.mlp.down_proj.weight",
+          "sha256": "ae853c10847fa40df8bc724d8d20143ebb18e0d81812b42e768411eb402e7253",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 534677,
+          "maximum_absolute_weight_f12": 1576,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 9185680915693568,
+          "layer": 17
+        },
+        {
+          "tensor": "model.layers.18.mlp.down_proj.weight",
+          "sha256": "8df7baa0c37568d35b9e82e1b9f818220829527c6905e2938ad92db305144bb7",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 541000,
+          "maximum_absolute_weight_f12": 1920,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 9294309228544000,
+          "layer": 18
+        },
+        {
+          "tensor": "model.layers.19.mlp.down_proj.weight",
+          "sha256": "d2269b1808c36125791d92d0d2eae41827dadc59570601ca1003d04c84623400",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 596738,
+          "maximum_absolute_weight_f12": 1760,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 10251880777121792,
+          "layer": 19
+        },
+        {
+          "tensor": "model.layers.2.mlp.down_proj.weight",
+          "sha256": "4c85515e57fedfad88a0e2c58313ab896894cae957c541be096db579ca358989",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 555459,
+          "maximum_absolute_weight_f12": 2368,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 9542712957075456,
+          "layer": 2
+        },
+        {
+          "tensor": "model.layers.20.mlp.down_proj.weight",
+          "sha256": "db267733d4dc198077c8e59a21790eee31331c6857d26178643d0c6851beca06",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 588847,
+          "maximum_absolute_weight_f12": 2208,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 10116314429390848,
+          "layer": 20
+        },
+        {
+          "tensor": "model.layers.21.mlp.down_proj.weight",
+          "sha256": "be2c68464b1bbdad58ce265ed3e0efaec3005eb3786c6fb22ea0f22c24d33e48",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 590005,
+          "maximum_absolute_weight_f12": 2496,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 10136208717905920,
+          "layer": 21
+        },
+        {
+          "tensor": "model.layers.22.mlp.down_proj.weight",
+          "sha256": "99683a5820c35420d4492ca2ab8cd640e41a7a46b0474e48f59dcd79e3b65fdc",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 604776,
+          "maximum_absolute_weight_f12": 2640,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 10389972565622784,
+          "layer": 22
+        },
+        {
+          "tensor": "model.layers.23.mlp.down_proj.weight",
+          "sha256": "e9d23c79c11e8b099a04b298c653e8d73196ac5b0580afda995344991c9cafca",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 553052,
+          "maximum_absolute_weight_f12": 2944,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 9501361011949568,
+          "layer": 23
+        },
+        {
+          "tensor": "model.layers.24.mlp.down_proj.weight",
+          "sha256": "4829bcb0031c90b0dabd06a35bc2441f3852808209389c353f18ff9a7107fd5f",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 520117,
+          "maximum_absolute_weight_f12": 2032,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 8935542020374528,
+          "layer": 24
+        },
+        {
+          "tensor": "model.layers.25.mlp.down_proj.weight",
+          "sha256": "8c8043b2e8c3d689d1ebce51b52b9df0b0ba6b879ca9fedea1c36bd8578cb01d",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 457664,
+          "maximum_absolute_weight_f12": 2544,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 7862607650226176,
+          "layer": 25
+        },
+        {
+          "tensor": "model.layers.26.mlp.down_proj.weight",
+          "sha256": "d7734ed4abe3f73d58977f0f7f49663c2115074bf7cf980743ab5e47b393af5f",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 532398,
+          "maximum_absolute_weight_f12": 2592,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 9146527993823232,
+          "layer": 26
+        },
+        {
+          "tensor": "model.layers.27.mlp.down_proj.weight",
+          "sha256": "a5bdb04228c06a25d4071800f04c5c9506dcd44ea6cc00f5a0a9d09b65c84806",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 2136368,
+          "maximum_absolute_weight_f12": 3008,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 36702522768883712,
+          "layer": 27
+        },
+        {
+          "tensor": "model.layers.3.mlp.down_proj.weight",
+          "sha256": "a7a6a9c8415493de3e7cab13aae0185e1332ef9ae8483b465cf58217d9ace02b",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 505274,
+          "maximum_absolute_weight_f12": 1632,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 8680541222076416,
+          "layer": 3
+        },
+        {
+          "tensor": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "b375ecc836b4abb0a39587251dde88cf22254b501b1b9d968396652192496cb3",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 525796,
+          "maximum_absolute_weight_f12": 1624,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 9033106497470464,
+          "layer": 4
+        },
+        {
+          "tensor": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "174d45ad240d760be2d343b78005a2db839033c302a3e9001f66502e3ebcc061",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 558437,
+          "maximum_absolute_weight_f12": 1696,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 9593874607505408,
+          "layer": 5
+        },
+        {
+          "tensor": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "ad2daa59123fe00405570baa1581b196f35072498e902e5145592e07fa766c02",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 569180,
+          "maximum_absolute_weight_f12": 2960,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 9778437942149120,
+          "layer": 6
+        },
+        {
+          "tensor": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "f652d3aa1cc967ac3030fbd93239c42a1ea58c8039f3cbdaa214110c02b4684a",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 674063,
+          "maximum_absolute_weight_f12": 2336,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 11580314161774592,
+          "layer": 7
+        },
+        {
+          "tensor": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "3a4127671686e7ec68cdb06919fbc21b9c30ae1db76f9a5569f571f8c5daf708",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 688626,
+          "maximum_absolute_weight_f12": 1560,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 11830504596701184,
+          "layer": 8
+        },
+        {
+          "tensor": "model.layers.9.mlp.down_proj.weight",
+          "sha256": "c4f8e54c4ddb8b3d4f4f7fa8edfd0f4255bccad62fd12965512c62772bbbf3ef",
+          "shape": [
+            1024,
+            3072
+          ],
+          "maximum_row_l1_f12_integer": 627320,
+          "maximum_absolute_weight_f12": 1672,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 10777275536506880,
+          "layer": 9
+        }
+      ],
+      "maximum_row_l1_f12_integer": 2136368,
+      "maximum_raw_dot_abs_f24_bound": 36702522768883712
+    },
+    {
+      "model": "generation",
+      "layers": [
+        {
+          "tensor": "model.layers.0.mlp.down_proj.weight",
+          "sha256": "63f16896b175a4a09746b3c70e37ae81443f284966e870bd02f69dc7a8b87994",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1586754,
+          "maximum_absolute_weight_f12": 2576,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 27260226147188736,
+          "layer": 0
+        },
+        {
+          "tensor": "model.layers.1.mlp.down_proj.weight",
+          "sha256": "82baab2cc4758686745ee764460608b219d69ba30c1c979b0724738a6982f55b",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1474753,
+          "maximum_absolute_weight_f12": 2528,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 25336063618711552,
+          "layer": 1
+        },
+        {
+          "tensor": "model.layers.10.mlp.down_proj.weight",
+          "sha256": "a44fe6ffb27b47c51e131589516e256583931503a85f61eb13cac6efde514fdd",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1795346,
+          "maximum_absolute_weight_f12": 2896,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 30843809420017664,
+          "layer": 10
+        },
+        {
+          "tensor": "model.layers.11.mlp.down_proj.weight",
+          "sha256": "20de17fc93e607767efa3b56ed5b1449f3c9afd62d40e772aa1e396a10ca6bad",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 2160211,
+          "maximum_absolute_weight_f12": 3264,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 37112142389837824,
+          "layer": 11
+        },
+        {
+          "tensor": "model.layers.12.mlp.down_proj.weight",
+          "sha256": "351dd4b1025953a3a3ed9fd9c440021793db4ce7e85cee4e855aca772b37c3ff",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 2152162,
+          "maximum_absolute_weight_f12": 3312,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 36973861622775808,
+          "layer": 12
+        },
+        {
+          "tensor": "model.layers.13.mlp.down_proj.weight",
+          "sha256": "52c58c62da10c628cfb53af29438a79238f74bddb9feac87b7cb77e87a42b9ac",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 2116545,
+          "maximum_absolute_weight_f12": 3984,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 36361966222049280,
+          "layer": 13
+        },
+        {
+          "tensor": "model.layers.14.mlp.down_proj.weight",
+          "sha256": "f728d68b3a96bf3e82644e3f61f3940a9e36f9432be18a08c8bde6f748e3454e",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1869351,
+          "maximum_absolute_weight_f12": 2704,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 32115205638979584,
+          "layer": 14
+        },
+        {
+          "tensor": "model.layers.15.mlp.down_proj.weight",
+          "sha256": "74f62cfa9e3e1ff5b1de4e750d0abe1a49fbd64bb0e110def9e00342539ed807",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1670867,
+          "maximum_absolute_weight_f12": 3024,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 28705276483862528,
+          "layer": 15
+        },
+        {
+          "tensor": "model.layers.16.mlp.down_proj.weight",
+          "sha256": "04df7dd882c2ca7bcd6cd1bd1401306cb2cda7784aeba209fd080a1e6058adc9",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1848065,
+          "maximum_absolute_weight_f12": 3056,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 31749514943528960,
+          "layer": 16
+        },
+        {
+          "tensor": "model.layers.17.mlp.down_proj.weight",
+          "sha256": "30edb0c728ea54b06fe6e00c1b8b124d43006a4133bde7a9f3628093bdfab0d0",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1565143,
+          "maximum_absolute_weight_f12": 2768,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 26888951994253312,
+          "layer": 17
+        },
+        {
+          "tensor": "model.layers.18.mlp.down_proj.weight",
+          "sha256": "f62d3ee5fced2faae96ae0545b5b71d54494bb648a0af8f0bec56ca33b0ce915",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1535865,
+          "maximum_absolute_weight_f12": 2928,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 26385959784284160,
+          "layer": 18
+        },
+        {
+          "tensor": "model.layers.19.mlp.down_proj.weight",
+          "sha256": "16881f86083380b5a1e50b8e8d53a2d3ca241e0c38f0b8a229c8a4ed2dc9e430",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1593282,
+          "maximum_absolute_weight_f12": 2848,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 27372376333221888,
+          "layer": 19
+        },
+        {
+          "tensor": "model.layers.2.mlp.down_proj.weight",
+          "sha256": "6f3a21b6921d85eef7dbc84614f4aa858ff0f7dfcbec68a8bada350b3482a69d",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1299249,
+          "maximum_absolute_weight_f12": 3360,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 22320927857442816,
+          "layer": 2
+        },
+        {
+          "tensor": "model.layers.20.mlp.down_proj.weight",
+          "sha256": "5947721654abbf698de252953b59ccd5ed0930b18ae448d925058ac7198cd433",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1459829,
+          "maximum_absolute_weight_f12": 3280,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 25079671251009536,
+          "layer": 20
+        },
+        {
+          "tensor": "model.layers.21.mlp.down_proj.weight",
+          "sha256": "ad3fca04e3779c658e36219ee6894211c39acd88c9407066f680cbcc4e656486",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1401837,
+          "maximum_absolute_weight_f12": 3376,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 24083376277291008,
+          "layer": 21
+        },
+        {
+          "tensor": "model.layers.22.mlp.down_proj.weight",
+          "sha256": "41647a059408c5cc104c135832882ffe412b88364427548990e3c12b529c9fe3",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1397581,
+          "maximum_absolute_weight_f12": 4864,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 24010258754043904,
+          "layer": 22
+        },
+        {
+          "tensor": "model.layers.23.mlp.down_proj.weight",
+          "sha256": "3fe322a48d98ba8052484433874678534e920f45b50c7f12d8e703391aea2559",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1211033,
+          "maximum_absolute_weight_f12": 4768,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 20805388517507072,
+          "layer": 23
+        },
+        {
+          "tensor": "model.layers.24.mlp.down_proj.weight",
+          "sha256": "2f941ba15f7c300dd10d07a6d1a3c53a021c3f123abe32af4cf53457c3f9c5da",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1148899,
+          "maximum_absolute_weight_f12": 4384,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 19737934525628416,
+          "layer": 24
+        },
+        {
+          "tensor": "model.layers.25.mlp.down_proj.weight",
+          "sha256": "7928e645c7135ce70e1c182f16d112547c6dd3bb0ab683d085f96e66ccd77015",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1122777,
+          "maximum_absolute_weight_f12": 3776,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 19289161982803968,
+          "layer": 25
+        },
+        {
+          "tensor": "model.layers.26.mlp.down_proj.weight",
+          "sha256": "70cca661fdfd68cbd6887a751f5f1bab94a169619beded3ea0b990a204aeaf52",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1300063,
+          "maximum_absolute_weight_f12": 4832,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 22334912270958592,
+          "layer": 26
+        },
+        {
+          "tensor": "model.layers.27.mlp.down_proj.weight",
+          "sha256": "1d8751b1bcd38d037ca17db75bacfa6f2936814df6823b948a2202853213231f",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1154518,
+          "maximum_absolute_weight_f12": 4080,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 19834468210573312,
+          "layer": 27
+        },
+        {
+          "tensor": "model.layers.3.mlp.down_proj.weight",
+          "sha256": "179f74a018e7788e407a979dd60cfd68d98f424f4979e1f7cbceec05d9764c61",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1445026,
+          "maximum_absolute_weight_f12": 2688,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 24825357647478784,
+          "layer": 3
+        },
+        {
+          "tensor": "model.layers.4.mlp.down_proj.weight",
+          "sha256": "b629bc97a55100b27f43dba0d04147f9e783db1a760be06144909f755f61cb79",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1316776,
+          "maximum_absolute_weight_f12": 2544,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 22622039424630784,
+          "layer": 4
+        },
+        {
+          "tensor": "model.layers.5.mlp.down_proj.weight",
+          "sha256": "54402c1a04f00a542a7cc92663b839b9caac7eb269e83a00aaeb5982a67169e2",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1417987,
+          "maximum_absolute_weight_f12": 2704,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 24360831164612608,
+          "layer": 5
+        },
+        {
+          "tensor": "model.layers.6.mlp.down_proj.weight",
+          "sha256": "684bc6c9cabf2cc8d5f48ee88836cce176851d65333e77ff7edfa7dc4b903838",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1447850,
+          "maximum_absolute_weight_f12": 3552,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 24873873598054400,
+          "layer": 6
+        },
+        {
+          "tensor": "model.layers.7.mlp.down_proj.weight",
+          "sha256": "bc275e8531d27191d6d5569f90fb7373f162fcae9bd11098b661b2abfd5c5174",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1695335,
+          "maximum_absolute_weight_f12": 4016,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 29125633523056640,
+          "layer": 7
+        },
+        {
+          "tensor": "model.layers.8.mlp.down_proj.weight",
+          "sha256": "bc2e1cfd41a64a0ec20491bcef0d62c48abee98dc8284919df72591629e26b81",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1793789,
+          "maximum_absolute_weight_f12": 2576,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 30817060363698176,
+          "layer": 8
+        },
+        {
+          "tensor": "model.layers.9.mlp.down_proj.weight",
+          "sha256": "f647caab64d451d20aca82153392932f3f0af56d8b80173138d2b8282cb51858",
+          "shape": [
+            2048,
+            6144
+          ],
+          "maximum_row_l1_f12_integer": 1789331,
+          "maximum_absolute_weight_f12": 3264,
+          "use": "down_proj",
+          "input_abs_f12": 17179869184,
+          "full_dot_and_any_partial_sum_abs_f24_bound": 30740472506875904,
+          "layer": 9
+        }
+      ],
+      "maximum_row_l1_f12_integer": 2160211,
+      "maximum_raw_dot_abs_f24_bound": 37112142389837824
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "scope": "public helper arithmetic and actual generate control-flow inspection, not complete generation",
+  "all_invalid_accumulates_failure": true,
+  "valid_selection_preserves_prior_failure": true,
+  "fixed_256_output_loop": true,
+  "no_early_return": true,
+  "forward_not_executed": true,
+  "source_sha256": "df960bb2872568a15917a03e4cb85a8552086ef1fe8a74950fb41470a4c9066e"
+}

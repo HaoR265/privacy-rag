@@ -1,0 +1,87 @@
+# 本方应用、原生进程与服务调度
+
+这是既定设计内的工程选择与实现调试记录，不是正式测试或验收规范。代码已接通应用 API、固定进程 ABI、公开生命周期与持久化边界；当前 Python activation 与 native full-model 门均关闭，不能声称完整私有模型已运行。
+
+## 本方进程边界
+
+`compute_process.py` 的 `run_worker` 接收 WorkerBinding、已受理的公开 snapshot、部署文件以及三个已连接 TCP socket fd。U 查询只接受完整同步集合中的 U 份额；S 查询只接受 S 份额；不能混入另一方记录。D 准备输入为本地 257 Token 槽；U 问题为本地 128 正文槽和 160 Embedding 槽。秘密只经密封 memfd 进入本方原生子进程，不进入管理 HTTP、argv 或 stdout/stderr。
+
+WorkerBinding.snapshot_sha256 是完整公开 snapshot 的规范 JSON SHA256。查询核对 session/config/protocol/fixed_shapes，并核对 manifest 自身摘要、每条绑定、顺序和 N；C 的快照须与完整同步集合相同。准备快照绑定 document_id/document_version/block_index/model_numeric_version。使用 check_configuration 核对实际配置和工件文件哈希；S 额外核对私有权重。部署 CA、本方证书/私钥、Ed25519 公钥、peer SHA256、私钥 0600 权限在启动前核对，原生三条 mTLS 再验证实际 peer 指纹和主机名。
+
+固定执行 build/compute/prag_worker，argc=22（包括程序名）。argv[20] 为事件写 fd，argv[21] 为 ACK 读 fd，顺序与 worker_main.cpp 一致，参数只有公共绑定、路径和 fd。子进程 stdout/stderr 丢弃，结果走专用 pipe。父进程并行排空输出和事件 pipe，避免 D 准备的 8201 字节超过管道容量造成死锁。结果：C query 2312 字节、S query 0 字节；C prepare 8201 字节（本方 z/e 加仅 C 的失败位）、S prepare 8200 字节（本方 z/e）。封装核对固定长度、59-bit 余数、Token 范围、有效位与状态，返回禁用 repr 的不可变对象。
+
+原生在全部 TLS/公开快照认证之后、首次 OT 前发 byte 1 AUTHENTICATED；释放前发 byte 2 RELEASING。封装先调用本方事件处理器，成功后才回同值 ACK；乱序、处理失败或 pipe 中断不会继续。只有两个事件及 ACK 完成、原生 exit0（包含最终释放 ACK）和完整输出均成立才返回。
+
+require_private_backend 在工件读取、memfd、ledger、进程创建之前执行。没有 caller executable、mock、CLI 开门或明文回退。run_worker 接收 fd 即接管所有权；成功、失败、门禁拒绝或外部取消均关闭 owned fd，回收本方进程。session/party 的 native ledger 路径唯一，不自动重试。计算阶段没有整会话总时限；固定心跳 30/180 秒由原生协议处理，外部明确取消和公开故障可终止。TCP 建连和等待三连接的公开 admission 时限与计算阶段分开。
+
+## S 单次调度与 CLI
+
+scheduler.py 在 gate 后获取专用 PostgreSQL session advisory lock（区别于短事务管理锁），先启动三个固定 raw TCP listener，再等待唯一 accepted 会话。等待期间不读取连接或运行模型；旧 computing/releasing 会话不自动恢复。这样 S 可先启动，再由 C 应用受理。取得 accepted 后固定账号证书指纹、配置、快照及 N，只取该快照引用的 S 份额，撤权或新发布不能替换已经受理的输入。
+
+物理 lane 固定：9443 compute、9444 C_out、9445 S_out，可作为公开部署参数改端口；C worker 使用 compute/C_out/S_out，S 使用 compute/S_out/C_out。没有明文 admission header 或外层第二套 TLS；真实身份由原生 mTLS 验证，错误 peer 或握手失败公开中止该会话，不能复用材料。
+
+S 事件处理器把 accepted→computing 和 computing→releasing 事务落库之后才 ACK。查询只有 worker 完整退出成功才 completed；准备还必须先 fsync 保存自己的 z/e，再在同一事务登记 preparation_id=session UUID 并 completed。D 失败位不发给 S。失败/取消在子进程及三 lane 回收后进入 aborted 并 burn 尚未确认消费的材料；数据库故障保留未完成状态，不自动重新开始。没有实测总通信字节时 total_bytes=NULL，不写虚构的 0。
+
+协调器用随机 worker_owner 在短事务中原子 claim 唯一 accepted 会话，和本人取消/完成共用事务锁。未 claim 的取消可立即终止；已 claim 的取消仅标记 cancel_requested，继续占有全局 active slot。协调器在 admission 和进程 pipe 循环检查公开取消，先 reap 子进程和关闭连接，再执行终止事务。取消与完成竞争只有两种合法结果：完成先提交则取消只返回 completed；取消先提交则拒绝成功登记，等资源清理后 aborted。客户端在受理前选定 UUID，取消意图可以安全先于排队中的受理到达，且不自动重试受理。
+
+已有库初始化包含明确 ALTER/新增表迁移。若旧库尚无 worker_claimed 而已有 active 会话，迁移保守标记 claimed，保留全局槽；必须确认旧进程/连接已停止后才用内部恢复方法终止。不能以数据库连接或 owner lock 消失替代旧 worker 终止证据。正常 CLI SIGTERM 经公开取消异常展开清理；SIGKILL、断电、数据库不可达不承诺自动回收或安全续算。
+
+内部 `Lifecycle.recover_after_process_death(session_id, operator_confirmed_worker_and_lanes_stopped=True)` 没有 HTTP/自动调用入口，必须指定已确认旧会话及显式确认字段；False 会拒绝。该方法同时要求取得 compute-owner 事务锁以排除仍在运行的协调器，只清理指定会话。显式字段是调用者对已完成检查的声明，代码不能仅靠该布尔值证明 OS 资源停止。
+
+部署前由操作员把已登记账户叶证书放在 `--peer-certificates/<certificate_sha256>.pem`，该目录不是远端上传入口。以下命令展示真实入口；当前会固定返回 BACKEND_NOT_READY，且不会创建对象、连数据库或开放计算端口：
+
+```sh
+.venv/bin/private-rag compute-once --dsn 'host=/path/to/pg-socket dbname=private_rag' --objects /path/to/S/objects --root /path/to/implementation_v1 --ca /path/to/ca.pem --cert /path/to/S-compute.pem --key /path/to/S-compute.key --peer-certificates /path/to/S/enrolled-peer-certificates --peer-name localhost --ledger-directory /path/to/S/native-ledgers
+```
+
+这个入口只服务一个会话，成功或失败后退出；不会后台自动重试。未受理时可以外部显式取消。生产门不能通过参数打开。
+
+## D/U 应用 API
+
+application.py 始终只编排本方。UserApplication.ask 使用绑定工件的真实 tokenizer 做本地问题预处理，每次 fresh full sync，公开 N=0 显示规定提示；N>0 必须 gate 成立才正式受理，再连接三 socket、启动 C worker，最后仅在 U 本地按有效位解码答案或显示规定状态。不上传问题，不提前流式显示，不返回相似度、命中或证据。
+
+```python
+from private_rag.application import UserApplication
+
+# user 为已配置 UserClient；C_settings 是 U 的 WorkerSettings。
+# S 预先启动一次 compute-once；C_settings 指向 S-compute 叶证书。
+response = UserApplication(user, C_settings, "127.0.0.1").ask(local_question)
+print(response.text)  # 只在 U 本地呈现最终结果
+if response.reached_length_limit:
+    print("已达到回答长度上限")
+```
+
+ProviderApplication.prepare_document(raw, document_uuid, version) 仅本地分块，绑定已选文档与版本。prepare_chunk 处理调用者明确选择的 block_index 和 chunk，重新核对文本/Token 一致性，先 AES-256-GCM 保存原文块/正文 Token/Embedding Token 到 D vault，再受理和运行本方 C worker。仅 D 得知数值失败；失败不生成可交付份额，不向 S 报告失败位。成功时 retain_provider_preparation 把 session/config/snapshot 与 D 自己 z/e 加密留存，返回与 S 同 UUID 的 PreparationShare。读取原生结果后，D 必须在判断秘密失败位之前执行相同的本人公开会话状态等待，两种结果都等 S 的 completed 和 release_acknowledged，随后才仅在 D 本地分支决定加密保留成功份额或返回失败。这样后续 HTTP GET 是否发生不泄露失败位，也避免立即 stage 与 S 登记竞态。没有额外 D 成功/失败通知、写重放或模型重跑；公开网络失败停止调用，原资料块仍在 D vault，尚未保留的准备结果不得当成已交付成功。
+
+```python
+from private_rag.application import ProviderApplication
+from private_rag.delivery import DeliveryBinding
+
+app = ProviderApplication(provider, D_settings, configuration_sha256, "127.0.0.1")
+chunks = app.prepare_document(local_document, document_uuid, version)
+# 选定 version 的 block_count 应与先行本地预处理的块数匹配。
+outcome = app.prepare_chunk(document_uuid, version, block_index, chunks[block_index],
+    vault=D_vault, retained_chunk_path=encrypted_chunk_path,
+    retained_preparation_path=encrypted_share_path)
+if outcome.status == "prepared":
+    selected = outcome.prepared
+    # 仅对用户明确选定且已有 ACL 授权的收件者调用既有 API。
+    plan = provider.delivery_plan(document_uuid, version, authorized_user_uuid)
+    binding = DeliveryBinding(**plan["bindings"][block_index])
+    provider.stage_prepared_block(document_uuid, binding, plan["public_key_hex"],
+        selected.chunk.body.tokens, selected.chunk.body.validity, selected.share)
+    # 所有块和已授权收件者 stage 完整后，显式调用 publish_version。
+```
+
+应用不会自动扩 ACL、代挑收件人、发布部分版本或自动 retry。用户已明确选择的文档、版本、块和授权对象是调用依据，不增设重复审批。D 文档/准备留存读取由 ProviderVault 与 load_provider_preparation 完成；U 已解密同步集合只在内存保留，Python 无物理擦除保证。
+
+## 实际核对范围
+
+- check_compute_process.py 核对真实客户端配置文件哈希、真实 Ed25519 证书 pin、同方输入和快照摘要；关闭门时 fd 关闭，未生成 ledger/子进程。记录含实际 configuration SHA256。
+- check_scheduler.py 在独立临时 PostgreSQL 上以明确公开合成事件/本方份额核对状态顺序、提前完成拒绝、S 对象留存与原子完成、再次独立准备、材料 burn；真实 OS keyring/AES256GCM 核对 D 留存和失败不能交付。未执行 native 事件或模型。
+- check_mtls_management.py 使用真实 TLS1.3 与独立 PG 完成 D 交付/U 全同步；真实 tokenizer 预处理后应用 N0 返回规定提示；N>0 在再次全量同步后拒于 gate；D prepare_chunk 在 gate 拒绝且未建本地留存、会话或 worker。连续两次客户端 N=2 同步下载 4 包，应用另一次全量同步又下载 2 包，总 6 包。准备份额仅来自独立公开合成调试。
+- check_cancellation.py 使用真实独立 PG、真实 pipe 和短暂公开 Python 子进程核对取消/claim/完成事务顺序、已有库升级、8201-byte 输出排空、提前事件 EOF、非零退出与取消后回收。公开子进程不是 worker 替代品，脚本从不调用 run_worker、替换后端或打开门禁。check_cancellation_mtls.py 另核对实际 D/U 证书绑定的取消 HTTP、另一账户拒绝和一次受理/取消请求。
+
+上述脚本不替换 activation、worker executable 或 backend。本次临时数据库、监听、证书目录及新建 keyring 条目均已停止或删除。结果分别保存为 compute_process_debug.json、scheduler_debug.json、management_mtls_debug.json。它们不证明完整隐私生成、R1/R2 逐值一致、安全参数证明、模型质量或完整系统验收。
+
+最终实际重跑配置：`d023e3914e9a1bd6c6ce3576449fab9d00761ec6497c44ed3c423b7136596f21`，652 个绑定项，包含实际 tokenizer 所用 checkpoint 公开文件。`check_compute_process.py` 与 `check_mtls_management.py` 均通过，记录中保存该摘要。完整私有模型门仍关闭；取消专项、管理/调度专项与生产模型执行范围继续分别报告。

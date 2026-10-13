@@ -1,0 +1,58 @@
+{
+  "result": "matched_CUDA_R1",
+  "application_bytes": 3377987953,
+  "elapsed_seconds": 13.5044,
+  "dimension": 1024,
+  "batch": 16,
+  "diagonal_gamma": true,
+  "raw_fractional_bits": 12,
+  "native_TLS13_mTLS": true,
+  "isolated_development": false,
+  "model_executed": false,
+  "scope": "isolated complete RMS kernel, no Transformer",
+  "case": "normal",
+  "exit_code": 0,
+  "stderr": "",
+  "weight_sha256": "1ae2c1a37fccda9f671b79319868392b7995ba497dc46f3d1d987cc9c00ba34e",
+  "tensor": "model.layers.0.input_layernorm.weight",
+  "actual_row_L1": 4288,
+  "CUDA_R1_device": "NVIDIA GeForce RTX 2060",
+  "reference_failed": false,
+  "reference_sha256": "7fed0ba55d183e7e64df279d394dd0bfd31f73e61fff355e17097650274c815b",
+  "synthetic_input_sha256": "edfeae6dfb596ea34e039bf68509a55e239797112c19b8df270342cae2f9db86",
+  "full_model_R2": false,
+  "private_GPU_backend": false,
+  "production_gate": "BACKEND_NOT_READY",
+  "deadline_seconds": 300,
+  "source_and_binary_sha256": {
+    "native/src/batch.cpp": "057c9af1c4a874eee950f7f7cd6d87e00457ba0e8df8db948bdd774840de5abe",
+    "native/include/prag/batch.hpp": "3f9e14bf665d34aac07b07bdd02316d731553abd6aeb00571078234dfc0dc56e",
+    "native/src/secure_ops.cpp": "20e2c7340d6f5042b21ea6b83dc38e426258d7c34a3b368d20e0513c1897a25c",
+    "compute/batch_numerics.hpp": "8481624bf76db58b51e6d4fc2014d15914c78e442d026f67827ad6972f641652",
+    "compute/numeric_profile.hpp": "4645b0df127689565c7e1a61f4871bd5e07ec6cd4f384eb78707c334c73fa3fe",
+    "experiments/batch110/rms_probe.cpp": "54ff99d24630066afd648ca159b87bc91b2e16c408d7a0155df57af563757b36",
+    "experiments/batch110/run_rms.py": "2b6b860b125069fa812a49716192e48a2f0ef6f5b8e3a64d2c43a5572db97b12",
+    "experiments/batch110/build/prag_batch110_rms": "031980f915b78b0fa38083eab4f2ea5e178f303bf61c1d754e953dca16e8ccf4",
+    "experiments/batch110/build/native/libprag_crypto.a": "483d15c50644e9d0d244f2c0e9deb656d729b7e12291c553590508e4ff32d19c",
+    "references/r1_cuda_numeric.py": "0fa528ec4da5806d6e587341994d5101cc313f1091bb6008bce08e7b5f1653c9",
+    "experiments/batch110_baseline/meter.hpp": "2b12a79275292074d6d51e3be06c95895b643c227fb50129659c24dcee3be09f"
+  },
+  "evidence": [
+    {
+      "path": "records/batch110_rms_1024_16_normal_bb75eb0bd45f4ea489d4a3d47b8dedfe.C.ledger",
+      "sha256": "fcea8317232540d8a3594b5a8abd96afc5b6171ebbb6267778ddeea06faf40db"
+    },
+    {
+      "path": "records/batch110_rms_1024_16_normal_bb75eb0bd45f4ea489d4a3d47b8dedfe.C.trace.jsonl",
+      "sha256": "188a2edfe5e44a1bfe5a40b1fcee478927ae741363e5c42f767247f47255bfd5"
+    },
+    {
+      "path": "records/batch110_rms_1024_16_normal_bb75eb0bd45f4ea489d4a3d47b8dedfe.S.ledger",
+      "sha256": "fcea8317232540d8a3594b5a8abd96afc5b6171ebbb6267778ddeea06faf40db"
+    },
+    {
+      "path": "records/batch110_rms_1024_16_normal_bb75eb0bd45f4ea489d4a3d47b8dedfe.S.trace.jsonl",
+      "sha256": "5ccfd906484e9499c6ba28e464c9cca4f6d9e5848e6d5a544bb36e49ae400728"
+    }
+  ]
+}

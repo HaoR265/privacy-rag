@@ -1,0 +1,102 @@
+{
+  "kind": "static_public_schedule_BFV_communication_subset_not_benchmark",
+  "native_version": "1.0.7",
+  "counts": {
+    "prepare_embedding_257": {
+      "inputs": 2628691,
+      "ciphertexts": 637874,
+      "targets": 125794304,
+      "matrix_calls": 190685
+    },
+    "query_embedding_160": {
+      "inputs": 1626080,
+      "ciphertexts": 397120,
+      "targets": 78315520,
+      "matrix_calls": 118600
+    },
+    "generation_prefill_1024": {
+      "inputs": 15059968,
+      "ciphertexts": 4165632,
+      "targets": 796917760,
+      "matrix_calls": 759040
+    },
+    "generation_decode_255": {
+      "inputs": 11461485,
+      "ciphertexts": 1037340,
+      "targets": 198451200,
+      "matrix_calls": 235875
+    },
+    "generation_logits_256": {
+      "inputs": 32768,
+      "ciphertexts": 76032,
+      "targets": 38895616,
+      "matrix_calls": 256
+    },
+    "one_decode_token_including_logits": {
+      "inputs": 45075,
+      "ciphertexts": 4365,
+      "targets": 930176,
+      "matrix_calls": 926
+    },
+    "generation_total": {
+      "inputs": 26554221,
+      "ciphertexts": 5279004,
+      "targets": 1034264576,
+      "matrix_calls": 995171
+    },
+    "nonempty_query_total": {
+      "inputs": 28180301,
+      "ciphertexts": 5676124,
+      "targets": 1112580096,
+      "matrix_calls": 1113771
+    }
+  },
+  "application_bytes_lower": {
+    "prepare_embedding_257": 286133431425472,
+    "query_embedding_160": 178121093000960,
+    "generation_prefill_1024": 1810272082681856,
+    "generation_decode_255": 462929602485120,
+    "generation_logits_256": 87150203322368,
+    "one_decode_token_including_logits": 2155840687552,
+    "generation_total": 2360351888489344,
+    "nonempty_query_total": 2538472981490304
+  },
+  "BFV_bytes_including_GC_input_OT_excluding_setup_and_other_operators": {
+    "prepare_embedding_257": 322120665913792,
+    "query_embedding_160": 200525596962560,
+    "generation_prefill_1024": 2038254315462656,
+    "generation_decode_255": 519702521781120,
+    "generation_logits_256": 98277461147648,
+    "one_decode_token_including_logits": 2421945437632,
+    "generation_total": 2656234298391424,
+    "nonempty_query_total": 2856759895353984
+  },
+  "per_unit_bytes": {
+    "input_ciphertext": 1572960,
+    "returned_c1": 786528,
+    "target_excluding_input_OT": 2237755,
+    "matrix_descriptor": 352,
+    "GC_input_OT_per_target": 286080
+  },
+  "previous_v106_query_lower_bytes": 3401298000293088,
+  "excludes": [
+    "GC input OT",
+    "base OT, keys and setup",
+    "all shared arithmetic, boolean, range checks and lookups",
+    "TLS, TCP, IP, management and heartbeat",
+    "wall time and throughput"
+  ],
+  "matrix_batching": "At most 16 public input rows; all output tiles per matrix reuse ceil(K/16) ciphertexts",
+  "gamma": "One diagonal matrix per RMS invocation; no cross-row gamma batching",
+  "token_lookup": "Unchanged 19-block full scan, one returned ciphertext per hidden coordinate",
+  "target_GC_count_reduced": false,
+  "source_sha256": {
+    "compute/model.hpp": "8d4c4e88f4fa95a7b4d93370e69ccd7ca8fe2edbbf4d6278bebd5782f07a9610",
+    "compute/numerics.hpp": "fbb5748fc5956e3a8fdd83da3bf0418ed0ad37a6707260475f7c810b4544a33c",
+    "native/src/bfv_matrix.inc": "0b3878fff99c511404482089e8eb1eea8504e918c236aa9197ff471784722101",
+    "native/src/bfv.cpp": "d0e79a80c2ffd74ba821e0e2a28271e9b242b5e97543b5209c300d2bf4f67277",
+    "third_party/EzPC/SCI/src/OT/iknp.h": "8585a2cce3e9a52a5c9faaf33d4762632b90448a6e0e1140d2832d96a2602380",
+    "tools/build_matrix_cost.py": "3e6e2840e19c8f9df60da522d0c72b08b6d0c66780e060bc995227b8d945df97"
+  },
+  "full_model_R2": false
+}

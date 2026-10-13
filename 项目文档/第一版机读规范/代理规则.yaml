@@ -1,0 +1,92 @@
+schema_version: '1.1'
+scope: first_version
+authorization_decision: DEC-004
+allowed_without_new_design_approval:
+- 保持语义的代码实现（须有实现任务授权）
+- 保持语义的重构与修复
+- 保持绑定和固定形状的接口序列化细化
+- 文档与参数一致性检查
+- 按既定问答行为、官方角色模板和固定预算决定逐字模板、分隔片段、控制串处理和子槽布局
+- 按已锁定密码方案、参数规格和正确性要求生成实际参数实例、确定派生位宽并形成依据
+- 决定字节序、帧布局、AAD/info编码、错误枚举和ABI；保持已定绑定、固定形状与泄漏边界
+- 锁定尚未指定的兼容依赖版本，生成权重/常量等真实工件并登记哈希
+- 在合理范围内有依据地调整数值误差、运行域和参数；直接同步现行规范、R1/R2、证明与工件，记录AI选择依据，不表述为用户逐项指定
+requires_user_discussion:
+- 参与角色
+- 安全假设
+- 允许泄漏信息
+- 模型及版本
+- 整数环；超出合理数值调整授权或无法保持既定正确性的数值变化
+- 已锁定密码方案、参数规格或安全/正确性约束的改变；按既定规则实例化不属于此项
+- 固定预算
+- 后续测试与验收标准（本次暂不制定）
+forbidden_shortcuts:
+- 擅改已定约束后声称已获用户确认
+- 将未获授权的受保护设计变更当作默认值；DEC-010范围内的实施选择由AI自主决定并登记
+- 生产明文回退
+- 超出用户当前任务范围，自行启动实现、模型下载或部署
+- 伪造哈希、测试结果或参数安全证明
+- 将归档测试草案自动恢复为现行要求
+- 以外部说明文件或既往对话补充本包规范依赖；已授权实施细节自主形成，受保护约束的变化先商讨
+coding_rules:
+- id: CODE-P01
+  normative_level: MUST
+  origin: implementation_convention
+  requirement: 通过显式类型区分Public值、ArithmeticShare、BooleanShare、SecretToken、PrivateWeight；API拒绝错误形状/尺度/版本，不能让调用者隐式转换。
+- id: CODE-P02
+  normative_level: MUST
+  origin: implementation_convention
+  requirement: 将R0浮点参考、R1整数参考与R2生产运行入口分离；可重构秘密的辅助代码只能存在于独立受控入口，不能由生产配置开关打开。
+- id: CODE-P03
+  normative_level: MUST
+  origin: implementation_convention
+  requirement: 环加减乘使用明确定义的无符号/足够宽整数操作；有符号解码单独实现，避免依赖C++有符号溢出或未定义移位。
+- id: CODE-P04
+  normative_level: MUST
+  origin: implementation_convention
+  requirement: 公开错误使用结构化代码；秘密失败位由安全协议携带。不得把异常消息附上输入、份额、密钥、密文解密相位。
+- id: CODE-P05
+  normative_level: MUST
+  origin: implementation_convention
+  requirement: 密钥/临时份额/一次性状态采用清晰所有权和生命周期；清理动作覆盖正常、失败、取消。具体安全擦除能力按库/系统实证，不因调用析构便宣称物理擦除保证。
+- id: CODE-P06
+  normative_level: MUST
+  origin: implementation_convention
+  requirement: 依赖和格式工件版本锁定；包布局/帧格式有显式format_version、长度验证与确定性编码。未定的依赖版本不得伪称已锁定。
+- id: CODE-P07
+  normative_level: MUST
+  origin: implementation_convention
+  requirement: 如实区分已定义、已实现和已核实的内容；没有实际依据时不得声称运行成功、隐私安全或性能达标。本条不指定测试项目、方法或通过门槛。
+- id: CODE-P08
+  normative_level: MUST
+  origin: implementation_convention
+  requirement: PR/变更记录说明对应规则ID、修改前后行为、决策影响、实际完成的检查及其依据和剩余限制；未完成或未核实的内容明确标注。
+- id: CODE-P09
+  normative_level: SHOULD
+  origin: implementation_convention
+  requirement: C++命名、Python格式化、目录拆分等不影响语义的约定保持全项目一致；格式化器/编译器/数据库具体版本另做实现锁定，不在本稿编造现成配置。
+change_record_required_fields:
+- rule_ids
+- before_after_behavior
+- protected_decision_impact
+- work_performed_and_basis
+- remaining_limitations
+gpu_preference:
+  origin: user_environment_instruction
+  device: RTX2060
+  scope: R0/R1明文模型必须RTX2060；R2采用实际核对的RTX2060本方份额本地运算与KV存储、CPU密码协议混合后端
+  cpu_cryptographic_primitives_allowed: true
+  R2_GPU_duties: 本方份额整数本地运算、公开布局、KV份额存储与调度
+  R2_CPU_duties: SEAL/SCI的BFV、OT、GC、Beaver及通信；不调用明文参考代替协议
+  CPU_GPU_transfer_boundary: 仅本方份额、S自有权重和公开参数；不重构秘密
+  implementation_required: 必须有实际代码、编译和运行依据；不得只改GPU可用标志
+  cpu_model_inference_allowed: false
+  cpu_model_fallback_allowed: false
+  model_start_precondition: 验证目标设备的CUDA初始化、实际设备分配与计算；不可用时停止受影响模型路径，管理、编译和独立密码原语工作可继续
+scope_decision: DEC-008
+reporting_boundary: 报告实际完成的工作与依据，不因编写文档或解析配置便宣称系统已实现或验证；本次不定义测试状态流程。
+task_authorization: 根据用户当次明确任务确定；本规范提供实现约束，本身不启动代码、下载或部署任务。
+standalone_decision: DEC-009
+implementation_detail_decision: DEC-010
+missing_artifact_policy: 工件未生成不构成全局停工或重复请求批准的理由；自主生成对应工件，未成立的前提只限制依赖该前提的启用和完成声明。
+numeric_configuration_decision: DEC-013

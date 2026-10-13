@@ -1,0 +1,55 @@
+{
+  "result": "matched_exact_token_unscale_boundaries",
+  "coordinates": 3584,
+  "constructed_cases": 3500,
+  "tile_GC_instances": 7,
+  "AND_gates": 1283072,
+  "OT_choices": 218624,
+  "correction_values_covered": [
+    0,
+    1,
+    2
+  ],
+  "noise_extrema_covered": true,
+  "mTLS": true,
+  "isolated_development": false,
+  "application_bytes": 59360529,
+  "frames_sent": 2049,
+  "frames_received": 1003,
+  "native_version": "1.0.9",
+  "direct_public_valid_phase_input": true,
+  "ciphertext_lookup_executed": false,
+  "negative_and_weight_extrema": true,
+  "reconstruction_excluded_from_measurement": true,
+  "direction_runs": 17,
+  "elapsed_seconds": 3.86904,
+  "full_model_R2": false,
+  "source_and_binary_sha256": {
+    "native/src/bfv.cpp": "90a63d9bc16c220bd3c13b4f442d5eb56f08964269eb3826da915d5472f25c8d",
+    "native/src/bfv_matrix.inc": "5cf0e4455dc4a6055214c8acd01a6f11e408e4b2c0fcdc0a816f0cc5238a1be5",
+    "native/src/bfv_tile_decoder.inc": "713f40dd79758f7faedfb14dca6ab8b95b76ba1f881049879b93dd26c043c3f4",
+    "native/src/bfv_token_decoder.inc": "6c2880ebc6a9735e538e430a22acdc3810591793e0699bcadef31b7211b4d796",
+    "native/src/bfv_acyclic_pack.hpp": "a1e23325608959aebb688fc1cd6616512dfb1c7ceca1328f7c35621b012ea220",
+    "native/src/bfv_token_api.inc": "e942109da6a8e6648a2ac73e5ad9cbf00fa68239c9d268b639edae395483a9b1",
+    "native/src/bfv_token_engine.inc": "971926e19420c99ccc3c13f8d353b0952bba2edabe4991bcd463c142625a6100",
+    "experiments/pack109_production/token_phase_probe.cpp": "63b4ff831ee64e24eb02e155096ed518045a8f7c86307999ea5a8d408a164677",
+    "experiments/pack109_production/run_token_phase.py": "260fe8f76005ad9a6af34de1c9755a8456c04141f34e2ce0a2fe712669bfb001",
+    "experiments/pack109_production/build/token_phase_probe": "e3a7da3e68d354c0cc6f906010e6067001348edf0482ad7d3157bae2ce36e7cd",
+    "experiments/pack109_production/build/native/libprag_crypto.a": "44500092601318cb14d1d83cbfb76d1c3f6409b303af2d9b21e5c35803e9d299"
+  },
+  "stderr": "",
+  "exit_code": 0,
+  "temporary_PKI_removed": true,
+  "child_waited": true,
+  "production_activated": false,
+  "ledgers": [
+    {
+      "path": "records/pack109_token_phase_0f186ddf77b941528d70c2bf690da596.C.ledger",
+      "sha256": "a9dc2b88d6de005c3218fe8ee193f5f01c7d4452956a866ea296c939382a16ed"
+    },
+    {
+      "path": "records/pack109_token_phase_0f186ddf77b941528d70c2bf690da596.S.ledger",
+      "sha256": "a9dc2b88d6de005c3218fe8ee193f5f01c7d4452956a866ea296c939382a16ed"
+    }
+  ]
+}

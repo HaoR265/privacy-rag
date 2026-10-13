@@ -1,0 +1,94 @@
+{
+  "kind": "implementation_debug_run_not_acceptance_standard",
+  "native_interface_version": "prag-native-v1.0.2",
+  "build": "succeeded_native_build_j2",
+  "production_library": true,
+  "isolated_development_argument": false,
+  "short_public_shape": {
+    "entry": "isolated_synthetic_protocol_probe",
+    "library": "prag_crypto",
+    "two_processes": true,
+    "OT_Beaver_A2B_B2A_floor_compare_select": "matched",
+    "BFV_controlled_GC_decode": "matched_nonzero_and_zero_weights",
+    "BFV_public_columns": 3,
+    "transport": "local_AF_UNIX_development_transport",
+    "client_bytes": 80025635,
+    "native_TLS13_mTLS": true,
+    "full_system": false,
+    "exit_code": 0
+  },
+  "cross_block_public_shape": {
+    "entry": "isolated_synthetic_protocol_probe",
+    "library": "prag_crypto",
+    "two_processes": true,
+    "OT_Beaver_A2B_B2A_floor_compare_select": "matched",
+    "BFV_controlled_GC_decode": "matched_nonzero_and_zero_weights",
+    "BFV_public_columns": 8193,
+    "transport": "local_AF_UNIX_development_transport",
+    "client_bytes": 113159001,
+    "native_TLS13_mTLS": true,
+    "full_system": false,
+    "exit_code": 0
+  },
+  "scope": "Public synthetic input diagnostic executable only; real OT/BFV/GC and mTLS, no full model or deployment claim",
+  "control_rounding": "unchanged_exact_361_420_bit_integer_GC",
+  "ledger_checks": [
+    {
+      "file": "records/crypto-batch-short02.C.ledger",
+      "sha256": "e422552269d210a1da8b40e2afcb004305d9aed74a29bd8ead18bcf5d606a40c",
+      "closed_all_reservations_burned": true,
+      "input_encryptions": 1,
+      "independent_return_reservations": 2
+    },
+    {
+      "file": "records/crypto-batch-short02.S.ledger",
+      "sha256": "e422552269d210a1da8b40e2afcb004305d9aed74a29bd8ead18bcf5d606a40c",
+      "closed_all_reservations_burned": true,
+      "input_encryptions": 1,
+      "independent_return_reservations": 2
+    },
+    {
+      "file": "records/crypto-batch-long02.C.ledger",
+      "sha256": "df05b67b14b620ea0b1f345c9e1a75e01cacd2b21e74e078c51b25e806fb5583",
+      "closed_all_reservations_burned": true,
+      "input_encryptions": 2,
+      "independent_return_reservations": 4
+    },
+    {
+      "file": "records/crypto-batch-long02.S.ledger",
+      "sha256": "df05b67b14b620ea0b1f345c9e1a75e01cacd2b21e74e078c51b25e806fb5583",
+      "closed_all_reservations_burned": true,
+      "input_encryptions": 2,
+      "independent_return_reservations": 4
+    }
+  ],
+  "public_table_padding_checked_per_return": 39904,
+  "previous_v1_0_1_short_bytes": 169316739,
+  "short_reduction_formula": "2*(58560640-14701568)+1572960",
+  "actual_short_reduction_bytes": 89291104,
+  "source_and_binary_sha256": {
+    "native/src/bfv.cpp": "db758451a7ba63f6c2552b17688ac252a1efe946a487d653810c79bf26a0cde8",
+    "native/src/channel.cpp": "e956667857b344d3de9db0c3fc34364c49d8c42b7cd906741310ead190ee3db1",
+    "native/src/context_main.cpp": "5f599ef1210f3ba8ce3f085a2228b4defe162ab47a6b0e36674e16007726eee6",
+    "native/src/dev_heartbeat_probe.cpp": "aea10eff20a8ec50427263b84e94db6e91e315f6e86db7461bf0c78daa649fc8",
+    "native/src/dev_protocol_probe.cpp": "265f4e222959c7a0c80a19161271fd3375b5f526c78107e9ab2669f11435edd9",
+    "native/src/gc_batch_channel.cpp": "1e693c04b313fce7e09f409d58be18bd0b5ac35428ff543d89ccd729147452e4",
+    "native/src/heartbeat.cpp": "3e678987adcd65bb504c5b8332496ca4726857f5d6c4dcd46ee1d2458dc31cfe",
+    "native/src/secure_ops.cpp": "d31ddc20637c1d802b46b177b731f1f294f9ef3c5262792286448933dd6c7829",
+    "native/include/prag/bfv.hpp": "bc124c25ad42ebfaa6c03fac4866d41333a7cfe1663de4188bba912597cc7dc5",
+    "native/include/prag/channel.hpp": "e3be9fa2862f1b4a0478c0550bfc1f9478f47b3b8693dd75b0b7b5d077263a2e",
+    "native/include/prag/gc_batch_channel.hpp": "0f2512b976ab6efc8b1b0ff0be327c7611dcb80bdca5c8fdb71ca983515e039e",
+    "native/include/prag/heartbeat.hpp": "286390b27c23f7ae2ba8ad7be4aa5bed19e033acba390d1785ed13b7d4cfc064",
+    "native/include/prag/secure_ops.hpp": "e88c9d5bb3412e9e468b6c47fd4ff3a499a677db5a3c7a6b908b1e8c3abe4e50",
+    "native/CMakeLists.txt": "67800dc4f7217febb1347a30292968124a64580c099c531d297c43c46af281da",
+    "native/build/libprag_crypto.a": "e8f02d752694c33639f1c9aa72297627043a80cdb71e1038032bdc858e2e50d5",
+    "native/build/prag_production_primitive_probe": "cb8335ca58e6c3834431d52b274e194027c1f2c6eb76ee32b046a25b4194db4e"
+  },
+  "unrun": [
+    "full model",
+    "full RAG",
+    "TCP/internet deployment performance",
+    "security audit"
+  ],
+  "temporary_pki_removed_after_finished_processes": true
+}

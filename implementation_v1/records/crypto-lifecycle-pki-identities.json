@@ -1,0 +1,14 @@
+{
+  "D": {
+    "certificate_sha256": "0f799a01ce408e8d47e7c22ce088df2cf26b27d9ba8bd235afd258841b027dc3"
+  },
+  "U": {
+    "certificate_sha256": "dc12b4b27f18bf2ebaa8c9f4f7c9751373a26b5e2b48481c8bd6bbe778da8922"
+  },
+  "S-management": {
+    "certificate_sha256": "0499f6c506a4eaea4d7104189d2a7a2019bde0813b74af6a740184b985e8bea3"
+  },
+  "S-compute": {
+    "certificate_sha256": "1d8cd90380565cec2606cd3d5a03327ece6e77dea51648f35eaf84c2c66e32bf"
+  }
+}

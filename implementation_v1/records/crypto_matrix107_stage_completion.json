@@ -1,0 +1,149 @@
+{
+  "scope": "Matrix protocol implementation stage and actual finite development checks, not complete project or formal acceptance",
+  "created_at_utc": "2026-10-12T22:35:15.084245+00:00",
+  "native_interface_version": "prag-native-v1.0.7",
+  "configuration_sha256": "3b31d6a2696158958b9e5d4701c50692ee1c09180660adf06b42a13cb9d2632b",
+  "native_manifest_files_rehashed": 143,
+  "current_library_sha256": "8a784691a3d3d2cfd93003eee3b6285397a459c5e5b9f2f95874867defb8bafb",
+  "current_worker_sha256": "165444b7e470f9f3877928c1a9f11e2749c791b281ed81d4f57e685f2a5f8db3",
+  "implemented": [
+    "true BxK times private OxK coefficient matrix protocol",
+    "bounded H<=512 ciphertext accumulation with exact noise bound",
+    "immutable encrypted input reuse across all output tiles",
+    "fixed public matrix descriptor before ciphertexts",
+    "Q/K/V/O, gate/up/down, LM head and private RMS gamma integration",
+    "failure abort and material non-reuse"
+  ],
+  "executed": {
+    "synthetic_matrix_cases": 7,
+    "actual_shape_cases": [
+      {
+        "shape_B_K_O": [
+          1,
+          2048,
+          151936
+        ],
+        "elapsed_seconds": 1885.04,
+        "application_bytes": 383898225473,
+        "input_ciphertexts": 128,
+        "returned_ciphertext_groups": 297,
+        "client_process_peak_RSS_bytes": 752898048,
+        "server_process_peak_RSS_bytes": 266088448
+      },
+      {
+        "shape_B_K_O": [
+          1,
+          2048,
+          2048
+        ],
+        "elapsed_seconds": 26.7366,
+        "application_bytes": 5375192289,
+        "input_ciphertexts": 128,
+        "returned_ciphertext_groups": 4,
+        "client_process_peak_RSS_bytes": 750145536,
+        "server_process_peak_RSS_bytes": 264507392
+      },
+      {
+        "shape_B_K_O": [
+          1,
+          2048,
+          6144
+        ],
+        "elapsed_seconds": 76.4779,
+        "application_bytes": 15719112673,
+        "input_ciphertexts": 128,
+        "returned_ciphertext_groups": 12,
+        "client_process_peak_RSS_bytes": 751325184,
+        "server_process_peak_RSS_bytes": 263553024
+      },
+      {
+        "shape_B_K_O": [
+          1,
+          6144,
+          2048
+        ],
+        "elapsed_seconds": 36.6822,
+        "application_bytes": 5777870049,
+        "input_ciphertexts": 384,
+        "returned_ciphertext_groups": 4,
+        "client_process_peak_RSS_bytes": 752111616,
+        "server_process_peak_RSS_bytes": 666931200
+      }
+    ],
+    "actual_checkpoint_weight_maps": 2,
+    "failure_path_cases": 3,
+    "measured_transcript_counts_match": true
+  },
+  "RMS_attempt": {
+    "record": "records/matrix107_rms_attempt_incomplete.json",
+    "timeout_seconds": 900,
+    "complete_RMS_verified": false,
+    "numeric_result_undetermined": true
+  },
+  "specification": {
+    "machine_files": 22,
+    "rules_checked": 62,
+    "errors": [],
+    "human_source_updated": true,
+    "identities_match_revision_record": true
+  },
+  "configuration_actual_file_check": {
+    "server": 653,
+    "client": 33,
+    "passed": true
+  },
+  "communication_static_subtotals": {
+    "nonempty_query_total": {
+      "excluding_GC_input_OT": 2538472981490304,
+      "including_GC_input_OT": 2856759895353984
+    },
+    "one_decode_token_including_logits": {
+      "excluding_GC_input_OT": 2155840687552,
+      "including_GC_input_OT": 2421945437632
+    }
+  },
+  "scope_limits": [
+    "Synthetic model-size matrices do not mean checkpoint LM head execution",
+    "Real checkpoint Q and gamma maps do not mean a complete RMS, layer or Decode",
+    "Local algebra/source review is not an independent security audit",
+    "Static BFV communication subtotals omit other secret operators and transport; timings are local development observations"
+  ],
+  "full_Decode_R2_completed": false,
+  "full_model_R2_completed": false,
+  "private_GPU_protocol_backend_implemented": false,
+  "full_model_CPU_executed_this_stage": false,
+  "production_activation": false,
+  "public_model_gate": "BACKEND_NOT_READY",
+  "formal_acceptance_defined": false,
+  "cleanup": {
+    "owned_recorded_pids_absent": [
+      904718,
+      905708,
+      905709,
+      911787,
+      911863,
+      911864
+    ],
+    "native_prag_processes_remaining": [],
+    "nvidia_compute_apps_output": "",
+    "temporary_PKI_reference_removed": true,
+    "interrupted_RMS_ledger_retained_unchanged": true,
+    "display_OBS_and_shared_services_not_changed": true
+  },
+  "next_work": [
+    "Reduce controlled GC decode and shared boolean/arithmetic communication with explicit equivalence and privacy arguments",
+    "Implement and verify an actual private GPU backend; preserve no CPU full-model fallback",
+    "Complete RMS, layer, Decode and end-to-end R2 on actual protocols before activation"
+  ],
+  "evidence_records": [
+    "records/matrix107_transcript_cost_check.json",
+    "records/matrix107_checkpoint_runs.json",
+    "records/matrix107_failure_runs.json",
+    "records/matrix107_rms_attempt_incomplete.json",
+    "records/compute_matrix107_build.json",
+    "records/matrix107_layout_check.json",
+    "records/configuration_bindings_debug.json",
+    "records/compute_process_debug.json",
+    "records/spec_revision_manifest.json"
+  ]
+}

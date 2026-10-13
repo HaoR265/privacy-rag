@@ -1,0 +1,28 @@
+{
+  "scope": "Independent public CUDA R1 complete embedding developer check, not formal acceptance or R2",
+  "numeric_profile": "v1-f12-coordinated-20261013",
+  "public_input": "资料使用 HPKE Base 模式交付给获得授权的用户。",
+  "input_kind": "document1",
+  "physical_slots": 257,
+  "layers": 28,
+  "elapsed_seconds": 8.728344664996257,
+  "output_shape": [
+    1024
+  ],
+  "eligible": 1,
+  "numeric_failure": false,
+  "output_nonzero_count": 1024,
+  "output_l2_norm_after_f20": 0.9999992761342691,
+  "first_failure": null,
+  "pid": 867863,
+  "device": "cuda:0",
+  "device_name": "NVIDIA GeForce RTX 2060",
+  "model_CPU_fallback": false,
+  "peak_allocated_device_bytes": 1685300224,
+  "peak_reserved_device_bytes": 2034237440,
+  "cuda_integer_gemm_counts": {
+    "direct_float64": 1092,
+    "split_float64": 0
+  },
+  "r2_executed": false
+}

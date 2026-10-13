@@ -1,0 +1,30 @@
+{
+  "scope": "public same-input same-operator R0/R1 diagnosis; no domain expansion applied",
+  "numeric_profile": "v1-f12-qk-local-20261013",
+  "operator": "layer2 MLP SiLU(gate)*up before down_proj",
+  "r0_full_embedding_executed": true,
+  "elapsed_seconds": 2.5654874540050514,
+  "shape": [
+    160,
+    3072
+  ],
+  "r1_min_integer": -10155702,
+  "r1_max_integer": 12993396,
+  "r1_valid_min_real": -2479.41943359375,
+  "r1_valid_max_real": 3172.2158203125,
+  "r0_valid_min_real": -2482.677001953125,
+  "r0_valid_max_real": 3175.049560546875,
+  "same_max_abs_index": [
+    0,
+    55
+  ],
+  "same_index_is_valid": true,
+  "same_index_r1_integer": 12993396,
+  "same_index_r1_real": 3172.2158203125,
+  "same_index_r0_real": 3175.049560546875,
+  "same_index_r1_excess_over_256": 2916.2158203125,
+  "same_index_r0_excess_over_256": 2919.049560546875,
+  "max_abs_difference_all_positions": 3.257568359375,
+  "r0_output_norm": 0.9999999403953552,
+  "other_domains_modified": false
+}

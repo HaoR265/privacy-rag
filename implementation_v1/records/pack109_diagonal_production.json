@@ -1,0 +1,63 @@
+{
+  "result": "matched_CUDA_R1",
+  "cases": [
+    {
+      "coordinates": 128,
+      "bytes": 391377,
+      "seconds": 0.0267404,
+      "OT_choices": 7552,
+      "input_ciphertexts": 0,
+      "returned_c1": 0,
+      "frames_sent": 1282,
+      "frames_received": 137
+    },
+    {
+      "coordinates": 1024,
+      "bytes": 2588720,
+      "seconds": 0.0890757,
+      "OT_choices": 60416,
+      "input_ciphertexts": 0,
+      "returned_c1": 0,
+      "frames_sent": 7553,
+      "frames_received": 60
+    },
+    {
+      "coordinates": 2048,
+      "bytes": 5177168,
+      "seconds": 0.193802,
+      "OT_choices": 120832,
+      "input_ciphertexts": 0,
+      "returned_c1": 0,
+      "frames_sent": 15105,
+      "frames_received": 119
+    }
+  ],
+  "real_mTLS": true,
+  "production_library": false,
+  "full_model_R2": false,
+  "source_sha256": {
+    "experiments/pack109_production/diagonal_probe.cpp": "e1c0544c1bb78a18852df3c9155925490e46a4fb47f63747abb4c5e22d56be1b",
+    "experiments/pack109_production/run_diagonal.py": "333ca04f7a03f644cc0aae814a18466ee4a35f2fa23a00fb08678d75ed7e52ad",
+    "native/src/secure_ops.cpp": "20e2c7340d6f5042b21ea6b83dc38e426258d7c34a3b368d20e0513c1897a25c",
+    "native/include/prag/secure_ops.hpp": "1374266acc63a28ec5098663aa26503612e3bc5090a419b648b9dfb76997e870",
+    "experiments/pack109_production/build/prag_pack109_diagonal": "3047f7e0a630b9aa179327e5e4da4fdc87b435cdb2be64ade8a58ee79dac5eaa",
+    "experiments/pack109_production/build/native/libprag_crypto.a": "44500092601318cb14d1d83cbfb76d1c3f6409b303af2d9b21e5c35803e9d299"
+  },
+  "ledgers": [
+    {
+      "path": "records/pack109_diagonal_c1d3c694f69b4fd39704db7e51c967ab.C.ledger",
+      "sha256": "77836ff67c9a827fca0aa1b45686e996346be34a83296e066ce02f40329af77b"
+    },
+    {
+      "path": "records/pack109_diagonal_c1d3c694f69b4fd39704db7e51c967ab.S.ledger",
+      "sha256": "77836ff67c9a827fca0aa1b45686e996346be34a83296e066ce02f40329af77b"
+    }
+  ],
+  "R1_reference": {
+    "device": "NVIDIA GeForce RTX 2060",
+    "sha256": "557ce09dbf23b84472ca6097ac84d0021943cd0cdd7699913af2ea037d482f68",
+    "CPU_model_or_reference": false
+  },
+  "temporary_resources_removed": true,
+  "child_waited": true
+}

@@ -1,0 +1,16 @@
+{
+  "status": "developer_run_interrupted_for_equivalent_reference_memory_scheduling_optimization",
+  "exit_code": 130,
+  "signal": "SIGINT with normal Python KeyboardInterrupt exit",
+  "last_recorded_event": {
+    "elapsed_seconds": 273.149162480986,
+    "event": "generation_prefill_complete",
+    "numeric_failure": false
+  },
+  "documents_and_query_embeddings_completed": true,
+  "generation_prefill_layers_completed": 28,
+  "generation_prefill_numeric_failure": false,
+  "full_255_decode_completed": false,
+  "completed_decode_calls_not_recorded": true,
+  "reason": "256-row blocks for every matrix and repeated whole-weight range scans added unnecessary single-token overhead. Ordinary layers now use a full dot kernel; only vocabulary head uses4096 output-row blocks; trusted weights are SHA-bound to checked manifest range and L1. Numerical values/floor order unchanged."
+}

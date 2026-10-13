@@ -1,0 +1,24 @@
+{
+  "scope": "actual production-shaped build and closed gate, no model run",
+  "native_version": "1.0.12",
+  "full_R2_complete": false,
+  "production_enabled": false,
+  "cpu_model_fallback": false,
+  "source_and_binary_sha256": {
+    "compute/model.hpp": "6d8ca34a60753928389e80ce711fcbb53153b29008cd7b5f6e878464344dd509",
+    "compute/model_compile.cpp": "f40a59cb1ea9bfd3a0a50252e06e709505b771aa87602a18c5d2afbdfbf7957c",
+    "compute/session.hpp": "3b118152fa369efd82952990f29490b8968fad99fd39e14011afcaf7ce051f21",
+    "compute/worker_main.cpp": "72187de6488bd7ea4fdd1235b56bd88bb3e3f7653584b591ea3939b297c2c834",
+    "compute/CMakeLists.txt": "a897869e96540460e19fc52107ea0d309156597bc18cac743dc119a42db245b8",
+    "compute/local_shares.cu": "dd5d9c4926538de45779b8931b1419624a55ec80508a2ab93185428e8828619d",
+    "compute/local_shares.hpp": "960aab86aa00c1cbd273d6b3a47ec7ec3643ad51124d16e6b7688889c4ca506c",
+    "build/compute112release/prag_worker": "8a65977e4f27491cfcae54426121700e5cfa24e6c54ba063b4d0386915e9e374",
+    "build/compute112release/native/libprag_crypto.a": "520bdda59f6fd5e00c7f31dde7f1248e27b275081de3626e369566aeb7bf2ec4",
+    "build/compute112release/libprag_local_cuda.a": "3a3be3b469b691916f86946e0aa8fc7f6e3f6cf48055e7421bc7abc91a178a37"
+  },
+  "exit_code": 2,
+  "stderr": "BACKEND_NOT_READY",
+  "rejects_before_interpreting_input": true,
+  "production_library_excludes_development_decode": true,
+  "hybrid_protocol_library_matches_M3_build": true
+}

@@ -1,0 +1,87 @@
+{
+  "format_version": "cuda-lifecycle-static-review-v1",
+  "reviewed_at_utc": "2026-10-12T20:56:19.428457+00:00",
+  "scope": "Bounded re-review of previously reported cleanup and run-identity issues; no renewed numerical/operator audit or formal acceptance",
+  "reviewed_source_sha256": {
+    "references/pipeline.py": "cbb3f6ad724315180cc43e3024b8eb2e2d47d57d1b3675f86922c3ae52cb6808",
+    "references/r1_cuda_model.py": "0762f5bcf14303b3c213d32a191c8f9f30f16e2cb7323c2f2c616dc757c1e1a8",
+    "model_tools/check_qk_embedding_revision.py": "f3f9896c3408cc093aec6d6abae4e1d4cf89fdeb43be945bb2c2b726a7e4cb1c",
+    "model_tools/reference_provenance.py": "e22ba9902d0c53d331af9d8ab924487dbbf089c763d9d617ebca975ff3532a89",
+    "model_tools/run_full_r1_rag.py": "88cb9e5f7dd0d9840270d5af75c867034bc11dd7cf9e757d48bcf818571f5374",
+    "model_tools/check_r1_cuda_operators.py": "5d4962937ea401b4fd3cdea4974edcaa543008e776c61cfffaf97c83fa1a63e5"
+  },
+  "checks": [
+    {
+      "id": "pipeline_cleanup",
+      "status": "covered_by_static_review",
+      "locations": [
+        "references/pipeline.py:49",
+        "references/pipeline.py:68",
+        "references/pipeline.py:102"
+      ],
+      "finding": "try/finally encloses model construction, preparation early return, query, retrieval and generation. It closes live models, clears model/bound-method references, runs GC and empties the CUDA cache. Normal E-to-G release remains before G construction."
+    },
+    {
+      "id": "callback_cycle",
+      "status": "covered_by_static_review",
+      "locations": [
+        "references/r1_cuda_model.py:36",
+        "references/r1_cuda_model.py:122"
+      ],
+      "finding": "close explicitly sets num.failure_callback=None, clears weights/KV cache and releases progress callback; this breaks the _begin report closure back-reference."
+    },
+    {
+      "id": "embedding_entry_cleanup",
+      "status": "covered_by_static_review",
+      "locations": [
+        "model_tools/check_qk_embedding_revision.py:21",
+        "model_tools/check_qk_embedding_revision.py:39"
+      ],
+      "finding": "Once construction succeeds, try/finally covers model arithmetic, synchronization, record/vector writes and printing; finally calls close, deletes the model reference and empties the cache."
+    },
+    {
+      "id": "reference_provenance",
+      "status": "covered_by_static_review_and_CPU_only_file_hash_check",
+      "locations": [
+        "model_tools/reference_provenance.py:6",
+        "model_tools/reference_provenance.py:23"
+      ],
+      "finding": "Snapshot binds entrypoint, helper, local input source, reference sources, numeric profile/constants/evidence, template, both quantized manifests, checkpoint manifests and actual tokenizer/config files. Loaded quantized weights retain their existing per-file manifest checks."
+    },
+    {
+      "id": "embedding_and_operator_record_identity",
+      "status": "covered_by_static_review",
+      "locations": [
+        "model_tools/check_qk_embedding_revision.py:14",
+        "model_tools/check_qk_embedding_revision.py:27",
+        "model_tools/check_r1_cuda_operators.py:14",
+        "model_tools/check_r1_cuda_operators.py:68"
+      ],
+      "finding": "Both entrypoints capture before model/operator execution and record the start-to-finish identity comparison. The constants and checker-script provenance omissions identified in the previous review are covered."
+    },
+    {
+      "id": "full_R1_record_identity",
+      "status": "covered_by_static_review",
+      "locations": [
+        "model_tools/run_full_r1_rag.py:11",
+        "model_tools/run_full_r1_rag.py:29",
+        "model_tools/run_full_r1_rag.py:35",
+        "model_tools/run_full_r1_rag.py:43"
+      ],
+      "finding": "Full runner persists the start identity before run_reference and checks identity again on the ordinary exception-record and normal-result paths. The comparison is an explicit boolean in the record; a false value must not be treated as a same-identity completed result."
+    }
+  ],
+  "remaining_findings_in_requested_scope": [],
+  "public_file_snapshot_sha256": "72eb3e4e4ac0e9268671678f393930bc631d466686a9f859695a90728b24980c",
+  "public_file_snapshot_count": 37,
+  "public_file_snapshot_required_entries_present": true,
+  "public_file_snapshot_unchanged_during_review": true,
+  "ast_parse": "passed",
+  "GPU_or_model_execution_by_this_review": false,
+  "source_or_configuration_changes_by_this_review": false,
+  "boundaries": [
+    "Static cleanup coverage was checked, but this review did not inject model/CUDA failures or remeasure GPU memory reclamation.",
+    "Before/after hashes identify files on disk at the two capture points; they are not an attestation of already-imported Python bytecode and cannot detect a file changed then restored between captures. The frozen-source run discipline remains relevant.",
+    "No new full-model, CUDA arithmetic, performance, privacy or R2 correctness claim is made by this review."
+  ]
+}

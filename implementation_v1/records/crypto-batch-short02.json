@@ -1,0 +1,1 @@
+{"entry":"isolated_synthetic_protocol_probe","library":"prag_crypto","two_processes":true,"OT_Beaver_A2B_B2A_floor_compare_select":"matched","BFV_controlled_GC_decode":"matched_nonzero_and_zero_weights","BFV_public_columns":3,"transport":"local_AF_UNIX_development_transport","client_bytes":80025635,"native_TLS13_mTLS":true,"full_system":false}

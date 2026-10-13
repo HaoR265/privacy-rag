@@ -1,0 +1,38 @@
+{
+  "scope": "current builds and closed gate only",
+  "native_version": "1.0.10",
+  "worker_crypto_library_matches_mtls_library": true,
+  "actual_context_matches_locked": true,
+  "model_executed": false,
+  "full_R2": false,
+  "jobs_per_build": 1,
+  "current_gate_probe": {
+    "build": "existing_binary_runtime_gate_checked",
+    "build_model_executed": false,
+    "worker_path": "build/compute/prag_worker",
+    "worker_bytes": 1408672,
+    "worker_sha256": "38c1129e64fb6de156da2bc554aa9f7c735d3bbb866ea3c91e178d27de1a596f",
+    "exit_code": 2,
+    "public_stderr": "BACKEND_NOT_READY",
+    "rejected_before_input_or_sockets": true,
+    "production_library_excludes_development_decode_symbol": true,
+    "probe": "tools/check_private_model_policy.py"
+  },
+  "source_and_binary_sha256": {
+    "native/build/libprag_crypto.a": "7dbe754298c3daceb72eab0ef8f78d9bb161b5e9b25e630ba7458c32c873148a",
+    "build/compute/native/libprag_crypto.a": "7dbe754298c3daceb72eab0ef8f78d9bb161b5e9b25e630ba7458c32c873148a",
+    "experiments/batch110/build/native/libprag_crypto.a": "7dbe754298c3daceb72eab0ef8f78d9bb161b5e9b25e630ba7458c32c873148a",
+    "build/compute/prag_worker": "38c1129e64fb6de156da2bc554aa9f7c735d3bbb866ea3c91e178d27de1a596f",
+    "native/build/prag_bfv_context": "e8aeff44cd525e385be0103741c3a513fc0cf56a9c1c19de4d452cf87941062d",
+    "records/batch110_actual_context.json": "b8de8cea65703556f5dc00ca6161f052fd6e79301485faf5e425a060c50b729a",
+    "records/batch110_native_configure.log": "4e789b0247d2630aed2da68a8daf94c1175a4831215ff3a70af8c45a94d6039c",
+    "records/batch110_native_build.log": "1b04dd99614dcc74c28eac943bd06733d2f3b133e958ccbdbf4b6114ad27f4a4",
+    "records/batch110_compute_configure.log": "1377ab254942a60f02d9b8241ccbd2440e8932b5c1fc64545adc216fa7ffc453",
+    "records/batch110_compute_build.log": "30d7995734872110c76885222f97955351ca86f221362e8292a3ed6e32bc7fb7",
+    "compute/model.hpp": "dc4144b6a78270aee8ccaddddcd1819ee612b7355fa55dd17f519398488dea0a",
+    "compute/numerics.hpp": "2a3ee42ba9247fb1c182d4e0deb2f510c11c37bc3cbd16bab1b564996986af06",
+    "compute/batch_numerics.hpp": "440a9ab111fa04e0af30233497e709cc02095bda617a86bb431a16f02ed4e021",
+    "compute/CMakeLists.txt": "2e6699a80168c584f173fa0fe9d4200ca218575fb16a476ea6baf34a3c2ed1d7",
+    "native/CMakeLists.txt": "50b88adfe062ceeab0b1a84e35b57f80d7b7e11a91e0eb4c22b21e749057780d"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "scope": "public_synthetic_development_cross_check_not_acceptance_standard",
+  "scale_floor_signed": {
+    "input": [
+      -8193,
+      -8192,
+      -1,
+      0,
+      4095,
+      4096
+    ],
+    "shift": 12,
+    "expected": [
+      -3,
+      -2,
+      -1,
+      0,
+      0,
+      1
+    ]
+  },
+  "invsqrt": {
+    "input_f24": 33554432,
+    "mantissa_invsqrt_f24": 11863283,
+    "k": 0
+  },
+  "reciprocal": {
+    "input_f24": 50331648,
+    "expected_f24": 5592405
+  },
+  "exp_negative": {
+    "input_f12": 4096,
+    "expected_f24": 6171992
+  },
+  "silu": {
+    "input_f12": -4096,
+    "expected_f12": -1102
+  },
+  "numeric_failure": false
+}

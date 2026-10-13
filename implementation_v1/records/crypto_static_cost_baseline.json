@@ -1,0 +1,61 @@
+{
+  "kind": "static_public_shape_cost_not_runtime_benchmark",
+  "profile": "native_v1.0.1_before_batching",
+  "bfv_return_AND_gates": 457505,
+  "bfv_return_frame_parts_lower_bytes": {
+    "input_ciphertext_frame": 1572960,
+    "returned_c1_frame": 786528,
+    "garbled_AND_frames": 58560640,
+    "server_input_labels_frame": 5872,
+    "C_output_permutation_frame": 155
+  },
+  "bfv_return_lower_bytes": 60926155,
+  "BFV_return_counts": {
+    "prepare_embedding_257": 130531328,
+    "query_embedding_160": 81264640,
+    "generation_1279_forward_tokens": 1042518016,
+    "generation_256_logits": 38895616,
+    "generation_total": 1081413632,
+    "nonempty_query_total": 1162678272
+  },
+  "bfv_only_communication_lower_bytes": {
+    "prepare_embedding_257": 7952771922083840,
+    "query_embedding_160": 4951142052659200,
+    "generation_1279_forward_tokens": 63516614233108480,
+    "generation_256_logits": 2369760329236480,
+    "generation_total": 65886374562344960,
+    "nonempty_query_total": 70837516615004160
+  },
+  "explicit_QK_PV_MulShared_counts": {
+    "embedding160_QK_PV": 2936012800,
+    "embedding257_QK_PV": 7575027712,
+    "generation_QK_PV": 153949831168,
+    "nonempty_query_QK_PV": 156885843968
+  },
+  "nonempty_query_QK_PV_masked_open_lower_bytes": 35142429048832,
+  "retrieval_additional_explicit_MulShared_per_public_N": 3072,
+  "source_sha256": {
+    "native/src/bfv.cpp": "d5335e850e32c578fa7cb249c761b97cc49a04d5ea173d720a4e34fd650f5995",
+    "native/src/channel.cpp": "e956667857b344d3de9db0c3fc34364c49d8c42b7cd906741310ead190ee3db1",
+    "native/src/secure_ops.cpp": "d31ddc20637c1d802b46b177b731f1f294f9ef3c5262792286448933dd6c7829",
+    "third_party/EzPC/SCI/src/GC/halfgate_gen.h": "d6e15b7076bcf14409a54eb71ba9cc7ebc5bbde27e0c934711407f6b35df74ad",
+    "compute/model.hpp": "bd9dbc70927da647002b68ac4568f1f61117c5220cbd23804eb28875b8cba580",
+    "compute/numerics.hpp": "439cd295a86243ca8d5bf1a99b2b9343836bc2c460e731973a9fdab7dc0efab5",
+    "compute/pipeline.hpp": "77e6360b5f6d61d65ac01179c8d4675130c28620d16718e1b294d4aaef8a11f8"
+  },
+  "excludes": [
+    "GC input OT",
+    "base OT and setup/public key",
+    "all remaining shared/boolean/lookup/range operations",
+    "TLS records TCP IP heartbeat and management",
+    "filesystem reservation I/O and memory",
+    "hardware time and throughput"
+  ],
+  "assumes": [
+    "successful fixed schedule despite private numeric failure or EOS",
+    "N>0 query",
+    "current scalar BFV row/block control return and one 96-byte frame per half-gate table",
+    "all projections <=8192 input coefficients; token lookup 19 blocks per token",
+    "generation prefill1024 plus255 one-token forwards and256 logits"
+  ]
+}

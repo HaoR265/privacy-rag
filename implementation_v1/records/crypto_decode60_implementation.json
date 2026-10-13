@@ -1,0 +1,139 @@
+{
+  "kind": "bounded_native_equivalent_implementation_evidence_not_acceptance_suite",
+  "native_version": "prag-native-v1.0.4",
+  "state": "independently_built_and_diagnosed_pending_root_configuration_binding",
+  "full_system_R2_enabled": false,
+  "gpu_used": false,
+  "model_executed": false,
+  "build": {
+    "directory": "native/build-decode60",
+    "jobs": 1,
+    "nice": 15,
+    "ionice_class": 3,
+    "production_and_development_libraries_built": true,
+    "development_symbol_absent_from_production": true,
+    "context_and_production_TLS_probe_built": true,
+    "warnings": "SCI OpenSSL3 deprecated EC_GROUP_precompute_mult",
+    "resolved_build_invocation": "New TLS target was initially requested before CMake reconfiguration; reconfigure then build succeeded; full log retained"
+  },
+  "fixed_layout": {
+    "q_bits": 360,
+    "phase_bits": 361,
+    "numerator_bits": 420,
+    "remainder_bits": 361,
+    "quotient_rounds": 60,
+    "output_bits": 59
+  },
+  "equivalence": {
+    "formula": "N=v*2^59+floor(q/2), 0<=v<q",
+    "proved": "N<q*2^60, N>>60<q; remainder invariant <q; each shifted value <2q<2^361",
+    "AND_gates": 67625,
+    "retain_quotient_bit59": true,
+    "entry_accepts_only_actual_locked_six_prime_data_q": true,
+    "roles_masks_Enc0_c1_and_exact_rounding_unchanged": true
+  },
+  "public_integer_reference": {
+    "cases": 8,
+    "all_matched_divmod": true,
+    "not_GC_or_R2": true
+  },
+  "actual_protocol_run": {
+    "entry": "isolated_bfv_decode60_probe",
+    "native_version": "1.0.4",
+    "two_processes": true,
+    "phase_boundary_cases": 8,
+    "phase_results": "matched",
+    "full_quotient_bit59_covered": true,
+    "real_BFV_outputs": 2,
+    "BFV_nonzero_and_zero_weights": "matched",
+    "phase_batch_application_bytes": 20246761,
+    "BFV_batch_application_bytes": 10086311,
+    "client_application_bytes": 30333184,
+    "transport": "local_AF_UNIX_development_transport",
+    "mTLS": false,
+    "full_R2": false,
+    "timing_comparison": false
+  },
+  "ledgers": {
+    "C": "closed_all_reserved_burned",
+    "S": "closed_all_reserved_burned"
+  },
+  "not_executed_here": [
+    "full_model_R2",
+    "old_new_same_condition_timing_comparison"
+  ],
+  "independent_read_only_review": {
+    "conclusion": "No definite defect found in specialized circuit/probe isolation",
+    "core_source_sha256": "804ae8da7d2b61b215da0e4994adb5f4438dce412bd20d3e6dbfab44b9b996fd",
+    "scope": "proof, exact loop/count, canonical q/input guard, eight synthetic phase cases and two complete BFV oracles; reviewer did not execute GC or model"
+  },
+  "current_artifacts_kept_unchanged": {
+    "artifacts/bfv_native_manifest.json": "c195db1ca2798be0ac8fabf6026ffcd9d3a06c0e98eb32ae246dfc0f608d5322",
+    "artifacts/bfv_context.json": "b8de8cea65703556f5dc00ca6161f052fd6e79301485faf5e425a060c50b729a",
+    "artifacts/bfv_correctness_bound.json": "1c9ec13d2810177b48f19118fc51cd5eecad1b89a7c40d0c9da97826da4e9a59"
+  },
+  "source_and_evidence_sha256": {
+    "native/src/bfv.cpp": "804ae8da7d2b61b215da0e4994adb5f4438dce412bd20d3e6dbfab44b9b996fd",
+    "native/CMakeLists.txt": "bd0c268181a7eb722466b2270f3a1ee4a4d6c72607a701e694de5ef9b02b125d",
+    "native/include/prag/development_bfv_decode.hpp": "474a64023103ff180f734afe14c3d4a8546df3be0def00da073332265f4f78e3",
+    "native/src/dev_bfv_decode60_probe.cpp": "553fc8e82014f591a0ff7334e82b030f536a4b2c86cf5006aa00e185cc3c05e1",
+    "native/src/dev_bfv_tls_probe.cpp": "ff9f84139ba4f19670d965cd5e1ac287eb5403b012e6782616d7f9ea67cc661a",
+    "records/bfv_decode60_build.log": "93dc9f8c13aa98c738ac6732769890653023cc66d9ab67459524de20bcbf8b56",
+    "records/bfv_decode60_public_reference.json": "feb23d33af7433cc131e7932c2a90baf55657cff06b4e4dd02eb29bb16ad25c0",
+    "records/bfv_decode60_probe_run.json": "ab95ac804e8ecd2e5ebe3e2252bbdbe0c22e1dab1a07f6120f7249dfdd1399f9",
+    "records/bfv_decode60_probe_run.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "records/bfv-decode60-01.C.ledger": "af434862277f1b194a35639c2a46e82861d5f6553a8a2cd2b0488227b95c4858",
+    "records/bfv-decode60-01.S.ledger": "af434862277f1b194a35639c2a46e82861d5f6553a8a2cd2b0488227b95c4858",
+    "records/crypto_decode60_implementation.md": "3902d69918e28466d10f12a916a9eb1627fce5a173e6bb96106f6b0a06997e40",
+    "records/crypto_static_cost_v1_0_4.json": "cd5feac934b81e4d30efc26a2cdc4c29c8a9670b492d45cdea9a5d8e16433596",
+    "records/crypto_decode60_mtls_run.json": "ca9234a8eac4b02edac3e13716cc7b8d1de754c938c2d7d3659d599021c2d1bd"
+  },
+  "binary_sha256": {
+    "native/build-decode60/libprag_crypto.a": "fb68b2204bb131f0a20dfe088057669ed8eb03ff78ad9a58401e849936e8389a",
+    "native/build-decode60/libprag_crypto_development.a": "3f93d3f8d320faf6a33104ae06cfe0c5e572f7e84886969fd468a772751ccb29",
+    "native/build-decode60/prag_dev_bfv_decode60_probe": "ec6e3b9bd5be0911c425ce6a054bf32d042205dc96f4c1f931e771927935e5f2",
+    "native/build-decode60/prag_production_bfv_decode60_probe": "52fb8dca770ea0eb46904690ef68426e0541112a543b606efcd1eae2221dc798",
+    "native/build-decode60/prag_bfv_context": "30655a95dbacff9f275cb7ebee4f815d91388ca73cfad97c8e67585ee4371a3f"
+  },
+  "actual_production_mtls_run_by_root": {
+    "entry": "production_BFV_decode60_synthetic_probe",
+    "library": "prag_crypto",
+    "native_version": "1.0.4",
+    "two_processes": true,
+    "native_TLS13_mTLS": true,
+    "isolated_development": false,
+    "real_BFV_outputs": 2,
+    "public_columns": 3,
+    "nonzero_and_zero_weights": "matched",
+    "transport": "TLS13_over_local_AF_UNIX",
+    "client_application_bytes": 10086423,
+    "full_R2": false,
+    "timing_comparison": false,
+    "scope": "Two public synthetic BFV outputs only; real production library, OT/GC, TLS; no full model or acceptance claim",
+    "elapsed_seconds": 0.26665452201268636,
+    "exit_code": 0,
+    "temporary_pki_removed": true,
+    "ledger_checks": [
+      {
+        "path": "records/crypto-decode60-mtls-199dae3f77424b8bbad40eb5efc0ee93.C.ledger",
+        "sha256": "0f0dcb72aa99e3edee282c3614895c7ee2cca35833e319b2bd4b3d5577599305",
+        "terminal": "terminal=closed all_reserved=burned",
+        "input_encryption_reservations": 1,
+        "independent_return_reservations": 2
+      },
+      {
+        "path": "records/crypto-decode60-mtls-199dae3f77424b8bbad40eb5efc0ee93.S.ledger",
+        "sha256": "0f0dcb72aa99e3edee282c3614895c7ee2cca35833e319b2bd4b3d5577599305",
+        "terminal": "terminal=closed all_reserved=burned",
+        "input_encryption_reservations": 1,
+        "independent_return_reservations": 2
+      }
+    ],
+    "source_and_binary_sha256": {
+      "native/build/prag_production_bfv_decode60_probe": "52fb8dca770ea0eb46904690ef68426e0541112a543b606efcd1eae2221dc798",
+      "native/build/libprag_crypto.a": "fb68b2204bb131f0a20dfe088057669ed8eb03ff78ad9a58401e849936e8389a",
+      "native/src/bfv.cpp": "804ae8da7d2b61b215da0e4994adb5f4438dce412bd20d3e6dbfab44b9b996fd",
+      "native/src/dev_bfv_tls_probe.cpp": "ff9f84139ba4f19670d965cd5e1ac287eb5403b012e6782616d7f9ea67cc661a"
+    }
+  }
+}

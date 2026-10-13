@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.16)
+project(prag_hybrid112_edge LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+add_subdirectory(../../native native)
+add_executable(prag_hybrid112_lookup lookup_probe.cpp)
+target_link_libraries(prag_hybrid112_lookup PRIVATE prag_crypto)

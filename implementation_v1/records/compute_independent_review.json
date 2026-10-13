@@ -1,0 +1,101 @@
+{
+  "kind": "independent_source_review_of_root_coordinated_integration_not_formal_acceptance",
+  "written_utc": "2026-10-12T20:23:31.422310+00:00",
+  "reviewed_source_sha256": {
+    "compute/numerics.hpp": "15b14cf78270368fafe2d7859b00e13fc986d573f88a982755d5e1dc6b3de983",
+    "compute/model.hpp": "218c58f5683372b192969367954c3d637ce66659b133095948b80f0924654bb6",
+    "compute/artifacts.hpp": "449a814d2f20b02571795afd06167dc3eb03e2c36a3f874ffc02e1a4113f44f5",
+    "compute/secure_tensor.hpp": "8a6dadb04235f788121ba793136f8d6f53684b506c19030e6bb4104e90f2d8b0",
+    "compute/numeric_profile.hpp": "4645b0df127689565c7e1a61f4871bd5e07ec6cd4f384eb78707c334c73fa3fe",
+    "compute/retrieval.hpp": "ff1ad567ce294e823c1aa834dcabdaa621cff814d874681263a37913d507c161",
+    "compute/pipeline.hpp": "77e6360b5f6d61d65ac01179c8d4675130c28620d16718e1b294d4aaef8a11f8",
+    "compute/session.hpp": "ba998a10367e0bfde1ab3a355dd730c0d91fe0fddfdf895823fed1c8ff06ef98"
+  },
+  "supporting_artifact_sha256": {
+    "artifacts/constants/numeric_profile_v1_qk.json": "ff53725bf7f455075d5276141051227c7292f348fe10a872b2bc5996c352f1ee",
+    "artifacts/constants/constants_v1.json": "1582764ed3503b73e8d42fc61d99d6a1f18159c6c77865a2437e919645fa9a40",
+    "artifacts/models/embedding/quantized_f12/manifest.json": "1ea9fb91baf277e20ff8ded2d0174f3c1a7e6f900c7d7c772f2a546a6abdc14e",
+    "artifacts/models/generation/quantized_f12/manifest.json": "9408d33d77e110835c8b50794fd7d0db03fd614b92e947f183ca6ce469339ba2",
+    "records/compute_coordinated_bound_review.json": "ae7b9195f47a523684f54a19e423ec49f424acb34312265d7731e60e777a1727",
+    "records/compute_guard_implementation.json": "74101549735b8094258859b3440fb4d6de40bd81b3954cd73aa0d6c572882820"
+  },
+  "new_confirmed_defects": [],
+  "scope": "Read complete current model.hpp/artifacts.hpp/secure_tensor.hpp and numeric_profile fields, independently checked all 394 matrix profile/header/quantized-manifest metadata and bound arithmetic; traced all project input call sites and numerics row-guard connection. The guard implementation was authored by this reviewing agent and has its separate real two-party diagnostic record.",
+  "current_domains": "Authorized ordinary M2048; SwiGLU joint f12=2^34; model-specific down/residual coordinate cap; RMS/L2 square-sum pre-operation guard; original QK/RoPE caps preserved",
+  "unchanged_prior_review_files": {
+    "compute/retrieval.hpp": true,
+    "compute/pipeline.hpp": true,
+    "compute/session.hpp": true
+  },
+  "previous_review": "records/compute_independent_review_v1_qk_swiglu.json",
+  "computed_bounds": {
+    "checked_matrix_entries": 394,
+    "profile_header_and_manifest_agree": true,
+    "source_L1_evidence": "Values originate in models agent complete file scan; this review independently checked metadata consistency and arithmetic. Previously independently scanned all 56 down files are bound by matching hashes; no redundant full-file weight scan performed here.",
+    "models": {
+      "embedding": {
+        "matrix_count": 197,
+        "normalization_vector_count": 113,
+        "ordinary_max_raw": 6817597882368,
+        "down_max_raw": 36702522768883712,
+        "residual_coordinate_cap": 67108863,
+        "residual_add_abs_bound": 134217726,
+        "RMS_sum_limit": 4503599627354111,
+        "QK_raw_dot_abs": 2506693996987904,
+        "QK_scaled_abs": 56719459554461229
+      },
+      "generation": {
+        "matrix_count": 197,
+        "normalization_vector_count": 113,
+        "ordinary_max_raw": 11300839096320,
+        "down_max_raw": 37112142389837824,
+        "residual_coordinate_cap": 94906265,
+        "residual_add_abs_bound": 189812530,
+        "RMS_sum_limit": 9007199254708223,
+        "QK_raw_dot_abs": 1411230904363008,
+        "QK_scaled_abs": 31932200060414491
+      }
+    },
+    "other_bounds": {
+      "SiLU_raw_conservative": 281474976710656,
+      "SwiGLU_raw": 70368744177664,
+      "SwiGLU_f12": 17179869184,
+      "PV_raw_exclusive": 562949953421312,
+      "RMS_B_times_state_max": 54043195528445952,
+      "NR_correction_raw_conservative": 7318349394477056,
+      "RMS_gamma_raw_coarse": 824633720832,
+      "L2_sum_limit": 4503599627370495
+    },
+    "all_other_bounds_below_exclusive_2_56": true
+  },
+  "assumptions": [
+    "Registered immutable weights and constants checked by current configuration before worker dispatch; normalization vectors and constants rely on that full artifact binding, not solely on the new matrix L1 table.",
+    "Honest parties follow typed input/share provenance and the fixed SessionRunner call graph; arbitrary external direct calls with violated project input preconditions are not covered.",
+    "Native primitives implement documented ring/XOR semantics; secret range failure finishes fixed public schedule."
+  ],
+  "actual_runtime_evidence": "records/compute_guard_implementation.json (guard kernel only)",
+  "not_claimed": [
+    "Complete R2 model or RAG execution",
+    "R1/R2 full-model equality",
+    "Every possible sequence stays within the admitted numeric domain",
+    "Independent full re-scan of all matrix files by this reviewer (models/root scans are explicitly separate evidence)",
+    "Security or side-channel certification",
+    "Formal acceptance test standard"
+  ],
+  "cross_implementation_source_review": {
+    "reviewer": "models agent",
+    "scope": "Independent read-only comparison of current R1 and R2 coordinate-first/safe-square/remaining-budget/safe-add/whole-row-reset guard, RMS A=F, L2 invalid-or-zero semantics and k/floor/state order",
+    "result": "source semantics agree",
+    "full_model_runtime_equivalence_claimed": false
+  },
+  "profile_metadata_equivalence": {
+    "run_profile_sha256": "59db14e6c761224f5b7b0f0aa2dcb509b7731b1f3f51b3447a07a7f907f1bcff",
+    "current_profile_sha256": "ff53725bf7f455075d5276141051227c7292f348fe10a872b2bc5996c352f1ee",
+    "run_header_sha256": "2d4583504816397ddff3615a09697f5c96385dea07e95a86389bd5ab77d36568",
+    "current_header_sha256": "4645b0df127689565c7e1a61f4871bd5e07ec6cd4f384eb78707c334c73fa3fe",
+    "header_identical_after_replacing_only_profile_hash_literal": true,
+    "runtime_numerics_source_still_identical": true,
+    "constants_binary_still_identical": true,
+    "rerun_required_by_numeric_change": false
+  }
+}

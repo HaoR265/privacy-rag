@@ -1,0 +1,38 @@
+{
+  "status": "nonnumeric_formed_parameters_materialized",
+  "parameter_file": "参数与接口.yaml",
+  "parameter_sha256": "c2c4c96ee6561794556b0d81c70ffaa90ebdbcee29cddc66d86be8e9cbaea009",
+  "modified_top_level_blocks": [
+    "representation",
+    "models",
+    "input_templates_and_capacity",
+    "positions_masks_and_cache",
+    "transport_storage_and_dependencies",
+    "interfaces",
+    "runtime_and_lifecycle"
+  ],
+  "template_sha256": "a1c11e25323e5203205504ac4edc2a664ba6e7947ab1309da4e060e182397c50",
+  "model_quantized_tensor_counts": {
+    "embedding": 310,
+    "generation": 310
+  },
+  "checks": [
+    "public checkpoint files rehashed",
+    "large checkpoint sizes checked",
+    "quantized payload paths present",
+    "template/native binary hashes",
+    "public fragments reencoded with real tokenizer",
+    "all reserved controls mapped to actual IDs",
+    "reviewed ABI source fingerprints",
+    "YAML parse",
+    "numeric sections byte-identical"
+  ],
+  "large_weight_payloads_rehashed_this_run": false,
+  "formal_test_or_acceptance": false,
+  "full_R2_executed": false,
+  "remaining": [
+    "unified GC/BFV tensor descriptor ABI not implemented",
+    "complete fixed model message/access plan not materialized",
+    "full R2 correctness/performance/acceptance not established"
+  ]
+}

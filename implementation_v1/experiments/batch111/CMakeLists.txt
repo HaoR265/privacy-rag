@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.16)
+project(prag_batch111_probes LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+get_filename_component(ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../.." ABSOLUTE)
+add_subdirectory("${ROOT}/native" native)
+# Candidate compiled with the production library's locked dependencies; no
+# reconstruction symbol or PRAG_ISOLATED_DEVELOPMENT enters the library.
+add_executable(prag_batch111_rms rms_probe.cpp)
+target_include_directories(prag_batch111_rms PRIVATE "${ROOT}/compute" "${ROOT}/experiments/batch110_baseline")
+target_link_libraries(prag_batch111_rms PRIVATE prag_crypto)
+add_executable(prag_batch111_primitives primitive_probe.cpp)
+target_link_libraries(prag_batch111_primitives PRIVATE prag_crypto)
+add_executable(prag_batch111_attention attention_probe.cpp)
+target_include_directories(prag_batch111_attention PRIVATE "${ROOT}/compute" "${ROOT}/experiments/batch110_baseline")
+target_link_libraries(prag_batch111_attention PRIVATE prag_crypto)
+add_executable(prag_batch111_failure failure_probe.cpp)
+target_link_libraries(prag_batch111_failure PRIVATE prag_crypto)

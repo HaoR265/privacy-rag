@@ -1,0 +1,29 @@
+{
+  "kind": "current_exact_bound_and_index_checks_not_security_audit",
+  "matrix_public_layout_cases": 111,
+  "key_switch_error_fraction": "4779036033585583948283905/2305843009213497346",
+  "strict_key_switch_error_bound": 16777216,
+  "packing_levels": 9,
+  "packing_scale": 512,
+  "token_return_error_bound": "96364966478091856741906695069698",
+  "token_return_error_bound_bits": 107,
+  "four_t_E": "222202484286620070049206040442953786725984681066496",
+  "q": "2348542582738122206855069782186871985803490093435884473355019481976564023197476749942235793077603734285221889",
+  "four_t_E_less_q": true,
+  "token_unscale_no_wrap": true,
+  "acyclic_switching_no_circular_key_graph": true,
+  "GC_ANDs_per_Token_coordinate": 358,
+  "input_ciphertexts_per_Token": 19,
+  "return_objects_H1024": 2,
+  "return_objects_H2048": 4,
+  "finite_routing_checks_passed": true,
+  "full_R2": false,
+  "source_sha256": {
+    "tools/check_pack109_layout.py": "c91c553bc02257bc39c07551d0926fcccb88a30cab739b2b08d9b6948f64fd1f",
+    "native/src/bfv_acyclic_pack.hpp": "a1e23325608959aebb688fc1cd6616512dfb1c7ceca1328f7c35621b012ea220",
+    "records/crypto_pack109_implementation.md": "6c2afe8f9458889c6f3cd7e640720d5dbe685bf19819756d42e5b66c4a38587c",
+    "third_party/SEAL/native/src/seal/keygenerator.cpp": "be678f60ad5093ed43dcb17bfffd43811d26c9f5511046edfb19556bfc33bb99",
+    "third_party/SEAL/native/src/seal/evaluator.cpp": "df89d4e9621fa748ed16f818d15524c0d95a2b0c7e82e56b13134e15f4878772",
+    "third_party/SEAL/native/src/seal/util/rlwe.cpp": "93eedac214990633c3ef3795ca151fd67d5b26702d9462e04db8da5b6df20b3c"
+  }
+}

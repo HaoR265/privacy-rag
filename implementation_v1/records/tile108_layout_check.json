@@ -1,0 +1,152 @@
+{
+  "kind": "public_index_and_exact_integer_bound_check",
+  "native_version": "1.0.8",
+  "result": "matched_derived_invariants",
+  "batch_cases": [
+    {
+      "batch": 1,
+      "output_tile_columns": 512,
+      "target_count": 512,
+      "maximum_message_degree": 15871,
+      "maximum_weight_coefficients": 8192
+    },
+    {
+      "batch": 2,
+      "output_tile_columns": 256,
+      "target_count": 512,
+      "maximum_message_degree": 15871,
+      "maximum_weight_coefficients": 4096
+    },
+    {
+      "batch": 3,
+      "output_tile_columns": 170,
+      "target_count": 510,
+      "maximum_message_degree": 15809,
+      "maximum_weight_coefficients": 2720
+    },
+    {
+      "batch": 4,
+      "output_tile_columns": 128,
+      "target_count": 512,
+      "maximum_message_degree": 15871,
+      "maximum_weight_coefficients": 2048
+    },
+    {
+      "batch": 5,
+      "output_tile_columns": 102,
+      "target_count": 510,
+      "maximum_message_degree": 15809,
+      "maximum_weight_coefficients": 1632
+    },
+    {
+      "batch": 6,
+      "output_tile_columns": 85,
+      "target_count": 510,
+      "maximum_message_degree": 15809,
+      "maximum_weight_coefficients": 1360
+    },
+    {
+      "batch": 7,
+      "output_tile_columns": 73,
+      "target_count": 511,
+      "maximum_message_degree": 15840,
+      "maximum_weight_coefficients": 1168
+    },
+    {
+      "batch": 8,
+      "output_tile_columns": 64,
+      "target_count": 512,
+      "maximum_message_degree": 15871,
+      "maximum_weight_coefficients": 1024
+    },
+    {
+      "batch": 9,
+      "output_tile_columns": 56,
+      "target_count": 504,
+      "maximum_message_degree": 15623,
+      "maximum_weight_coefficients": 896
+    },
+    {
+      "batch": 10,
+      "output_tile_columns": 51,
+      "target_count": 510,
+      "maximum_message_degree": 15809,
+      "maximum_weight_coefficients": 816
+    },
+    {
+      "batch": 11,
+      "output_tile_columns": 46,
+      "target_count": 506,
+      "maximum_message_degree": 15685,
+      "maximum_weight_coefficients": 736
+    },
+    {
+      "batch": 12,
+      "output_tile_columns": 42,
+      "target_count": 504,
+      "maximum_message_degree": 15623,
+      "maximum_weight_coefficients": 672
+    },
+    {
+      "batch": 13,
+      "output_tile_columns": 39,
+      "target_count": 507,
+      "maximum_message_degree": 15716,
+      "maximum_weight_coefficients": 624
+    },
+    {
+      "batch": 14,
+      "output_tile_columns": 36,
+      "target_count": 504,
+      "maximum_message_degree": 15623,
+      "maximum_weight_coefficients": 576
+    },
+    {
+      "batch": 15,
+      "output_tile_columns": 34,
+      "target_count": 510,
+      "maximum_message_degree": 15809,
+      "maximum_weight_coefficients": 544
+    },
+    {
+      "batch": 16,
+      "output_tile_columns": 32,
+      "target_count": 512,
+      "maximum_message_degree": 15871,
+      "maximum_weight_coefficients": 512
+    }
+  ],
+  "all_inner_tail_lengths_checked": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "maximum_reduction_blocks": 512,
+  "noise_bound": "9905938165922271457542414338",
+  "noise_bound_bits": 94,
+  "decode_lhs": "22841538269594990752717978334837701769508683776",
+  "Q": "2348542582738122206855069782186871985803490093435884473355019481976564023197476749942235793077603734285221889",
+  "deterministic_decode_inequality": true,
+  "encrypted_input_coefficient_storage_max_bytes_per_party": 805306368,
+  "memory_bound_scope": "Ciphertext coefficient arrays only; excludes allocator, keys, NTT tables, GC and process RSS",
+  "source_sha256": {
+    "native/src/bfv_matrix.inc": "d9cd0150805d13d179daff0273bf420b630bfc3769ad93718c79f16df84b8da8",
+    "native/src/bfv.cpp": "d9f70cb31f7d6b6d05ac0f80576ed818bdf204f1e0eb5f0d80e7ef249acaf923",
+    "native/include/prag/bfv.hpp": "8e88568d77fbf2933e61a1d81a8403e11dc7fb16d4069edd1ae016254b357626",
+    "tools/check_tile_layout.py": "2e76d2b4ac4c15bcce8498477f33eae6599445142d36b66e312e74b2653cfc78"
+  },
+  "full_model_R2": false
+}

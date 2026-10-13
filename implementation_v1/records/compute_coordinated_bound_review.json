@@ -1,0 +1,40 @@
+{
+  "checked_matrix_entries": 394,
+  "profile_header_and_manifest_agree": true,
+  "source_L1_evidence": "Values originate in models agent complete file scan; this review independently checked metadata consistency and arithmetic. Previously independently scanned all 56 down files are bound by matching hashes; no redundant full-file weight scan performed here.",
+  "models": {
+    "embedding": {
+      "matrix_count": 197,
+      "normalization_vector_count": 113,
+      "ordinary_max_raw": 6817597882368,
+      "down_max_raw": 36702522768883712,
+      "residual_coordinate_cap": 67108863,
+      "residual_add_abs_bound": 134217726,
+      "RMS_sum_limit": 4503599627354111,
+      "QK_raw_dot_abs": 2506693996987904,
+      "QK_scaled_abs": 56719459554461229
+    },
+    "generation": {
+      "matrix_count": 197,
+      "normalization_vector_count": 113,
+      "ordinary_max_raw": 11300839096320,
+      "down_max_raw": 37112142389837824,
+      "residual_coordinate_cap": 94906265,
+      "residual_add_abs_bound": 189812530,
+      "RMS_sum_limit": 9007199254708223,
+      "QK_raw_dot_abs": 1411230904363008,
+      "QK_scaled_abs": 31932200060414491
+    }
+  },
+  "other_bounds": {
+    "SiLU_raw_conservative": 281474976710656,
+    "SwiGLU_raw": 70368744177664,
+    "SwiGLU_f12": 17179869184,
+    "PV_raw_exclusive": 562949953421312,
+    "RMS_B_times_state_max": 54043195528445952,
+    "NR_correction_raw_conservative": 7318349394477056,
+    "RMS_gamma_raw_coarse": 824633720832,
+    "L2_sum_limit": 4503599627370495
+  },
+  "all_other_bounds_below_exclusive_2_56": true
+}

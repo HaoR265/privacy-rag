@@ -1,0 +1,25 @@
+{
+  "command": [
+    "build/models-probe/prag_dev_numeric_operator_probe",
+    "build/models-probe/operator-exp-zero-1791834140645972609",
+    "artifacts/constants/constants_v1.bin",
+    "records/models_numeric_operator_expected.txt",
+    "exp_zero"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 279.2720203769859,
+  "stdout": "{\"entry\":\"isolated_public_numeric_operator_probe\",\"case\":\"exp_zero\",\"matched_R1\":true,\"two_processes\":true,\"real_SecureOps\":true,\"actual_constants\":true,\"client_channel_bytes\":7519925288,\"elapsed_seconds\":279.256,\"full_model_not_run\":true,\"production_TLS_not_run\":true}\n",
+  "stderr": "",
+  "scope": "single public synthetic exp(0) real SecureOps two-process development probe",
+  "native_version": "1.0.2",
+  "sources_sha256": {
+    "compute/dev_numeric_operator_probe.cpp": "4625291a5497ef54275426b12f3ad25baafe9ef938634caa9cefcdb2a3946aad",
+    "compute/numerics.hpp": "439cd295a86243ca8d5bf1a99b2b9343836bc2c460e731973a9fdab7dc0efab5",
+    "native/src/secure_ops.cpp": "796b65e8bea4d96df9f33d3771e0848d64a9aa92077ffa13384397c5336f2e80",
+    "artifacts/constants/constants_v1.bin": "25e102e96ff83ed40620793af5cd80b3e37b46ff5d64009c2440a32c7bfec04f",
+    "records/models_numeric_operator_expected.txt": "e6a32804cbb49d002d511a26d6c5bb862baec4b5de44a7c2b56037857110e0b5"
+  },
+  "only_case_run": "exp_zero",
+  "remaining_cases_run": false,
+  "remaining_cases_deferred_reason": "Complete the approved numeric-profile R1 diagnosis first; scalar lookup had 456275 ledger reservations for one exp0 and high measured cost."
+}

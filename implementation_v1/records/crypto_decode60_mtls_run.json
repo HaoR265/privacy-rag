@@ -1,0 +1,41 @@
+{
+  "entry": "production_BFV_decode60_synthetic_probe",
+  "library": "prag_crypto",
+  "native_version": "1.0.4",
+  "two_processes": true,
+  "native_TLS13_mTLS": true,
+  "isolated_development": false,
+  "real_BFV_outputs": 2,
+  "public_columns": 3,
+  "nonzero_and_zero_weights": "matched",
+  "transport": "TLS13_over_local_AF_UNIX",
+  "client_application_bytes": 10086423,
+  "full_R2": false,
+  "timing_comparison": false,
+  "scope": "Two public synthetic BFV outputs only; real production library, OT/GC, TLS; no full model or acceptance claim",
+  "elapsed_seconds": 0.26665452201268636,
+  "exit_code": 0,
+  "temporary_pki_removed": true,
+  "ledger_checks": [
+    {
+      "path": "records/crypto-decode60-mtls-199dae3f77424b8bbad40eb5efc0ee93.C.ledger",
+      "sha256": "0f0dcb72aa99e3edee282c3614895c7ee2cca35833e319b2bd4b3d5577599305",
+      "terminal": "terminal=closed all_reserved=burned",
+      "input_encryption_reservations": 1,
+      "independent_return_reservations": 2
+    },
+    {
+      "path": "records/crypto-decode60-mtls-199dae3f77424b8bbad40eb5efc0ee93.S.ledger",
+      "sha256": "0f0dcb72aa99e3edee282c3614895c7ee2cca35833e319b2bd4b3d5577599305",
+      "terminal": "terminal=closed all_reserved=burned",
+      "input_encryption_reservations": 1,
+      "independent_return_reservations": 2
+    }
+  ],
+  "source_and_binary_sha256": {
+    "native/build/prag_production_bfv_decode60_probe": "52fb8dca770ea0eb46904690ef68426e0541112a543b606efcd1eae2221dc798",
+    "native/build/libprag_crypto.a": "fb68b2204bb131f0a20dfe088057669ed8eb03ff78ad9a58401e849936e8389a",
+    "native/src/bfv.cpp": "804ae8da7d2b61b215da0e4994adb5f4438dce412bd20d3e6dbfab44b9b996fd",
+    "native/src/dev_bfv_tls_probe.cpp": "ff9f84139ba4f19670d965cd5e1ac287eb5403b012e6782616d7f9ea67cc661a"
+  }
+}

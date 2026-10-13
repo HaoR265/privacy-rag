@@ -1,0 +1,20 @@
+{
+  "parameter_sha256": "a30b5bc375a69b44478a7a7010198afd9d3676ea3332ece4bba4ddfe37150a4a",
+  "export_idempotent": true,
+  "package_check": {
+    "check": "standalone_specification_consistency",
+    "yaml_files": 5,
+    "rules": 62,
+    "decision_count": 8,
+    "artifact_count": 5,
+    "unmaterialized_artifacts": [],
+    "system_tests_executed": false,
+    "errors": []
+  },
+  "remaining_null_paths": [
+    "models.shared_architecture.rope_scaling",
+    "runtime_and_lifecycle.scheduler.active_compute_total_timeout_seconds",
+    "technical_evidence_and_unresolved_artifacts.required_artifacts.fixed_execution_message_and_access_plan.actual"
+  ],
+  "full_R2_executed": false
+}

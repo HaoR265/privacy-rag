@@ -1,0 +1,10 @@
+{
+  "scope": "small public final-release function check, not model execution or formal acceptance",
+  "insufficient_evidence_suppressed": true,
+  "numeric_failure_precedes_insufficient_status": true,
+  "permitted_length_cap_preserved": true,
+  "source_not_mutated": true,
+  "R0_and_R1_share_this_finalization": true,
+  "generation_call_remains_before_finalization": true,
+  "full_R0_repeated": false
+}

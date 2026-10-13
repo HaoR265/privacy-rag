@@ -1,0 +1,25 @@
+{
+  "native_version": "1.0.9",
+  "shape_B_K_O": [
+    1,
+    2048,
+    4096
+  ],
+  "result": "matched_CUDA_R1",
+  "raw_fractional_bits": 24,
+  "input_ciphertexts": 32,
+  "returned_ciphertext_groups": 32,
+  "output_coordinates": 4096,
+  "application_bytes": 100375105,
+  "frames_sent": 1316,
+  "frames_received": 450,
+  "transcript_direction_runs": 24,
+  "direction_runs_are_not_RTT": true,
+  "elapsed_seconds": 11.0927,
+  "client_process_peak_RSS_bytes": 748240896,
+  "server_process_peak_RSS_bytes": 116264960,
+  "native_TLS13_mTLS": true,
+  "isolated_development": false,
+  "protocol_GPU_used": false,
+  "full_model_R2": false
+}

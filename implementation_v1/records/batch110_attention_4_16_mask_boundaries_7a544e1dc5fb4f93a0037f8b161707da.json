@@ -1,0 +1,54 @@
+{
+  "result": "matched_CUDA_R1",
+  "rows": 4,
+  "keys": 16,
+  "head_dimension": 128,
+  "application_bytes": 145229925,
+  "seconds": 3.13804,
+  "private_weights_as_shared_inputs": false,
+  "native_mTLS": true,
+  "model_executed": false,
+  "exit_code": 0,
+  "stderr": "",
+  "case": "mask_boundaries",
+  "reference_failed": true,
+  "fixture_sha256": "a494d470804550a2b4db7c1e0a9c3b85dce7b770099a3fbe5d19a5a45b3e32a0",
+  "CUDA_R1_device": "NVIDIA GeForce RTX 2060",
+  "deadline_seconds": 300,
+  "full_layer_R2": false,
+  "full_model_R2": false,
+  "private_GPU_backend": false,
+  "source_and_binary_sha256": {
+    "native/src/batch.cpp": "9d3c72f0484e0397ca4dbf84a0a0881e754dfd4ff648adb6ff63b6fcda129b34",
+    "native/include/prag/batch.hpp": "8d77ef0f001c8f83de23b25fd249ce2c5798facc18b15bcaffce9168d59be2f1",
+    "compute/batch_numerics.hpp": "abc6ff3971a45ea738fa4e68a03f8d0abe01feb74985b08413c90d70bb76084d",
+    "compute/numerics.hpp": "2a3ee42ba9247fb1c182d4e0deb2f510c11c37bc3cbd16bab1b564996986af06",
+    "compute/model.hpp": "dc4144b6a78270aee8ccaddddcd1819ee612b7355fa55dd17f519398488dea0a",
+    "compute/numeric_profile.hpp": "4645b0df127689565c7e1a61f4871bd5e07ec6cd4f384eb78707c334c73fa3fe",
+    "experiments/batch110/attention_probe.cpp": "9bf90d3c46c992fec803245e4fde896c6f73cbd2fc12a34cb2d9dcdc78c49235",
+    "experiments/batch110/run_attention.py": "3eddc4d2e5858ab3333e9d94426abef9cfff10af8c9a20a6eddffa091d71d8fd",
+    "experiments/batch110/build/prag_batch110_attention": "1d058b221545b99a02bbade07d5dee3d768acf19a0dd4cea4f8092c771b16413",
+    "experiments/batch110/build/native/libprag_crypto.a": "75f1f9b32ef1f31d26fd0e9516e1f97f0c1e7fe1173b4770d773d961b0b181a7",
+    "references/r1_cuda_numeric.py": "0fa528ec4da5806d6e587341994d5101cc313f1091bb6008bce08e7b5f1653c9",
+    "artifacts/constants/constants_v1.json": "1582764ed3503b73e8d42fc61d99d6a1f18159c6c77865a2437e919645fa9a40",
+    "artifacts/constants/constants_v1.bin": "25e102e96ff83ed40620793af5cd80b3e37b46ff5d64009c2440a32c7bfec04f"
+  },
+  "evidence": [
+    {
+      "path": "records/batch110_attention_4_16_mask_boundaries_7a544e1dc5fb4f93a0037f8b161707da.C.ledger",
+      "sha256": "c0345216d6aa711edde57f8e51359db676d2b2c81923db98531501b6b9866339"
+    },
+    {
+      "path": "records/batch110_attention_4_16_mask_boundaries_7a544e1dc5fb4f93a0037f8b161707da.C.trace.jsonl",
+      "sha256": "64548d75bcfbe38aede5e8c7981d915099090c2fb42b715f74383126d413d957"
+    },
+    {
+      "path": "records/batch110_attention_4_16_mask_boundaries_7a544e1dc5fb4f93a0037f8b161707da.S.ledger",
+      "sha256": "c0345216d6aa711edde57f8e51359db676d2b2c81923db98531501b6b9866339"
+    },
+    {
+      "path": "records/batch110_attention_4_16_mask_boundaries_7a544e1dc5fb4f93a0037f8b161707da.S.trace.jsonl",
+      "sha256": "e6fb86457717cea9e347b36387b7a4cda52a71cee04ec14420181b9d5b6ac85b"
+    }
+  ]
+}

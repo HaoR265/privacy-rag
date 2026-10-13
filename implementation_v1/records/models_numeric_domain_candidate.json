@@ -1,0 +1,78 @@
+{
+  "status": "PROPOSED_FOR_DISCUSSION_NOT_APPLIED",
+  "rules": [
+    "NUM-003",
+    "NUM-004",
+    "MOD-002"
+  ],
+  "scope": "Only per-head Q/K RMS output, RoPE output, Q/K cache and QK arithmetic bounds; main hidden/V/MLP stays abs<=256",
+  "normalized_B_f24_bound": 379625064,
+  "NR_Y_f24_bound": 16777221,
+  "normalized_H_f12_bound": 92682,
+  "actual_rope_abs_cos_plus_abs_sin_f20_max": 1482912,
+  "models": [
+    {
+      "model": "embedding",
+      "gamma_abs_max_f12": {
+        "q": 48384,
+        "k": 395264
+      },
+      "qk_norm_abs_candidate_f12": {
+        "q": 1094807,
+        "k": 8943813
+      },
+      "qk_norm_abs_candidate_real": {
+        "q": 267.286865234375,
+        "k": 2183.548095703125
+      },
+      "rope_abs_candidate_f12": {
+        "q": 1548293,
+        "k": 12648476
+      },
+      "rope_abs_candidate_real": {
+        "q": 378.001220703125,
+        "k": 3088.0068359375
+      },
+      "QK_raw_abs_f24_bound": 2506693996987904,
+      "QK_after_floor12_abs_f12_bound": 611985839109,
+      "attention_scale_raw_abs_f32_bound": 56719459554461229,
+      "engineering_budget_exclusive": 72057594037927936,
+      "all_listed_bounds_below_budget": true
+    },
+    {
+      "model": "generation",
+      "gamma_abs_max_f12": {
+        "q": 38656,
+        "k": 278528
+      },
+      "qk_norm_abs_candidate_f12": {
+        "q": 874687,
+        "k": 6302376
+      },
+      "qk_norm_abs_candidate_real": {
+        "q": 213.546630859375,
+        "k": 1538.666015625
+      },
+      "rope_abs_candidate_f12": {
+        "q": 1236996,
+        "k": 8912916
+      },
+      "rope_abs_candidate_real": {
+        "q": 302.0009765625,
+        "k": 2176.0048828125
+      },
+      "QK_raw_abs_f24_bound": 1411230904363008,
+      "QK_after_floor12_abs_f12_bound": 344538795011,
+      "attention_scale_raw_abs_f32_bound": 31932200060414491,
+      "engineering_budget_exclusive": 72057594037927936,
+      "all_listed_bounds_below_budget": true
+    }
+  ],
+  "limitations": [
+    "Current active config retains abs256 and no production activation is enabled",
+    "This addresses an operator-domain bound, not successful outputs for all inputs",
+    "Other projection/residual/MLP activations after unmasked corrected QK have not been checked under an approved revision",
+    "Source gamma maxima require re-registration on any model change",
+    "Changing these locked domains requires user discussion and complete versioned R1/R2/constants/range alignment"
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "kind": "static_public_schedule_BFV_communication_subset_not_benchmark",
+  "native_version": "1.0.8",
+  "counts": {
+    "prepare_embedding_257": {
+      "inputs": 2628691,
+      "ciphertexts": 637874,
+      "targets": 125794304,
+      "matrix_calls": 190685,
+      "linear_calls": 257,
+      "gc_tiles": 375220,
+      "gc_chunks": 7659628
+    },
+    "query_embedding_160": {
+      "inputs": 1626080,
+      "ciphertexts": 397120,
+      "targets": 78315520,
+      "matrix_calls": 118600,
+      "linear_calls": 160,
+      "gc_tiles": 233600,
+      "gc_chunks": 4768640
+    },
+    "generation_prefill_1024": {
+      "inputs": 15059968,
+      "ciphertexts": 4165632,
+      "targets": 796917760,
+      "matrix_calls": 759040,
+      "linear_calls": 1024,
+      "gc_tiles": 2072576,
+      "gc_chunks": 48422912
+    },
+    "generation_decode_255": {
+      "inputs": 11461485,
+      "ciphertexts": 1037340,
+      "targets": 198451200,
+      "matrix_calls": 235875,
+      "linear_calls": 255,
+      "gc_tiles": 516120,
+      "gc_chunks": 12058440
+    },
+    "generation_logits_256": {
+      "inputs": 32768,
+      "ciphertexts": 76032,
+      "targets": 38895616,
+      "matrix_calls": 256,
+      "linear_calls": 0,
+      "gc_tiles": 76032,
+      "gc_chunks": 2354944
+    },
+    "one_decode_token_including_logits": {
+      "inputs": 45075,
+      "ciphertexts": 4365,
+      "targets": 930176,
+      "matrix_calls": 926,
+      "linear_calls": 1,
+      "gc_tiles": 2321,
+      "gc_chunks": 56487
+    },
+    "generation_total": {
+      "inputs": 26554221,
+      "ciphertexts": 5279004,
+      "targets": 1034264576,
+      "matrix_calls": 995171,
+      "linear_calls": 1279,
+      "gc_tiles": 2664728,
+      "gc_chunks": 62836296
+    },
+    "nonempty_query_total": {
+      "inputs": 28180301,
+      "ciphertexts": 5676124,
+      "targets": 1112580096,
+      "matrix_calls": 1113771,
+      "linear_calls": 1439,
+      "gc_tiles": 2898328,
+      "gc_chunks": 67604936
+    }
+  },
+  "BFV_bytes_including_GC_input_OT_excluding_setup_and_other_operators": {
+    "prepare_embedding_257": 5380733904608,
+    "query_embedding_160": 3333421392640,
+    "generation_prefill_1024": 31589161689088,
+    "generation_decode_255": 19995867276960,
+    "generation_logits_256": 329555865600,
+    "one_decode_token_including_logits": 79702493392,
+    "generation_total": 51914584831648,
+    "nonempty_query_total": 55248006224288
+  },
+  "GC_AND_gates": {
+    "prepare_embedding_257": 15346905088,
+    "query_embedding_160": 9554493440,
+    "generation_prefill_1024": 97223966720,
+    "generation_decode_255": 24211046400,
+    "generation_logits_256": 4745265152,
+    "one_decode_token_including_logits": 113481472,
+    "generation_total": 126180278272,
+    "nonempty_query_total": 135734771712
+  },
+  "GC_OT_choice_bits": {
+    "prepare_embedding_257": 251588608,
+    "query_embedding_160": 156631040,
+    "generation_prefill_1024": 1593835520,
+    "generation_decode_255": 396902400,
+    "generation_logits_256": 77791232,
+    "one_decode_token_including_logits": 1860352,
+    "generation_total": 2068529152,
+    "nonempty_query_total": 2225160192
+  },
+  "per_unit_bytes": {
+    "input_ciphertext": 1572960,
+    "returned_c1": 786528,
+    "descriptor": 352,
+    "tile_fixed": 274960,
+    "tile_per_coordinate": 1099,
+    "GC_padded_chunk": 65632
+  },
+  "GC_table_chunk_expression": "ceil(122*T*32/65536), 1<=T<=512",
+  "GC_division_rounds": 0,
+  "previous_v107_query_bytes_same_subset": 2856759895353984,
+  "excludes": [
+    "base OT and public-key setup",
+    "all non-BFV arithmetic, boolean gates, range checks, secret lookups",
+    "TLS/TCP/IP overhead, management, heartbeat",
+    "wall time or hardware throughput estimates"
+  ],
+  "token_lookup": "19 fixed input ciphertexts, one c1 per coordinate, a single shared GC per at most 512 returned targets",
+  "gamma": "unchanged separate diagonal matrix per RMS call; no cross-token gamma batching",
+  "full_model_R2": false,
+  "formal_acceptance": false,
+  "source_sha256": {
+    "tools/build_tile_cost.py": "46db14a4851008e704d3b3eff08be0dd2c039ce274588f0bdccf1702f1f78685",
+    "native/src/bfv.cpp": "d9f70cb31f7d6b6d05ac0f80576ed818bdf204f1e0eb5f0d80e7ef249acaf923",
+    "native/src/bfv_matrix.inc": "d9cd0150805d13d179daff0273bf420b630bfc3769ad93718c79f16df84b8da8",
+    "native/src/bfv_tile_decoder.inc": "713f40dd79758f7faedfb14dca6ab8b95b76ba1f881049879b93dd26c043c3f4",
+    "native/include/prag/gc_batch_channel.hpp": "0f2512b976ab6efc8b1b0ff0be327c7611dcb80bdca5c8fdb71ca983515e039e",
+    "third_party/EzPC/SCI/src/OT/iknp.h": "8585a2cce3e9a52a5c9faaf33d4762632b90448a6e0e1140d2832d96a2602380",
+    "compute/model.hpp": "8d4c4e88f4fa95a7b4d93370e69ccd7ca8fe2edbbf4d6278bebd5782f07a9610",
+    "compute/numerics.hpp": "fbb5748fc5956e3a8fdd83da3bf0418ed0ad37a6707260475f7c810b4544a33c"
+  }
+}

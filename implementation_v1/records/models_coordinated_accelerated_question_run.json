@@ -1,0 +1,18 @@
+{
+  "scope": "independent public R1 complete embedding developer check, not formal acceptance",
+  "numeric_profile": "v1-f12-coordinated-20261013",
+  "public_input": "隐私计算如何保护问题？",
+  "input_kind": "question",
+  "physical_slots": 160,
+  "layers": 28,
+  "elapsed_seconds": 16.145474357996136,
+  "output_shape": [
+    1024
+  ],
+  "eligible": 1,
+  "numeric_failure": false,
+  "output_nonzero_count": 1024,
+  "output_l2_norm_after_f20": 0.9999997787331023,
+  "first_failure": null,
+  "r2_executed": false
+}

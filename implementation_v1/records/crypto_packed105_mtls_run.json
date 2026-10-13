@@ -1,0 +1,76 @@
+{
+  "entry": "bounded_multi_target_BFV_probe",
+  "native_version": "1.0.5",
+  "two_processes": true,
+  "raw_fractional_bits": 24,
+  "cases": [
+    {
+      "columns": 4096,
+      "rows": 3,
+      "capacity": 2,
+      "returned_ciphertext_groups": 2,
+      "singleton_last_group": true,
+      "zero_and_nonzero_rows": "matched",
+      "all_zero_last_group": "matched",
+      "application_bytes_before_reconstruction": 12610386
+    },
+    {
+      "columns": 2730,
+      "rows": 4,
+      "capacity": 3,
+      "returned_ciphertext_groups": 2,
+      "singleton_last_group": true,
+      "zero_and_nonzero_rows": "matched",
+      "all_zero_last_group": "matched",
+      "application_bytes_before_reconstruction": 13241356
+    }
+  ],
+  "native_TLS13_mTLS": true,
+  "isolated_development": false,
+  "client_application_bytes": 25851990,
+  "full_R2": false,
+  "GPU_used": false,
+  "timing_comparison": false,
+  "scope": "Public synthetic two-party BFV diagnostic only; no model or formal acceptance",
+  "elapsed_seconds": 0.30976862099487334,
+  "exit_code": 0,
+  "temporary_pki_removed": true,
+  "ledger_checks": [
+    {
+      "path": "records/bfv-tls-46b95fe6a7d646e3a256d4e2ae6006d7.C.ledger",
+      "sha256": "a942b00057ae7eb50371d836e9dc51ab204bbe40961a2ac10f6cb645c92562ab",
+      "terminal": "terminal=closed all_reserved=burned",
+      "reservation_counts": {
+        "session": 1,
+        "bfv_key_and_GC_independent_OT": 1,
+        "bfv_input_encryption": 2,
+        "bfv_packed_mask_Enc0": 4,
+        "bfv_target_GC": 7
+      }
+    },
+    {
+      "path": "records/bfv-tls-46b95fe6a7d646e3a256d4e2ae6006d7.S.ledger",
+      "sha256": "a942b00057ae7eb50371d836e9dc51ab204bbe40961a2ac10f6cb645c92562ab",
+      "terminal": "terminal=closed all_reserved=burned",
+      "reservation_counts": {
+        "session": 1,
+        "bfv_key_and_GC_independent_OT": 1,
+        "bfv_input_encryption": 2,
+        "bfv_packed_mask_Enc0": 4,
+        "bfv_target_GC": 7
+      }
+    }
+  ],
+  "source_and_binary_sha256": {
+    "native/CMakeLists.txt": "482f4b5c66075c01d616faab1bdc83ea7ed379f246d84d16ead463f00b067a5c",
+    "native/src/bfv.cpp": "7c8822a8524d78c13c7476bf558533a4bc7127e685209a36abef1d9339ac05f9",
+    "native/include/prag/bfv.hpp": "4e84e10245d399c0939fcddfb002152643892db6424292eb4a4c3ed13e3e3e5b",
+    "native/include/prag/secure_ops.hpp": "e88c9d5bb3412e9e468b6c47fd4ff3a499a677db5a3c7a6b908b1e8c3abe4e50",
+    "tools/run_bfv_tls_probe.py": "07a89ab516d2849403905881372adf44f1179e4b1b481df9de0e9c40f0d64470",
+    "native/build/libprag_crypto.a": "4c1bdcef1659d763f4c7c5f30432820cd4bb1e1fca03806c27f79742f75424c8",
+    "native/build/prag_production_bfv_packed_probe": "2db55adc00fbd333f91c3e591461c3accc5c40c257aef4eebf8cf7d5d3dd9002",
+    "native/src/dev_bfv_packed_probe.cpp": "2c2c451aeace3f7ff45e94ce2225a788fabc77b9ef5f1fc82e43b2c8a348bd2e"
+  },
+  "source_and_binary_unchanged_during_run": true,
+  "child_process_waited_by_probe": true
+}

@@ -1,0 +1,168 @@
+{
+  "record": "approved_coordinated_numeric_guard_implementation_and_development_check",
+  "written_utc": "2026-10-12T20:18:38.483542+00:00",
+  "profile_sha256": "59db14e6c761224f5b7b0f0aa2dcb509b7731b1f3f51b3447a07a7f907f1bcff",
+  "implemented": [
+    "M2048 SiLU input/output caps",
+    "RMS row-local coordinate and square-sum pre-operation guard",
+    "RMS rejected row x=0 and A=F before unchanged NR",
+    "L2 pre-operation guard and record/last/zero safe branches"
+  ],
+  "guard_invariant": "After each public loop iteration, 0 <= sum <= limit < 2^56; coordinate is privately replaced by zero before square when outside cap, cap^2 <= limit; term is privately replaced by zero before addition if term > limit - sum; whole rejected row and sum become zero; row failure is accumulated into global failure.",
+  "rms_profiles": {
+    "128": {
+      "sum_limit": 562949953419263,
+      "derived_coordinate_cap": 23726566,
+      "default_input_cap": 8388608,
+      "max_A_f24": 4398046511103,
+      "max_A_strictly_below_2_42": true
+    },
+    "1024": {
+      "sum_limit": 4503599627354111,
+      "derived_coordinate_cap": 67108863,
+      "default_input_cap": 67108863,
+      "max_A_f24": 4398046511103,
+      "max_A_strictly_below_2_42": true
+    },
+    "2048": {
+      "sum_limit": 9007199254708223,
+      "derived_coordinate_cap": 94906265,
+      "default_input_cap": 94906265,
+      "max_A_f24": 4398046511103,
+      "max_A_strictly_below_2_42": true
+    }
+  },
+  "l2_profile": {
+    "coordinate_cap": 8388608,
+    "sum_limit": 4503599627370495,
+    "invalid_or_zero_alone_adds_failure": false
+  },
+  "commands": [
+    "cmake -S compute -B build/compute-crypto-guard -DPRAG_BUILD_MODEL_DEV=ON -DPRAG_BUILD_ISOLATED_DEVELOPMENT=ON -DCMAKE_BUILD_TYPE=Release",
+    "cmake --build build/compute-crypto-guard --target prag_dev_numeric_guard_probe -j2",
+    "build/compute-crypto-guard/prag_dev_numeric_guard_probe records/compute-guard01 artifacts/constants/constants_v1.bin"
+  ],
+  "configure_exit_code": 0,
+  "build_exit_code": 0,
+  "probe_exit_code": 0,
+  "actual_checks": [
+    {
+      "entry": "isolated_public_numeric_guard_probe",
+      "case": "zero",
+      "matched": true,
+      "client_channel_bytes": 205873080,
+      "real_two_party_SecureOps": true,
+      "full_RMS_L2_or_model_run": false
+    },
+    {
+      "entry": "isolated_public_numeric_guard_probe",
+      "case": "negative_coordinate_boundary",
+      "matched": true,
+      "client_channel_bytes": 205757558,
+      "real_two_party_SecureOps": true,
+      "full_RMS_L2_or_model_run": false
+    },
+    {
+      "entry": "isolated_public_numeric_guard_probe",
+      "case": "exact_sum_limit",
+      "matched": true,
+      "client_channel_bytes": 205757558,
+      "real_two_party_SecureOps": true,
+      "full_RMS_L2_or_model_run": false
+    },
+    {
+      "entry": "isolated_public_numeric_guard_probe",
+      "case": "one_above_sum_limit",
+      "matched": true,
+      "client_channel_bytes": 205757558,
+      "real_two_party_SecureOps": true,
+      "full_RMS_L2_or_model_run": false
+    },
+    {
+      "entry": "isolated_public_numeric_guard_probe",
+      "case": "positive_coordinate_overflow",
+      "matched": true,
+      "client_channel_bytes": 205757558,
+      "real_two_party_SecureOps": true,
+      "full_RMS_L2_or_model_run": false
+    },
+    {
+      "entry": "isolated_public_numeric_guard_probe",
+      "case": "negative_coordinate_overflow",
+      "matched": true,
+      "client_channel_bytes": 205757558,
+      "real_two_party_SecureOps": true,
+      "full_RMS_L2_or_model_run": false
+    },
+    {
+      "entry": "isolated_public_numeric_guard_probe",
+      "case": "large_input_before_square",
+      "matched": true,
+      "client_channel_bytes": 205757558,
+      "real_two_party_SecureOps": true,
+      "full_RMS_L2_or_model_run": false
+    },
+    {
+      "entry": "isolated_public_numeric_guard_probe",
+      "case": "L2_coordinate_boundary",
+      "matched": true,
+      "client_channel_bytes": 205757558,
+      "real_two_party_SecureOps": true,
+      "full_RMS_L2_or_model_run": false
+    },
+    {
+      "entry": "isolated_public_numeric_guard_probe",
+      "case": "L2_coordinate_overflow",
+      "matched": true,
+      "client_channel_bytes": 205757558,
+      "real_two_party_SecureOps": true,
+      "full_RMS_L2_or_model_run": false
+    },
+    {
+      "entry": "isolated_public_numeric_guard_probe",
+      "case": "prior_failure_does_not_corrupt_row_guard",
+      "matched": true,
+      "client_channel_bytes": 205757558,
+      "real_two_party_SecureOps": true,
+      "full_RMS_L2_or_model_run": false
+    },
+    {
+      "entry": "isolated_public_numeric_guard_summary",
+      "cases_matched": 10,
+      "same_public_shape_same_steady_frame_bytes": true,
+      "client_bytes": 2057724064,
+      "production_TLS_not_run": true
+    }
+  ],
+  "ledger_terminal": {
+    "C": "terminal=closed all_reserved=burned",
+    "S": "terminal=closed all_reserved=burned"
+  },
+  "hashes": {
+    "compute/numerics.hpp": "15b14cf78270368fafe2d7859b00e13fc986d573f88a982755d5e1dc6b3de983",
+    "compute/numeric_profile.hpp": "2d4583504816397ddff3615a09697f5c96385dea07e95a86389bd5ab77d36568",
+    "compute/dev_numeric_guard_probe.cpp": "c35fdf75bf48891fc3608ab020fce21f8b40dcd3ddfe1cd7705e175561718196",
+    "compute/CMakeLists.txt": "25490ea6412dcce3ad8e43e4bf530916a92328c5949e8dcf83831acf2d571689",
+    "build/compute-crypto-guard/prag_dev_numeric_guard_probe": "60b8c9bd13f218a2b5b14b8a36f4f49f47f312e0a9a7c5258644745fdc8e6e54",
+    "artifacts/constants/numeric_profile_v1_qk.json": "59db14e6c761224f5b7b0f0aa2dcb509b7731b1f3f51b3447a07a7f907f1bcff",
+    "artifacts/constants/constants_v1.bin": "25e102e96ff83ed40620793af5cd80b3e37b46ff5d64009c2440a32c7bfec04f",
+    "records/compute_guard_debug_run.jsonl": "e290367da9afb57a36bb5ad22232bc5b22f4ba76b94b6bcbfabd1586cc40dd68"
+  },
+  "limitations": [
+    "Public synthetic inputs and output reconstruction are restricted to the explicitly isolated diagnostic executable linked to prag_crypto_development.",
+    "The run used local two-process Unix socket channels with real SecureOps, not TLS.",
+    "This run covers the production guard kernel only, not complete RMS, L2, SiLU, Transformer, or RAG execution.",
+    "No formal acceptance test suite or performance claim is defined.",
+    "The native v1.0.3 source and manifest remain unchanged. Static whole-model cost snapshots predating the added guard need separate refresh."
+  ],
+  "later_profile_metadata_update": {
+    "run_profile_sha256": "59db14e6c761224f5b7b0f0aa2dcb509b7731b1f3f51b3447a07a7f907f1bcff",
+    "current_profile_sha256": "ff53725bf7f455075d5276141051227c7292f348fe10a872b2bc5996c352f1ee",
+    "run_header_sha256": "2d4583504816397ddff3615a09697f5c96385dea07e95a86389bd5ab77d36568",
+    "current_header_sha256": "4645b0df127689565c7e1a61f4871bd5e07ec6cd4f384eb78707c334c73fa3fe",
+    "header_identical_after_replacing_only_profile_hash_literal": true,
+    "runtime_numerics_source_still_identical": true,
+    "constants_binary_still_identical": true,
+    "rerun_required_by_numeric_change": false
+  }
+}

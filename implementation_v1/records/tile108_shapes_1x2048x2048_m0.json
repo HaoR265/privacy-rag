@@ -1,0 +1,97 @@
+{
+  "native_version": "1.0.8",
+  "shape_B_K_O": [
+    1,
+    2048,
+    2048
+  ],
+  "result": "matched_CUDA_R1",
+  "raw_fractional_bits": 24,
+  "input_ciphertexts": 128,
+  "returned_ciphertext_groups": 4,
+  "output_coordinates": 2048,
+  "application_bytes": 217867169,
+  "frames_sent": 899,
+  "frames_received": 277,
+  "transcript_direction_runs": 14,
+  "direction_runs_are_not_RTT": true,
+  "elapsed_seconds": 7.56954,
+  "client_process_peak_RSS_bytes": 749228032,
+  "server_process_peak_RSS_bytes": 264081408,
+  "native_TLS13_mTLS": true,
+  "isolated_development": false,
+  "protocol_GPU_used": false,
+  "full_model_R2": false,
+  "tile_GC_instances": 4,
+  "GC_AND_gates": 249856,
+  "GC_client_OT_choices": 4096,
+  "GC_OT_extension_batches": 4,
+  "ciphertext_rotations": 0,
+  "ciphertext_modulus_switches_after_input": 0,
+  "GC_division_rounds": 0,
+  "candidate_protocol": false,
+  "production_primitive_integrated": true,
+  "full_system_activated": false,
+  "scope": "production library matrix-level public synthetic R2 primitive vs separate GPU R1, not formal acceptance or a model",
+  "R1_reference": {
+    "device": "cuda:0",
+    "device_name": "NVIDIA GeForce RTX 2060",
+    "CPU_reference_matmul": false,
+    "elapsed_seconds": 0.126713651989121,
+    "peak_allocated_bytes": 75712000,
+    "raw_partial_sum_abs_bound": 8062976,
+    "raw_output_fractional_bits": 24,
+    "exact_GEMM_counts": {
+      "direct_float64": 1,
+      "split_float64": 0
+    },
+    "output_sha256": "16814fa83aa2f942f8e419c5378ebe687cf77208608ab872aa7522189524f2c3",
+    "synthetic_input_and_weights": true,
+    "model_checkpoint_used": false
+  },
+  "source_and_binary_sha256": {
+    "native/src/bfv.cpp": "d9f70cb31f7d6b6d05ac0f80576ed818bdf204f1e0eb5f0d80e7ef249acaf923",
+    "native/src/bfv_matrix.inc": "d9cd0150805d13d179daff0273bf420b630bfc3769ad93718c79f16df84b8da8",
+    "native/src/bfv_tile_decoder.inc": "713f40dd79758f7faedfb14dca6ab8b95b76ba1f881049879b93dd26c043c3f4",
+    "native/src/dev_matrix_probe.cpp": "d09929aae7d5802399bfb7059afe66a980cc5dd03d9772c4c5d8c26e15694efc",
+    "tools/run_tile_matrix_protocol.py": "77ee46762a17598260b187292d99abeb3042eecf929063e899ad08611a4911e5",
+    "native/src/channel.cpp": "61411745b9ac3506f1fb1927bb9c8efb02ccbbcb60107041fee7a1973817f3d9",
+    "native/include/prag/channel.hpp": "c4ebc039c61c17ee3e833913f62cce983944d0458f712a0d892fe23e1b89fb42",
+    "native/include/prag/secure_ops.hpp": "35011ff2e23e98578c5498e4331a0ffdd3813caa0fdb530adc52210b608326d5",
+    "native/include/prag/bfv.hpp": "8e88568d77fbf2933e61a1d81a8403e11dc7fb16d4069edd1ae016254b357626",
+    "references/r1_cuda_numeric.py": "0fa528ec4da5806d6e587341994d5101cc313f1091bb6008bce08e7b5f1653c9",
+    "native/build-tile108/libprag_crypto.a": "4806a6114d0faacf433bd40743c912cc512bde0aa88525c2b16bf8b4c0f9967b",
+    "native/build-tile108/prag_production_matrix_probe": "b94a8ea1a19499e239479f59b68dabd9b01fa7b0d63b9dca7b2147815b4130fe"
+  },
+  "ledgers": [
+    {
+      "path": "records/tile108_shapes_1x2048x2048_m0_224093afeed245d0bc8dec2d01fd86fe.C.ledger",
+      "sha256": "b65cd1e0fb27421c6a04a842dfd9dcd8f5da87cda46ddb19685cc719bdf3ae5f",
+      "counts": {
+        "session": 1,
+        "bfv_matrix_descriptor": 1,
+        "bfv_key_and_GC_independent_OT": 1,
+        "bfv_matrix_input": 128,
+        "bfv_matrix_tile_mask_Enc0": 4,
+        "bfv_matrix_tile_GC": 4
+      }
+    },
+    {
+      "path": "records/tile108_shapes_1x2048x2048_m0_224093afeed245d0bc8dec2d01fd86fe.S.ledger",
+      "sha256": "b65cd1e0fb27421c6a04a842dfd9dcd8f5da87cda46ddb19685cc719bdf3ae5f",
+      "counts": {
+        "session": 1,
+        "bfv_matrix_descriptor": 1,
+        "bfv_key_and_GC_independent_OT": 1,
+        "bfv_matrix_input": 128,
+        "bfv_matrix_tile_mask_Enc0": 4,
+        "bfv_matrix_tile_GC": 4
+      }
+    }
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "temporary_PKI_and_reference_removed": true,
+  "source_unchanged_during_run": true,
+  "child_waited": true
+}

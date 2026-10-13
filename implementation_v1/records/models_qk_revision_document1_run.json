@@ -1,0 +1,43 @@
+{
+  "scope": "independent public R1 complete embedding developer check, not formal acceptance",
+  "numeric_profile": "v1-f12-qk-local-20261013",
+  "public_input": "资料使用 HPKE Base 模式交付给获得授权的用户。",
+  "input_kind": "document1",
+  "physical_slots": 257,
+  "layers": 28,
+  "elapsed_seconds": 130.82632887602085,
+  "output_shape": [
+    1024
+  ],
+  "eligible": 0,
+  "numeric_failure": true,
+  "output_nonzero_count": 0,
+  "output_l2_norm_after_f20": 0.0,
+  "first_failure": {
+    "operator": "forward",
+    "operator_line": 83,
+    "operator_source": "joint=self.num.checked(floor_shift(multiply(self.num.silu(gate),up),12))",
+    "layer": 2,
+    "forward_line": 83,
+    "forward_source": "joint=self.num.checked(floor_shift(multiply(self.num.silu(gate),up),12))",
+    "shape": [
+      257,
+      3072
+    ],
+    "minimum_integer": -11703171,
+    "maximum_integer": 13355742,
+    "lower_allowed": -1048576,
+    "upper_allowed": 1048576,
+    "max_abs_index": [
+      0,
+      55
+    ],
+    "max_abs_integer": 13355742,
+    "bad_value_count": 6,
+    "physical_position_axis": 0,
+    "valid_position_minimum_integer": -11703171,
+    "valid_position_maximum_integer": 13355742,
+    "max_abs_is_valid_position": true
+  },
+  "r2_executed": false
+}

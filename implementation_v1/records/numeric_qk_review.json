@@ -1,0 +1,227 @@
+{
+  "kind": "independent_implementation_numeric_review_not_acceptance_standard",
+  "conclusion": "candidate_integer_bounds_reproduced_no_invalidation_found",
+  "F": 16777216,
+  "B_bound": 379625064,
+  "post_state_Y_bound": 16777221,
+  "H_f12_bound": 92682,
+  "RMS_head_sum_max": 140737488355328,
+  "RMS_head_A_range": [
+    16,
+    1099511627792
+  ],
+  "B_times_Y_raw_max": 6369053595867144,
+  "generic_NR_raw_correction_bound": 7318349394477056,
+  "reachable_NR_raw_correction_bound": 844425181790208,
+  "models": [
+    {
+      "model": "embedding",
+      "gamma_abs_max_f12": {
+        "q": 48384,
+        "k": 395264
+      },
+      "qk_norm_abs_f12": {
+        "q": 1094807,
+        "k": 8943813
+      },
+      "rope_abs_f12": {
+        "q": 1548293,
+        "k": 12648476
+      },
+      "QK_raw_f24": 2506693996987904,
+      "QK_floor12_abs": 611985839109,
+      "attention_scale_raw_f32": 56719459554461229,
+      "score_abs_f12": 54091891818,
+      "score_difference_abs_f12": 108183783636,
+      "gamma_raw_products": {
+        "q": 4484325888,
+        "k": 36633858048
+      },
+      "rope_pair_raw_products": {
+        "q": 1623502437984,
+        "k": 13262887623456
+      }
+    },
+    {
+      "model": "generation",
+      "gamma_abs_max_f12": {
+        "q": 38656,
+        "k": 278528
+      },
+      "qk_norm_abs_f12": {
+        "q": 874687,
+        "k": 6302376
+      },
+      "rope_abs_f12": {
+        "q": 1236996,
+        "k": 8912916
+      },
+      "QK_raw_f24": 1411230904363008,
+      "QK_floor12_abs": 344538795011,
+      "attention_scale_raw_f32": 31932200060414491,
+      "score_abs_f12": 30452919064,
+      "score_difference_abs_f12": 60905838128,
+      "gamma_raw_products": {
+        "q": 3582715392,
+        "k": 25814532096
+      },
+      "rope_pair_raw_products": {
+        "q": 1297083848544,
+        "k": 9345868998912
+      }
+    }
+  ],
+  "mantissa_boundary_integer_checks": [
+    {
+      "k": -10,
+      "A_min": 16,
+      "A_max": 63,
+      "M_min": 16777216,
+      "M_max": 66060288
+    },
+    {
+      "k": -9,
+      "A_min": 64,
+      "A_max": 255,
+      "M_min": 16777216,
+      "M_max": 66846720
+    },
+    {
+      "k": -8,
+      "A_min": 256,
+      "A_max": 1023,
+      "M_min": 16777216,
+      "M_max": 67043328
+    },
+    {
+      "k": -7,
+      "A_min": 1024,
+      "A_max": 4095,
+      "M_min": 16777216,
+      "M_max": 67092480
+    },
+    {
+      "k": -6,
+      "A_min": 4096,
+      "A_max": 16383,
+      "M_min": 16777216,
+      "M_max": 67104768
+    },
+    {
+      "k": -5,
+      "A_min": 16384,
+      "A_max": 65535,
+      "M_min": 16777216,
+      "M_max": 67107840
+    },
+    {
+      "k": -4,
+      "A_min": 65536,
+      "A_max": 262143,
+      "M_min": 16777216,
+      "M_max": 67108608
+    },
+    {
+      "k": -3,
+      "A_min": 262144,
+      "A_max": 1048575,
+      "M_min": 16777216,
+      "M_max": 67108800
+    },
+    {
+      "k": -2,
+      "A_min": 1048576,
+      "A_max": 4194303,
+      "M_min": 16777216,
+      "M_max": 67108848
+    },
+    {
+      "k": -1,
+      "A_min": 4194304,
+      "A_max": 16777215,
+      "M_min": 16777216,
+      "M_max": 67108860
+    },
+    {
+      "k": 0,
+      "A_min": 16777216,
+      "A_max": 67108863,
+      "M_min": 16777216,
+      "M_max": 67108863
+    },
+    {
+      "k": 1,
+      "A_min": 67108864,
+      "A_max": 268435455,
+      "M_min": 16777216,
+      "M_max": 67108863
+    },
+    {
+      "k": 2,
+      "A_min": 268435456,
+      "A_max": 1073741823,
+      "M_min": 16777216,
+      "M_max": 67108863
+    },
+    {
+      "k": 3,
+      "A_min": 1073741824,
+      "A_max": 4294967295,
+      "M_min": 16777216,
+      "M_max": 67108863
+    },
+    {
+      "k": 4,
+      "A_min": 4294967296,
+      "A_max": 17179869183,
+      "M_min": 16777216,
+      "M_max": 67108863
+    },
+    {
+      "k": 5,
+      "A_min": 17179869184,
+      "A_max": 68719476735,
+      "M_min": 16777216,
+      "M_max": 67108863
+    },
+    {
+      "k": 6,
+      "A_min": 68719476736,
+      "A_max": 274877906943,
+      "M_min": 16777216,
+      "M_max": 67108863
+    },
+    {
+      "k": 7,
+      "A_min": 274877906944,
+      "A_max": 1099511627775,
+      "M_min": 16777216,
+      "M_max": 67108863
+    },
+    {
+      "k": 8,
+      "A_min": 1099511627776,
+      "A_max": 1099511627792,
+      "M_min": 16777216,
+      "M_max": 16777216
+    }
+  ],
+  "gamma_files_checked": 112,
+  "gamma_files_digest": "bd5f8cd40bb370694fc7c5ed7fe1880f20ff5e8d8d4b32748123d343aea173c5",
+  "source_sha256": {
+    "records/models_numeric_domain_candidate.md": "fe292a2a3b5d5bd3fc0f51df0b8a2e5b06f70ab9260bdb37be910b42625c71de",
+    "records/models_numeric_domain_candidate.json": "1c5f72cb5c451dbc2235d3ddf44364ed8149d9c154fc5062571dc0f9cbb4e6ee",
+    "artifacts/constants/constants_v1.json": "1582764ed3503b73e8d42fc61d99d6a1f18159c6c77865a2437e919645fa9a40",
+    "artifacts/constants/numeric_profile_v1_qk.json": "8e0dff1d055ccb3b2df927f25f7e49e129c8394c9b3906ca81017be9ca2a3749",
+    "artifacts/constants/range_evidence_v1_qk.json": "c6a0a9b26f5966ccdad74decfcef0b303d6385e9c8f444b39c43b954714fa094",
+    "compute/numerics.hpp": "439cd295a86243ca8d5bf1a99b2b9343836bc2c460e731973a9fdab7dc0efab5",
+    "compute/model.hpp": "bd9dbc70927da647002b68ac4568f1f61117c5220cbd23804eb28875b8cba580"
+  },
+  "clarifications": [
+    "Y bound applies to usable nonnegative checked state, not absolute raw negative iteration output",
+    "NR correction bound 18*F^2 requires reachable tighter Y invariant; generic [0,2] alone requires up to 26*F^2",
+    "Integer boundary checks illustrate and reproduce the general floor proof; they are not sampling-based proof",
+    "Current scale_shift sign-extension check includes -2^56 although comment describes strict absolute budget; QK proved bounds do not reach boundary"
+  ],
+  "full_model_success_claimed": false
+}

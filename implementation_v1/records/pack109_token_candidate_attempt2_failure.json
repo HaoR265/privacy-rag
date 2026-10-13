@@ -1,0 +1,15 @@
+{
+  "kind": "candidate_runtime_failure_not_success",
+  "error": "E_FRAME_BINDING at Token GC input OT",
+  "cause": "Locked SCI IKNP sends post frames of AES_BATCH_SIZE/2 choices but receiver requests AES_BATCH_SIZE. Existing <=1024-bit tile inputs did not expose this mismatch; Token uses31232 choices. Project receive adapter must follow the send-frame size without weakening Channel validation or editing dependency sources.",
+  "both_parties_aborted_materials_burned": true,
+  "no_output_reconstructed": true,
+  "source_sha256": {
+    "experiments/pack109/token_candidate.cpp": "326a698b8320e107fb6956c33ffb1e56d1039c3b0e450d0bbdaeb6e5afef0e5f",
+    "experiments/pack109/build/prag_pack109_token": "718b8778400ca76879bc74c30b6d9a2d1cc668897ce9e095d9688953d1eb8676"
+  },
+  "ledgers": {
+    "records/pack109_token_candidate_H1024_id0_6f2ba7e4bd3349d685a453070c622cd0.C.ledger": "b6b169866fb4f4063998c0a90d750b6a805452a73660b26f148cf60ac0203386",
+    "records/pack109_token_candidate_H1024_id0_6f2ba7e4bd3349d685a453070c622cd0.S.ledger": "b6b169866fb4f4063998c0a90d750b6a805452a73660b26f148cf60ac0203386"
+  }
+}

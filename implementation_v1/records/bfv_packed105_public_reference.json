@@ -1,0 +1,165 @@
+{
+  "kind": "public_integer_algebra_not_R2",
+  "all_8192_dimensions_valid": true,
+  "small_polynomial_cases": [
+    {
+      "d": 1,
+      "rows": 1,
+      "targets": [
+        0
+      ]
+    },
+    {
+      "d": 1,
+      "rows": 2,
+      "targets": [
+        0,
+        0
+      ]
+    },
+    {
+      "d": 1,
+      "rows": 3,
+      "targets": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "d": 2,
+      "rows": 1,
+      "targets": [
+        -24
+      ]
+    },
+    {
+      "d": 2,
+      "rows": 2,
+      "targets": [
+        -24,
+        0
+      ]
+    },
+    {
+      "d": 2,
+      "rows": 3,
+      "targets": [
+        -24,
+        0,
+        -40
+      ]
+    },
+    {
+      "d": 3,
+      "rows": 1,
+      "targets": [
+        -49
+      ]
+    },
+    {
+      "d": 3,
+      "rows": 2,
+      "targets": [
+        -49,
+        0
+      ]
+    },
+    {
+      "d": 3,
+      "rows": 3,
+      "targets": [
+        -49,
+        0,
+        -45
+      ]
+    },
+    {
+      "d": 5,
+      "rows": 1,
+      "targets": [
+        -54
+      ]
+    },
+    {
+      "d": 5,
+      "rows": 2,
+      "targets": [
+        -54,
+        0
+      ]
+    },
+    {
+      "d": 5,
+      "rows": 3,
+      "targets": [
+        -54,
+        0,
+        -35
+      ]
+    },
+    {
+      "d": 9,
+      "rows": 1,
+      "targets": [
+        -10
+      ]
+    },
+    {
+      "d": 9,
+      "rows": 2,
+      "targets": [
+        -10,
+        0
+      ]
+    },
+    {
+      "d": 9,
+      "rows": 3,
+      "targets": [
+        -10,
+        0,
+        -57
+      ]
+    }
+  ],
+  "probe_expected": [
+    {
+      "d": 4096,
+      "rows": 3,
+      "signed_raw_expected": [
+        -1848,
+        0,
+        0
+      ],
+      "ring59_expected": [
+        576460752303421640,
+        0,
+        0
+      ]
+    },
+    {
+      "d": 2730,
+      "rows": 4,
+      "signed_raw_expected": [
+        -1449,
+        0,
+        261,
+        0
+      ],
+      "ring59_expected": [
+        576460752303422039,
+        0,
+        261,
+        0
+      ]
+    }
+  ],
+  "message_support": "[r*(2*d-1),(r+1)*(2*d-1)-1]",
+  "noise_may_wrap_but_L1_bound_still_applies": true,
+  "source_sha256": {
+    "native/src/bfv.cpp": "7c8822a8524d78c13c7476bf558533a4bc7127e685209a36abef1d9339ac05f9",
+    "native/include/prag/bfv.hpp": "4e84e10245d399c0939fcddfb002152643892db6424292eb4a4c3ed13e3e3e5b",
+    "tools/check_bfv_packed_reference.py": "387e7d5edf4e5e58a7662c74046b1a90a28176d8bfe1bb0b8dd5e05e6373d015"
+  }
+}

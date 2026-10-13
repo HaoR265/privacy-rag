@@ -1,0 +1,267 @@
+{
+  "native_version": "1.0.9",
+  "result": "expected_failure_and_cleanup",
+  "source_and_binary_sha256": {
+    "experiments/pack109_production/failure_probe.cpp": "c26b19c81ba4f0a364f81b6111cde1cbb63fd40cf595739bc77b524d3893c8bb",
+    "experiments/pack109_production/build/native/libprag_crypto.a": "44500092601318cb14d1d83cbfb76d1c3f6409b303af2d9b21e5c35803e9d299",
+    "experiments/pack109_production/build/prag_matrix_failure_probe": "22bdc519838f086b33b280284e3bcff238973714b64735feb54010b7fd353ac1",
+    "experiments/pack109_production/run_failures.py": "854029f97c22ea3456e9515df9d1b81830eab993dd3bcb59458c789ea417fb2b"
+  },
+  "compile_command": [
+    "c++",
+    "-O3",
+    "-std=c++17",
+    "-maes",
+    "-msse4.1",
+    "-mavx",
+    "-mavx2",
+    "-DEMP_USE_RANDOM_DEVICE=1",
+    "-I/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/native/include",
+    "-I/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/third_party/EzPC/SCI/src",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/experiments/pack109_production/failure_probe.cpp",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/experiments/pack109_production/build/native/libprag_crypto.a",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/third_party/SEAL/build/lib/libseal-4.1.a",
+    "-lssl",
+    "-lcrypto",
+    "-lgmpxx",
+    "-lgmp",
+    "-o",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/experiments/pack109_production/build/prag_matrix_failure_probe"
+  ],
+  "cases": [
+    {
+      "mode": "bad_callback",
+      "parties": [
+        {
+          "mode": 0,
+          "error": "E_DISCONNECTED",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 3408416,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_0_69e7d4da82b3483f9ecdd2af4c71f2d0.C.ledger",
+          "ledger_sha256": "3512e9c4f666952264e4d254d542f2abce60f5a6c6df1a3cf1f6e177d879df61",
+          "terminal": "terminal=aborted all_reserved=burned"
+        },
+        {
+          "mode": 0,
+          "error": "E_BFV_WEIGHT_BLOCK_SHAPE",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 3408416,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_0_69e7d4da82b3483f9ecdd2af4c71f2d0.S.ledger",
+          "ledger_sha256": "5e57e24f0950401c217ce3bbabf354d4ab9512184d0896595264b1f9cc83866e",
+          "terminal": "terminal=aborted all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "mode": "descriptor_mismatch",
+      "parties": [
+        {
+          "mode": 1,
+          "error": "E_DISCONNECTED",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 176,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_1_5a3b3e60d52b4a19a5e366f75631b831.C.ledger",
+          "ledger_sha256": "caa0acba7fc90ed40e4fb72ffad570b675d9a58b7beeaf1ea834764b85676f1f",
+          "terminal": "terminal=aborted all_reserved=burned"
+        },
+        {
+          "mode": 1,
+          "error": "E_MATRIX_DESCRIPTOR",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 176,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_1_5a3b3e60d52b4a19a5e366f75631b831.S.ledger",
+          "ledger_sha256": "caa0acba7fc90ed40e4fb72ffad570b675d9a58b7beeaf1ea834764b85676f1f",
+          "terminal": "terminal=aborted all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "mode": "public_shape_limit",
+      "parties": [
+        {
+          "mode": 2,
+          "error": "E_SHAPE",
+          "session_active_after_error": true,
+          "network_bytes_after_entry": 0,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_2_ca080e8693084730bdcb081078b4193d.C.ledger",
+          "ledger_sha256": "4a005b89961fd99ee2a3a72dc1f41f47d6d4c341b76a905d2754bcf454887f94",
+          "terminal": "terminal=closed all_reserved=burned"
+        },
+        {
+          "mode": 2,
+          "error": "E_SHAPE",
+          "session_active_after_error": true,
+          "network_bytes_after_entry": 0,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_2_ca080e8693084730bdcb081078b4193d.S.ledger",
+          "ledger_sha256": "4a005b89961fd99ee2a3a72dc1f41f47d6d4c341b76a905d2754bcf454887f94",
+          "terminal": "terminal=closed all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "mode": "joint_descriptor",
+      "parties": [
+        {
+          "mode": 3,
+          "error": "E_DISCONNECTED",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 176,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_3_d19f71f102e94c5fa876d7b3fe08604d.C.ledger",
+          "ledger_sha256": "e91ee48c08249283419be78e2af7df828f1273bb27003407778969397bc076c1",
+          "terminal": "terminal=aborted all_reserved=burned"
+        },
+        {
+          "mode": 3,
+          "error": "E_JOINT_DESCRIPTOR",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 176,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_3_d19f71f102e94c5fa876d7b3fe08604d.S.ledger",
+          "ledger_sha256": "e91ee48c08249283419be78e2af7df828f1273bb27003407778969397bc076c1",
+          "terminal": "terminal=aborted all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "mode": "token_descriptor",
+      "parties": [
+        {
+          "mode": 4,
+          "error": "E_DISCONNECTED",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 176,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_4_ebba43d5a8364cb5a6c35b25b634caf7.C.ledger",
+          "ledger_sha256": "54b18a4d5aea5944b4e7e1c65d3e7ffe7d2c604dec41d1ce25a610b1807b7be7",
+          "terminal": "terminal=aborted all_reserved=burned"
+        },
+        {
+          "mode": 4,
+          "error": "E_TOKEN_DESCRIPTOR",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 176,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_4_ebba43d5a8364cb5a6c35b25b634caf7.S.ledger",
+          "ledger_sha256": "54b18a4d5aea5944b4e7e1c65d3e7ffe7d2c604dec41d1ce25a610b1807b7be7",
+          "terminal": "terminal=aborted all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "mode": "token_weight_bound",
+      "parties": [
+        {
+          "mode": 5,
+          "error": "E_DISCONNECTED",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 258913602,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_5_72cb991ee40d4e2ba4e693b16a29d589.C.ledger",
+          "ledger_sha256": "63cc50ddcc959a1f8d7a96eaec2b44b8a3295c54cd4ed34e7fbd606ae528691d",
+          "terminal": "terminal=aborted all_reserved=burned"
+        },
+        {
+          "mode": 5,
+          "error": "E_TOKEN_WEIGHT_BOUND",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 258913602,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_5_72cb991ee40d4e2ba4e693b16a29d589.S.ledger",
+          "ledger_sha256": "63cc50ddcc959a1f8d7a96eaec2b44b8a3295c54cd4ed34e7fbd606ae528691d",
+          "terminal": "terminal=aborted all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "mode": "diagonal_descriptor",
+      "parties": [
+        {
+          "mode": 6,
+          "error": "E_DISCONNECTED",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 136,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_6_40c3660878014ae59fefbdda29a26870.C.ledger",
+          "ledger_sha256": "32c172ac34f2a74ed10af97658d95b209f1b77e30e2e99c08cbe5020d6efbd37",
+          "terminal": "terminal=aborted all_reserved=burned"
+        },
+        {
+          "mode": 6,
+          "error": "E_DIAGONAL_DESCRIPTOR",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 136,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_6_40c3660878014ae59fefbdda29a26870.S.ledger",
+          "ledger_sha256": "32c172ac34f2a74ed10af97658d95b209f1b77e30e2e99c08cbe5020d6efbd37",
+          "terminal": "terminal=aborted all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "mode": "token_shape_limit",
+      "parties": [
+        {
+          "mode": 7,
+          "error": "E_TOKEN_SHAPE",
+          "session_active_after_error": true,
+          "network_bytes_after_entry": 0,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_7_4a19a685a6814bb181440e32a90dbb3e.C.ledger",
+          "ledger_sha256": "6a826a92380c2b0c39bb8a363b209a979a5a76491a39c4012210a25514787552",
+          "terminal": "terminal=closed all_reserved=burned"
+        },
+        {
+          "mode": 7,
+          "error": "E_TOKEN_SHAPE",
+          "session_active_after_error": true,
+          "network_bytes_after_entry": 0,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/pack109_production_failure_7_4a19a685a6814bb181440e32a90dbb3e.S.ledger",
+          "ledger_sha256": "6a826a92380c2b0c39bb8a363b209a979a5a76491a39c4012210a25514787552",
+          "terminal": "terminal=closed all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    }
+  ],
+  "temporary_PKI_removed": true,
+  "full_model_R2": false
+}

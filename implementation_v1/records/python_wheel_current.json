@@ -1,0 +1,10 @@
+{
+  "wheel": "build/dist/private_rag_v1-0.1.0-py3-none-any.whl",
+  "sha256": "d22e9553a2c35159aec8f8573ca697aa166148c9601273a96693a61ae85e8d16",
+  "bytes": 53436,
+  "entries": 29,
+  "all_packaged_source_matches_current": true,
+  "schema_packaged": true,
+  "references_models_keys_not_packaged": true,
+  "full_R2_executed": false
+}

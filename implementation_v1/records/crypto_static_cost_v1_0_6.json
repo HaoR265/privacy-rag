@@ -1,0 +1,153 @@
+{
+  "kind": "static_public_shape_cost_not_runtime_benchmark",
+  "profile": "prag-native-v1.0.6",
+  "division_rounds": 60,
+  "integer_widths": {
+    "phase": 361,
+    "numerator": 420,
+    "remainder": 361
+  },
+  "AND_gates_per_target": 67625,
+  "fixed_64KiB_GC_chunks_per_target": 34,
+  "actual_table_bytes": 2164000,
+  "public_padding_bytes": 64224,
+  "target_frame_parts_lower_bytes_excluding_ciphertext_and_input_OT": {
+    "fresh_GC_initialization_frames": 240,
+    "fixed_padded_garbled_table_frames": 2231488,
+    "server_input_labels_frame": 5872,
+    "C_output_permutation_frame": 155
+  },
+  "per_target_lower_bytes_excluding_ciphertext_and_input_OT": 2237755,
+  "per_ciphertext_c1_frame_bytes": 786528,
+  "per_input_ciphertext_frame_bytes": 1572960,
+  "BFV_target_decode_counts": {
+    "prepare_embedding_257": 125794304,
+    "query_embedding_160": 78315520,
+    "generation_1279_forward_tokens": 995368960,
+    "generation_256_logits": 38895616,
+    "generation_total": 1034264576,
+    "nonempty_query_total": 1112580096
+  },
+  "BFV_returned_ciphertext_group_counts": {
+    "prepare_embedding_257": 52107264,
+    "query_embedding_160": 32440320,
+    "generation_1279_forward_tokens": 500303872,
+    "generation_256_logits": 9723904,
+    "generation_total": 510027776,
+    "nonempty_query_total": 542468096
+  },
+  "BFV_input_ciphertext_counts": {
+    "prepare_embedding_257": 39874835,
+    "query_embedding_160": 24824800,
+    "generation_1279_forward_tokens": 282263789,
+    "generation_256_logits": 1215488,
+    "generation_total": 283479277,
+    "nonempty_query_total": 308304077
+  },
+  "bfv_only_communication_lower_bytes": {
+    "prepare_embedding_257": 385202175348512,
+    "query_embedding_160": 239814583874560,
+    "generation_1279_forward_tokens": 3064884520466656,
+    "generation_256_logits": 96598895951872,
+    "generation_total": 3161483416418528,
+    "nonempty_query_total": 3401298000293088
+  },
+  "per_token": {
+    "embedding": {
+      "returns": 489472,
+      "input_ciphertexts": 155155,
+      "returned_ciphertext_groups": 202752
+    },
+    "generation": {
+      "returns": 778240,
+      "input_ciphertexts": 220691,
+      "returned_ciphertext_groups": 391168
+    }
+  },
+  "source_sha256": {
+    "native/src/bfv.cpp": "fdee137effdee91276e62e05109cd28d9f7b46a9403704a5d7f0b06df5e2089e",
+    "native/src/gc_batch_channel.cpp": "1e693c04b313fce7e09f409d58be18bd0b5ac35428ff543d89ccd729147452e4",
+    "native/src/secure_ops.cpp": "1ce08945c787f57b075cd1d071bb24dafbfc457bcf0aee87f7f1bad587c948b0",
+    "native/include/prag/gc_batch_channel.hpp": "0f2512b976ab6efc8b1b0ff0be327c7611dcb80bdca5c8fdb71ca983515e039e",
+    "native/src/channel.cpp": "e956667857b344d3de9db0c3fc34364c49d8c42b7cd906741310ead190ee3db1",
+    "third_party/EzPC/SCI/src/GC/halfgate_gen.h": "d6e15b7076bcf14409a54eb71ba9cc7ebc5bbde27e0c934711407f6b35df74ad",
+    "compute/model.hpp": "dfec8e051ac7414f7821505592deff2067d2f6c239e0d039121263ddebb4410f",
+    "compute/numerics.hpp": "15b14cf78270368fafe2d7859b00e13fc986d573f88a982755d5e1dc6b3de983",
+    "compute/pipeline.hpp": "77e6360b5f6d61d65ac01179c8d4675130c28620d16718e1b294d4aaef8a11f8",
+    "tools/build_crypto_cost.py": "2f7c439b254ae6ba9f10a5f9ed81b8ec227daf61552e1e2635f7644695140e9f",
+    "records/crypto_decode60_implementation.md": "3902d69918e28466d10f12a916a9eb1627fce5a173e6bb96106f6b0a06997e40",
+    "records/crypto_packed105_implementation.md": "c93d4b0699694a732b81c5ab7e6f5adf90763050c750bf971b321d873081f6da",
+    "records/crypto_merged106_implementation.md": "675da51d231296980cdde9a21dcbf2b2e0074323e6c0723cbd2318a183730712"
+  },
+  "lookup_public_shapes": [
+    {
+      "length": 1,
+      "old_repeated_A2B_calls": 2,
+      "new_A2B_calls": 1,
+      "old_boolean_AND_gates": 295,
+      "new_boolean_AND_gates": 176,
+      "old_OT_invocations": 591,
+      "new_OT_invocations": 249,
+      "old_application_frame_bytes_excluding_base_OT": 9740286,
+      "new_application_frame_bytes_excluding_base_OT": 4103806,
+      "one_bit_message_OT_count": 352,
+      "59_bit_message_OT_count": 1
+    },
+    {
+      "length": 3,
+      "old_repeated_A2B_calls": 6,
+      "new_A2B_calls": 1,
+      "old_boolean_AND_gates": 885,
+      "new_boolean_AND_gates": 177,
+      "old_OT_invocations": 1773,
+      "new_OT_invocations": 253,
+      "old_application_frame_bytes_excluding_base_OT": 29220858,
+      "new_application_frame_bytes_excluding_base_OT": 4169760,
+      "one_bit_message_OT_count": 354,
+      "59_bit_message_OT_count": 3
+    },
+    {
+      "length": 256,
+      "old_repeated_A2B_calls": 512,
+      "new_A2B_calls": 1,
+      "old_boolean_AND_gates": 75520,
+      "new_boolean_AND_gates": 423,
+      "old_OT_invocations": 151296,
+      "new_OT_invocations": 265,
+      "old_application_frame_bytes_excluding_base_OT": 2493513216,
+      "new_application_frame_bytes_excluding_base_OT": 4371374,
+      "one_bit_message_OT_count": 846,
+      "59_bit_message_OT_count": 256
+    },
+    {
+      "length": 1280,
+      "old_repeated_A2B_calls": 2560,
+      "new_A2B_calls": 1,
+      "old_boolean_AND_gates": 377600,
+      "new_boolean_AND_gates": 2212,
+      "old_OT_invocations": 756480,
+      "new_OT_invocations": 272,
+      "old_application_frame_bytes_excluding_base_OT": 12467566080,
+      "new_application_frame_bytes_excluding_base_OT": 4547786,
+      "one_bit_message_OT_count": 4424,
+      "59_bit_message_OT_count": 1280
+    }
+  ],
+  "lookup_cost_scope": "Exact application Channel frames under locked SplitIKNP, excluding one-time base OT, TLS and local fsync. Public table/index schedule only; not elapsed-time or full-system estimate.",
+  "excludes": [
+    "GC input OT",
+    "base OT and setup/public key",
+    "all remaining shared/boolean/lookup/range operations",
+    "TLS TCP IP heartbeat and management",
+    "wall time and throughput"
+  ],
+  "assumes": [
+    "N>0 query and successful public fixed schedule",
+    "current 32-output project tiles and scalar private gamma",
+    "no early exit for private EOS or numeric failure",
+    "K independently encrypted input blocks reused across output groups within one streamed call",
+    "independent full polynomial mask and fresh Enc(0) for every returned ciphertext",
+    "independent fresh GC object for every target, continuing one-time OT stream",
+    "at most 19 same-level products merged before final protection; long tail remains 8192-wide"
+  ]
+}

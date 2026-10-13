@@ -1,0 +1,13 @@
+{
+  "scope": "isolated_real_mtls_public_cancel_debug",
+  "formal_acceptance": false,
+  "private_model_executed": false,
+  "production_gate_bypassed": false,
+  "fake_backend_used": false,
+  "closed_gate_and_identity": "one failed admission POST, one identity-bound public cancel; no session or model",
+  "unclaimed": "own mTLS cancel aborts; foreign certificate rejected",
+  "claimed": "cancel remains computing/global BUSY until coordinator terminal transaction",
+  "U_own_session": "same cancel route authorized by actual U certificate only",
+  "temporary_listener_stopped": true,
+  "temporary_postgresql_stopped": true
+}

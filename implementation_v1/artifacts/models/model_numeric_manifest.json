@@ -1,0 +1,209 @@
+{
+  "format_version": "model-numeric-manifest-v1-coordinated",
+  "model_artifact_set_sha256": "9f39e9d0ff17720e7ce9b46c4e6087109a9211f5f06f90e0ccfc8c0be6967425",
+  "files": [
+    {
+      "path": "artifacts/template/template_v1.json",
+      "bytes": 4831,
+      "sha256": "a1c11e25323e5203205504ac4edc2a664ba6e7947ab1309da4e060e182397c50"
+    },
+    {
+      "path": "artifacts/template/manifest.json",
+      "bytes": 157,
+      "sha256": "f0a9326331d84e1401f6d17e70d01ac22b186f221d69e55215e7f6d91c99a29b"
+    },
+    {
+      "path": "artifacts/constants/constants_v1.json",
+      "bytes": 1187078,
+      "sha256": "1582764ed3503b73e8d42fc61d99d6a1f18159c6c77865a2437e919645fa9a40"
+    },
+    {
+      "path": "artifacts/constants/constants_v1.bin",
+      "bytes": 1316880,
+      "sha256": "25e102e96ff83ed40620793af5cd80b3e37b46ff5d64009c2440a32c7bfec04f"
+    },
+    {
+      "path": "artifacts/constants/native_manifest.json",
+      "bytes": 1163,
+      "sha256": "d52aba14aa3fb805ee3d48033fa473b135233925f8f276f3f5a65f87ea6cfd17"
+    },
+    {
+      "path": "artifacts/constants/range_evidence.json",
+      "bytes": 212515,
+      "sha256": "f60b9c1f884685d760c2e504b6938495ac626612dc9da6c3ce3d02e62917484f"
+    },
+    {
+      "path": "artifacts/constants/numeric_profile_v1_qk.json",
+      "bytes": 447768,
+      "sha256": "ff53725bf7f455075d5276141051227c7292f348fe10a872b2bc5996c352f1ee"
+    },
+    {
+      "path": "artifacts/constants/swiglu_domain_evidence_v1.json",
+      "bytes": 28563,
+      "sha256": "ca88b3a9347324342aaf9c11f98d9280ffec7393be349d5df7ab6c53f73a2405"
+    },
+    {
+      "path": "artifacts/constants/coordinated_domain_evidence_v1.json",
+      "bytes": 273063,
+      "sha256": "ad87ec74b1bf6fe0993b5db85b1a2b3786e2a0fdacac2b0304742d87cc20ee69"
+    },
+    {
+      "path": "artifacts/models/embedding/checkpoint_manifest.json",
+      "bytes": 1720,
+      "sha256": "d9991656aacda09e9f1f567be093a01afce2bf5163780bc7ad1dd3ab8a4ebcaf"
+    },
+    {
+      "path": "artifacts/models/embedding/quantized_f12/manifest.json",
+      "bytes": 163632,
+      "sha256": "1ea9fb91baf277e20ff8ded2d0174f3c1a7e6f900c7d7c772f2a546a6abdc14e"
+    },
+    {
+      "path": "artifacts/models/generation/checkpoint_manifest.json",
+      "bytes": 1736,
+      "sha256": "61f6e681388c2d686c8dd3f60a397e9ed87a33c91a38f4082d1c998394159fe2"
+    },
+    {
+      "path": "artifacts/models/generation/quantized_f12/manifest.json",
+      "bytes": 170202,
+      "sha256": "9408d33d77e110835c8b50794fd7d0db03fd614b92e947f183ca6ce469339ba2"
+    }
+  ],
+  "numeric_configuration": {
+    "profile_version": "v1-f12-coordinated-20261013",
+    "ring_bits": 59,
+    "weights_fractional_bits": 12,
+    "main_fractional_bits": 12,
+    "NR_exp_probability_fractional_bits": 24,
+    "rope_fractional_bits": 20,
+    "retrieval_fractional_bits": 20,
+    "epsilon_f24": 16,
+    "main_absolute_domain": 2048,
+    "weight_absolute_domain": 256,
+    "public_generation_slots": 1024,
+    "output_slots": 256,
+    "decode_calls": 255,
+    "approved_local_swiglu_domain": {
+      "joint_and_down_proj_input_abs_f12": 17179869184,
+      "joint_real_abs_bound": 4194304,
+      "raw_elementwise_product_abs_f24_bound": 70368744177664,
+      "evidence_path": "artifacts/constants/swiglu_domain_evidence_v1.json",
+      "evidence_sha256": "ca88b3a9347324342aaf9c11f98d9280ffec7393be349d5df7ab6c53f73a2405",
+      "floor_order": "complete elementwise product then floor12; complete down_proj dot then floor12; output/residual checks use each model residual_abs_f12"
+    },
+    "rms_domains": {
+      "128": {
+        "dimension": 128,
+        "sum_square_f24_limit_inclusive": 562949953419263,
+        "coordinate_abs_f12_derived_cap": 23726566
+      },
+      "1024": {
+        "dimension": 1024,
+        "sum_square_f24_limit_inclusive": 4503599627354111,
+        "coordinate_abs_f12_derived_cap": 67108863
+      },
+      "2048": {
+        "dimension": 2048,
+        "sum_square_f24_limit_inclusive": 9007199254708223,
+        "coordinate_abs_f12_derived_cap": 94906265
+      }
+    },
+    "l2_domain": {
+      "sum_square_f24_limit_inclusive": 4503599627370495,
+      "coordinate_abs_f12": 8388608,
+      "exponent_range": [
+        -12,
+        13
+      ]
+    },
+    "residual_domains": [
+      {
+        "model": "embedding",
+        "absolute_f12": 67108863
+      },
+      {
+        "model": "generation",
+        "absolute_f12": 94906265
+      }
+    ],
+    "approved_local_qk_domains": [
+      {
+        "model": "embedding",
+        "qk_norm_abs_f12": {
+          "q": 1094807,
+          "k": 8943813
+        },
+        "rope_abs_f12": {
+          "q": 1548293,
+          "k": 12648476
+        }
+      },
+      {
+        "model": "generation",
+        "qk_norm_abs_f12": {
+          "q": 874687,
+          "k": 6302376
+        },
+        "rope_abs_f12": {
+          "q": 1236996,
+          "k": 8912916
+        }
+      }
+    ]
+  },
+  "global_configuration_binding": "artifacts/configuration.json owns the global configuration digest; this manifest intentionally does not embed or hash it, avoiding a cyclic dependency",
+  "materialization_status": "materialized",
+  "activation_status": "R1_full_reference_checked_R2_not_verified",
+  "current_blocking_rule": null,
+  "current_first_failure": null,
+  "historical_swiglu_conflict": "records/models_qk_revision_mlp_domain_conflict.json",
+  "historical_original_qk_conflict": "records/models_numeric_domain_conflict.json",
+  "approved_qk_change_applied": true,
+  "approved_swiglu_change_applied": true,
+  "swiglu_evidence": "artifacts/constants/swiglu_domain_evidence_v1.json",
+  "authorized_coordinated_revision_applied": true,
+  "coordinated_evidence": "artifacts/constants/coordinated_domain_evidence_v1.json",
+  "full_R0_reference_execution_verified": true,
+  "full_R0_record": "records/models_r0_full_rag_run.json",
+  "full_R1_current_profile_embedding_runs": [
+    "records/models_coordinated_question_run.json",
+    "records/models_coordinated_document1_run.json",
+    "records/models_coordinated_document2_run.json"
+  ],
+  "current_R1_embedding_normal_output_verified": true,
+  "current_R1_GPU_embedding_normal_output_verified": true,
+  "current_R1_GPU_embedding_runs": [
+    "records/models_coordinated_cuda_question_run.json",
+    "records/models_coordinated_cuda_document1_run.json",
+    "records/models_coordinated_cuda_document2_run.json"
+  ],
+  "GPU_operator_development_run": {
+    "record": "records/models_cuda_operator_development_run.json",
+    "record_sha256": "14bd3b44e3c758d977963f615ed56657aedc3b867cd46ad5e33ffe6afc718d80",
+    "count": 19,
+    "all_bitwise_equal": true,
+    "start_to_finish_identity_unchanged": true,
+    "device_name": "NVIDIA GeForce RTX 2060",
+    "scope": "Small public independent operator checks only, not model/R2 execution or formal acceptance"
+  },
+  "GPU_first_full_attempt_memory_failure_record": "records/models_full_r1_cuda_attempt1_oom.json",
+  "GPU_memory_fix": "Replaced a 57-times expanded log2 threshold tensor with six integer shift stages; mathematical log2/floor semantics unchanged",
+  "full_R1_current_profile_RAG_execution_verified": true,
+  "current_R1_full_RAG_normal_output_verified": true,
+  "full_R1_current_profile_RAG_record": "records/models_coordinated_full_r1_cuda_rag_run.json",
+  "full_R1_current_profile_RAG_record_sha256": "42cd619a10f578285c35008a0da474e1a62d525dd0b5826dfcc0b422e9ad6865",
+  "GPU_full_completion_review": "records/models_cuda_full_completion_review.json",
+  "GPU_full_public_answer_record": "records/models_cuda_full_public_answer.json",
+  "runtime_result_scope": "Public independent reference execution only; no semantic quality assessment, formal acceptance or full R2 execution",
+  "local_model_resource_policy": {
+    "CPU_large_model_inference_permitted": false,
+    "R0_requires_actual_CUDA_device": true,
+    "R0_CPU_fallback_permitted": false,
+    "R1_GPU_integer_backend_implemented": true,
+    "R1_full_model_entry_enabled": true,
+    "required_GPU": "exactly one NVIDIA RTX 2060; actual CUDA allocation must succeed",
+    "GPU_operator_execution_record": "records/models_cuda_operator_development_run.json",
+    "R1_GPU_full_model_execution_verified": true,
+    "interrupted_run_record": "records/models_coordinated_full_r1_rag_attempt2_interrupted.json"
+  },
+  "full_R2_model_execution_verified": false
+}

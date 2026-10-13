@@ -1,0 +1,47 @@
+{
+  "scope": "Small current CUDA-only entry policy branch checks using an unavailable-device branch stub; no checkpoint load/model/GPU capability validation",
+  "CPU_large_model_inference_permitted": false,
+  "results": [
+    {
+      "entry": "R0_unavailable_CUDA",
+      "rejected": true,
+      "error": "R0_CUDA_UNAVAILABLE_CPU_FALLBACK_PROHIBITED"
+    },
+    {
+      "entry": "R1_unavailable_CUDA",
+      "rejected": true,
+      "error": "R1_CUDA_UNAVAILABLE_CPU_FALLBACK_PROHIBITED"
+    },
+    {
+      "entry": "R1_direct_model_before_weight_load",
+      "rejected": true,
+      "error": "R1_CUDA_UNAVAILABLE_CPU_FALLBACK_PROHIBITED"
+    },
+    {
+      "entry": "R1_pipeline_before_tokenizer_load",
+      "rejected": true,
+      "error": "R1_CUDA_UNAVAILABLE_CPU_FALLBACK_PROHIBITED"
+    },
+    {
+      "entry": "R0_explicit_CPU",
+      "rejected": true,
+      "error": "REFERENCE_CPU_MODEL_INFERENCE_DISABLED"
+    },
+    {
+      "entry": "R1_explicit_CPU",
+      "rejected": true,
+      "error": "REFERENCE_CPU_MODEL_INFERENCE_DISABLED"
+    },
+    {
+      "entry": "historical_CPU_model_disabled",
+      "rejected": true,
+      "error": "REFERENCE_CPU_MODEL_INFERENCE_DISABLED: historical CPU model source is read-only development evidence"
+    }
+  ],
+  "source_sha256": {
+    "references/resource_policy.py": "5292b4b3b6da0004b56a1b57411d8361bc75ce745564317bf1456ac358bc6dd2",
+    "references/r1_model.py": "4317e4b005da4064d077413b3fb06fe31d2475285f51e7f313057fef85f89128",
+    "references/r1_cuda_model.py": "0762f5bcf14303b3c213d32a191c8f9f30f16e2cb7323c2f2c616dc757c1e1a8",
+    "references/pipeline.py": "9cacd5fce1bb7ecfcb217a5557f6ff4ed2b412470ffe187bb09b734fb3e5729f"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "native_version": "1.0.9",
+  "scope": "One complete RMS kernel with registered real Q gamma; no layer or model",
+  "model": "Qwen/Qwen3-1.7B",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "cases": [
+    {
+      "result": "incomplete_deadline_or_protocol_error",
+      "completed": false,
+      "elapsed_seconds": 300.001,
+      "application_bytes": 3329176758,
+      "dimension": 128,
+      "error": "E_DISCONNECTED",
+      "deadline_seconds": 300,
+      "tensor": "model.layers.0.self_attn.q_norm.weight",
+      "weight_sha256": "1ed86b923158ec5fa9ce440ef5aeb8aadba7a1da2d1f08f18a8c8f24f2cbb708",
+      "actual_row_L1": 28544,
+      "R1_device": "NVIDIA GeForce RTX 2060",
+      "R1_CPU_matmul": false,
+      "R1_output_sha256": "0682ad79cd047e365d4261f047b5827f5dcc05a5425bbd5ae980b1e9f3bc5548",
+      "protocol_weight_mapped_at_S_only": true,
+      "synthetic_input": true,
+      "native_weight_hash_and_L1_checked": true,
+      "full_RMS_kernel_executed": false,
+      "full_layer_executed": false,
+      "exit_code": 0,
+      "stderr": "",
+      "ledgers": [
+        {
+          "path": "records/pack109_production_rms_gamma_047ade18559f40cb8cc02fe024783577.C.ledger",
+          "sha256": "9e95ca4a43b7b6236f7ffa97de9d30a621cff4f7e092afe6b63951be9ee8d6a0"
+        },
+        {
+          "path": "records/pack109_production_rms_gamma_047ade18559f40cb8cc02fe024783577.S.ledger",
+          "sha256": "9e95ca4a43b7b6236f7ffa97de9d30a621cff4f7e092afe6b63951be9ee8d6a0"
+        }
+      ]
+    }
+  ],
+  "source_and_binary_sha256": {
+    "experiments/pack109_production/rms_probe.cpp": "6ba7ccd8f9eb14c377ad7703243e93baaaff54f29169cb059c0dfe5af4e6b607",
+    "experiments/pack109_production/build/native/libprag_crypto.a": "44500092601318cb14d1d83cbfb76d1c3f6409b303af2d9b21e5c35803e9d299",
+    "experiments/pack109_production/build/prag_pack109_rms": "8690b1c06b693bbdd55ad4a7041eb1db4d0a643056e5fa26f66674960bc7636c",
+    "experiments/pack109_production/run_rms.py": "6991ffeeaa53d571e3b311329950d38f5fef4b90a92d28b7a1254e814c1a330a",
+    "compute/artifacts.hpp": "449a814d2f20b02571795afd06167dc3eb03e2c36a3f874ffc02e1a4113f44f5",
+    "compute/numeric_profile.hpp": "4645b0df127689565c7e1a61f4871bd5e07ec6cd4f384eb78707c334c73fa3fe",
+    "references/r1_cuda_numeric.py": "0fa528ec4da5806d6e587341994d5101cc313f1091bb6008bce08e7b5f1653c9",
+    "compute/numerics.hpp": "a74879011592e0537110c1236eab870418d083d8b33aa2c144e39c7c5cb24af8"
+  },
+  "compile_command": [
+    "cmake",
+    "--build",
+    "experiments/pack109_production/build",
+    "--target",
+    "prag_pack109_rms",
+    "-j2"
+  ],
+  "temporary_PKI_and_reference_removed": true,
+  "full_model_R2": false
+}

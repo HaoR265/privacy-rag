@@ -1,0 +1,25 @@
+{
+  "scope": "Independent public synthetic R0 RAG: 2 document embeddings257, query embedding160, retrievalTop2, canonical prompt1024, generation1prefill+255decode",
+  "profile": "R0",
+  "fixed_generation_executed": true,
+  "answer_shape": 256,
+  "valid_answer_token_count": 30,
+  "length_limit": false,
+  "insufficient_evidence": false,
+  "elapsed_seconds": 857.5811891439953,
+  "r2_executed": false,
+  "r1_numeric_domain_conflict_resolved": false,
+  "public_input": {
+    "question": "方案采用哪种加密交付方式？",
+    "documents": [
+      "资料使用 HPKE Base 模式交付给获得授权的用户。",
+      "交付方案使用 X25519、HKDF-SHA256 和 AES-128-GCM。"
+    ]
+  },
+  "device": "cpu",
+  "torch_threads": 4,
+  "model_dtype": "float32",
+  "model_weights": "locked real checkpoint revisions",
+  "formal_acceptance": false,
+  "answer_semantic_quality_not_assessed": true
+}

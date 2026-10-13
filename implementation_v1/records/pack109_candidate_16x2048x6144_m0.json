@@ -1,0 +1,91 @@
+{
+  "native_version": "1.0.9-candidate",
+  "shape_B_K_O": [
+    16,
+    2048,
+    6144
+  ],
+  "result": "matched_CUDA_R1",
+  "raw_fractional_bits": 24,
+  "input_ciphertexts": 128,
+  "returned_ciphertext_groups": 192,
+  "output_coordinates": 98304,
+  "application_bytes": 905715553,
+  "frames_sent": 24963,
+  "frames_received": 7233,
+  "transcript_direction_runs": 390,
+  "direction_runs_are_not_RTT": true,
+  "elapsed_seconds": 242.878,
+  "client_process_peak_RSS_bytes": 754118656,
+  "server_process_peak_RSS_bytes": 265367552,
+  "native_TLS13_mTLS": true,
+  "isolated_development": false,
+  "protocol_GPU_used": false,
+  "full_model_R2": false,
+  "candidate_only": true,
+  "production_integrated": false,
+  "source_sha256": {
+    "experiments/pack109/bfv_candidate.cpp": "3adf97385ee94e5c982229837bcc95de1d53cdca44f01855399427c40677cd17",
+    "experiments/pack109/matrix_probe.cpp": "2574176f18390a32501de6c242aaa564b2cbe07d41038a69743b3b3744d420ff",
+    "experiments/pack109/secure_ops_candidate.cpp": "653057f28a4a9266055afbd3348dc8c48e62c8d9592568eca23f27ffd1fe5e7f",
+    "experiments/pack109/layout.hpp": "cb04367c9377c524337e14cb2bab6de290b98d287538b6f569c8a8b0ce4848dd",
+    "experiments/pack109/joint.hpp": "2639a64f2dd6ecc97c0cf7674086c7ba2d0b9572d14ba293a7316e5053beea3f",
+    "experiments/pack109/bfv_matrix.inc": "5cf0e4455dc4a6055214c8acd01a6f11e408e4b2c0fcdc0a816f0cc5238a1be5",
+    "experiments/pack109/bfv_tile_decoder.inc": "713f40dd79758f7faedfb14dca6ab8b95b76ba1f881049879b93dd26c043c3f4",
+    "experiments/pack109/run_matrix.py": "57ad6d9c2018b9f1af22ae5ddf3a7fb01eab6e92216cffdf8402369edd0191ce",
+    "experiments/pack109/build/prag_pack109_matrix": "8993279539c6167f28f3d4722d3fe7872872a60459a1c85d9a43d2e6a41bd06e",
+    "experiments/pack109/include/prag/secure_ops.hpp": "9c26353eaf8e3a43fcbd96e16a33d86b5e33173a4f81a5a4ef6423f970394f4b",
+    "experiments/pack109/libprag_crypto_v108.a": "4806a6114d0faacf433bd40743c912cc512bde0aa88525c2b16bf8b4c0f9967b"
+  },
+  "R1_reference": {
+    "device": "cuda:0",
+    "device_name": "NVIDIA GeForce RTX 2060",
+    "CPU_reference_matmul": false,
+    "elapsed_seconds": 0.138047911983449,
+    "peak_allocated_bytes": 143836672,
+    "raw_partial_sum_abs_bound": 8062976,
+    "raw_output_fractional_bits": 24,
+    "exact_GEMM_counts": {
+      "direct_float64": 2,
+      "split_float64": 0
+    },
+    "output_sha256": "1de20862d836966ee914306e5420fcbaf7814252970596485abb3c4bad30a731",
+    "synthetic_input_and_weights": true,
+    "model_checkpoint_used": false
+  },
+  "ledgers": [
+    {
+      "path": "records/pack109_candidate_16x2048x6144_m0_39aa4ef0b3404bd082efa0550269bbf6.C.ledger",
+      "sha256": "93913a6f337377982df6d199e86306e27c5e911b48cbb268d8d8f91f3dc07be9",
+      "reservation_instances": {
+        "session": 1,
+        "bfv_matrix_descriptor": 1,
+        "bfv_key_and_GC_independent_OT": 1,
+        "bfv_matrix_input": 128,
+        "bfv_matrix_tile_mask_Enc0": 192,
+        "bfv_matrix_tile_GC": 192
+      }
+    },
+    {
+      "path": "records/pack109_candidate_16x2048x6144_m0_39aa4ef0b3404bd082efa0550269bbf6.S.ledger",
+      "sha256": "93913a6f337377982df6d199e86306e27c5e911b48cbb268d8d8f91f3dc07be9",
+      "reservation_instances": {
+        "session": 1,
+        "bfv_matrix_descriptor": 1,
+        "bfv_key_and_GC_independent_OT": 1,
+        "bfv_matrix_input": 128,
+        "bfv_matrix_tile_mask_Enc0": 192,
+        "bfv_matrix_tile_GC": 192
+      }
+    }
+  ],
+  "GC_instances": 192,
+  "GC_ANDs": 11993088,
+  "OT_choices": 196608,
+  "joint_groups": [
+    6144
+  ],
+  "temporary_resources_removed": true,
+  "child_waited": true,
+  "stderr": ""
+}

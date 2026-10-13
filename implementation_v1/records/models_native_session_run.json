@@ -1,0 +1,23 @@
+{
+  "scope": "isolated developer check, not formal acceptance",
+  "exit_code": 0,
+  "elapsed_seconds": 0.9629617540049367,
+  "ledger_prefix": "records/models_session_probe_ff25dd4b870e4edb9e05d42839d8281a",
+  "stdout": "{\"entry\":\"isolated_public_session_artifact_probe\",\"two_processes\":true,\"owner_slots_128_160_257\":\"matched\",\"real_OT_multiplication\":\"matched\",\"client_answer_256_slots_status_0_to_3\":\"matched\",\"server_answer_vectors_empty\":true,\"release_and_fixed_ack_bytes_per_case\":2512,\"server_checkpoint_samples\":1860,\"constant_words_checked\":164609,\"client_provider_has_no_weights\":true,\"client_channel_bytes\":170988,\"production_TLS_not_run\":true,\"full_model_not_run\":true}\n",
+  "stderr": "",
+  "result": {
+    "entry": "isolated_public_session_artifact_probe",
+    "two_processes": true,
+    "owner_slots_128_160_257": "matched",
+    "real_OT_multiplication": "matched",
+    "client_answer_256_slots_status_0_to_3": "matched",
+    "server_answer_vectors_empty": true,
+    "release_and_fixed_ack_bytes_per_case": 2512,
+    "server_checkpoint_samples": 1860,
+    "constant_words_checked": 164609,
+    "client_provider_has_no_weights": true,
+    "client_channel_bytes": 170988,
+    "production_TLS_not_run": true,
+    "full_model_not_run": true
+  }
+}

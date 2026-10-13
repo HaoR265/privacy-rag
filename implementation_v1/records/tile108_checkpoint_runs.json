@@ -1,0 +1,106 @@
+{
+  "native_version": "1.0.8",
+  "scope": "Two isolated real checkpoint weight maps, no model or full RMS",
+  "model": "Qwen/Qwen3-1.7B",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "cases": [
+    {
+      "result": "matched_CUDA_R1",
+      "application_bytes": 217867169,
+      "elapsed_seconds": 6.70062,
+      "dimension": 2048,
+      "diagonal_gamma": false,
+      "raw_fractional_bits": 24,
+      "native_TLS13_mTLS": true,
+      "isolated_development": false,
+      "model_executed": false,
+      "tensor": "model.layers.0.self_attn.q_proj.weight",
+      "weight_sha256": "cdc5a8c1c1fff0dbfd0c000bb5f5ce3d9bf98d9022d88494bcad688d2de3bc7f",
+      "actual_row_L1": 547205,
+      "R1_device": "NVIDIA GeForce RTX 2060",
+      "R1_CPU_matmul": false,
+      "R1_output_sha256": "d4e0c96c7b41fd8c03ed11046fe96dac35694848eb4f90d25103c7fb5bdb6b5b",
+      "protocol_weight_mapped_at_S_only": true,
+      "synthetic_input": true,
+      "native_weight_hash_and_L1_checked": true,
+      "full_RMS_or_layer_executed": false,
+      "exit_code": 0,
+      "stderr": "",
+      "ledgers": [
+        {
+          "path": "records/tile108_checkpoint_Q_f913015884ac4c128d69c3d29d8b74d6.C.ledger",
+          "sha256": "26d6c46bb06f173e56eb63dd86c9b1d61fe24f7ee07369fa543b4c4114a72ae7"
+        },
+        {
+          "path": "records/tile108_checkpoint_Q_f913015884ac4c128d69c3d29d8b74d6.S.ledger",
+          "sha256": "26d6c46bb06f173e56eb63dd86c9b1d61fe24f7ee07369fa543b4c4114a72ae7"
+        }
+      ]
+    },
+    {
+      "result": "matched_CUDA_R1",
+      "application_bytes": 16204113,
+      "elapsed_seconds": 0.354713,
+      "dimension": 128,
+      "diagonal_gamma": true,
+      "raw_fractional_bits": 24,
+      "native_TLS13_mTLS": true,
+      "isolated_development": false,
+      "model_executed": false,
+      "tensor": "model.layers.0.self_attn.q_norm.weight",
+      "weight_sha256": "1ed86b923158ec5fa9ce440ef5aeb8aadba7a1da2d1f08f18a8c8f24f2cbb708",
+      "actual_row_L1": 28544,
+      "R1_device": "NVIDIA GeForce RTX 2060",
+      "R1_CPU_matmul": false,
+      "R1_output_sha256": "18b6e1265a4907e53dd306fcb3a9423fe345b934b110949b9d9d80259a409579",
+      "protocol_weight_mapped_at_S_only": true,
+      "synthetic_input": true,
+      "native_weight_hash_and_L1_checked": true,
+      "full_RMS_or_layer_executed": false,
+      "exit_code": 0,
+      "stderr": "",
+      "ledgers": [
+        {
+          "path": "records/tile108_checkpoint_gamma_94249f3d78104742aeed085a880b7844.C.ledger",
+          "sha256": "ab0be9a48aa1471df0471c7a5274f9c6e34774c250b063aa30720030171a60c9"
+        },
+        {
+          "path": "records/tile108_checkpoint_gamma_94249f3d78104742aeed085a880b7844.S.ledger",
+          "sha256": "ab0be9a48aa1471df0471c7a5274f9c6e34774c250b063aa30720030171a60c9"
+        }
+      ]
+    }
+  ],
+  "source_and_binary_sha256": {
+    "compute/dev_checkpoint_matrix_probe.cpp": "25cc9fbc383ca7f2330aa852568ed3a3c8b4618f6e5afc5b9c306d6dc221018d",
+    "native/build-tile108/libprag_crypto.a": "4806a6114d0faacf433bd40743c912cc512bde0aa88525c2b16bf8b4c0f9967b",
+    "native/build-tile108/prag_checkpoint_matrix_probe": "fba9479bdaab06a26bb0c68f3121c82b3cc92a2d372ace2791791d5deb67172c",
+    "tools/run_tile_checkpoint_protocol.py": "8140422356e848bc1ec93a50f1dddedff78ce28b72d988fcb6043c1c5984281f",
+    "compute/artifacts.hpp": "449a814d2f20b02571795afd06167dc3eb03e2c36a3f874ffc02e1a4113f44f5",
+    "compute/numeric_profile.hpp": "4645b0df127689565c7e1a61f4871bd5e07ec6cd4f384eb78707c334c73fa3fe",
+    "references/r1_cuda_numeric.py": "0fa528ec4da5806d6e587341994d5101cc313f1091bb6008bce08e7b5f1653c9"
+  },
+  "compile_command": [
+    "c++",
+    "-O3",
+    "-std=c++17",
+    "-maes",
+    "-msse4.1",
+    "-mavx",
+    "-mavx2",
+    "-DEMP_USE_RANDOM_DEVICE=1",
+    "-I/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/native/include",
+    "-I/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/third_party/EzPC/SCI/src",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/compute/dev_checkpoint_matrix_probe.cpp",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/native/build-tile108/libprag_crypto.a",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/third_party/SEAL/build/lib/libseal-4.1.a",
+    "-lssl",
+    "-lcrypto",
+    "-lgmpxx",
+    "-lgmp",
+    "-o",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/native/build-tile108/prag_checkpoint_matrix_probe"
+  ],
+  "temporary_PKI_and_reference_removed": true,
+  "full_model_R2": false
+}

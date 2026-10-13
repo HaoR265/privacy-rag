@@ -1,0 +1,230 @@
+{
+  "scope": "finite actual hybrid R2 development evidence; no formal acceptance",
+  "development_native_version": "prag-native-v1.0.12",
+  "full_R2_complete": false,
+  "production_enabled": false,
+  "M4_executed_in_this_stage": false,
+  "completed": [
+    {
+      "name": "M1_embedding",
+      "record": "records/hybrid112_layer_embedding_2_0_1ff4142dbc84438db1e7382d6715cf32.json",
+      "record_sha256": "2e15c9ed97917b251edf840b85643cd877ef8249b1435786f088252d773ca558",
+      "execution_source_archive": "records/hybrid112_M1_source_snapshot.tar.gz",
+      "archive_sha256": "bf0e6d14dfbed3f37a747d9709699a726d7b576b537229a14937fefbd2a0977b",
+      "shape": {
+        "model": "embedding",
+        "rows": 2,
+        "hidden": 1024,
+        "layer": 0,
+        "output_words": 2048
+      },
+      "parties": {
+        "C": {
+          "result": "completed_shared_layer",
+          "application_bytes": 10735518208,
+          "seconds": 103.759,
+          "peak_rss_kib": 1817872,
+          "gpu_peak_owned_bytes": 49152,
+          "gpu_kernels": 10,
+          "gpu_upload_bytes": 188416,
+          "gpu_download_bytes": 106496,
+          "heartbeats_received": 4
+        },
+        "S": {
+          "result": "completed_shared_layer",
+          "application_bytes": 10735518208,
+          "seconds": 102.814,
+          "peak_rss_kib": 1817872,
+          "gpu_peak_owned_bytes": 49152,
+          "gpu_kernels": 10,
+          "gpu_upload_bytes": 188416,
+          "gpu_download_bytes": 106496,
+          "heartbeats_received": 4
+        }
+      },
+      "numeric_failure": false
+    },
+    {
+      "name": "M1_generation",
+      "record": "records/hybrid112_layer_generation_2_0_2296cff92f6345f28be2dfde120bec00.json",
+      "record_sha256": "e0a7c03c1b876527989737d2532c9ed312ef3e1b09a8c5a8d7600a1a35e96010",
+      "execution_source_archive": "records/hybrid112_M1_source_snapshot.tar.gz",
+      "archive_sha256": "bf0e6d14dfbed3f37a747d9709699a726d7b576b537229a14937fefbd2a0977b",
+      "shape": {
+        "model": "generation",
+        "rows": 2,
+        "hidden": 2048,
+        "layer": 0,
+        "output_words": 4096
+      },
+      "parties": {
+        "C": {
+          "result": "completed_shared_layer",
+          "application_bytes": 18377618914,
+          "seconds": 213.51,
+          "peak_rss_kib": 2983020,
+          "gpu_peak_owned_bytes": 49152,
+          "gpu_kernels": 10,
+          "gpu_upload_bytes": 253952,
+          "gpu_download_bytes": 139264,
+          "heartbeats_received": 8
+        },
+        "S": {
+          "result": "completed_shared_layer",
+          "application_bytes": 18377618914,
+          "seconds": 211.615,
+          "peak_rss_kib": 2983020,
+          "gpu_peak_owned_bytes": 49152,
+          "gpu_kernels": 10,
+          "gpu_upload_bytes": 253952,
+          "gpu_download_bytes": 139264,
+          "heartbeats_received": 8
+        }
+      },
+      "numeric_failure": false
+    },
+    {
+      "name": "L2_retrieval_component",
+      "record": "records/hybrid112_postprocess_fcc69841b66f4fa08782cef499ac1c8a.json",
+      "record_sha256": "e4d6598a7269dd97797a67962c4712de83b1020f0c387342d018b25d62d23cb6",
+      "execution_source_archive": "records/hybrid112_postprocess_source_snapshot.tar.gz",
+      "archive_sha256": "30139209539d2bbdbbe34a2343216b28c4c0882319d227b97fee541974da73fd",
+      "shape": {
+        "model": "embedding",
+        "rows": 3,
+        "hidden": 1024,
+        "output_words": 4103
+      },
+      "parties": {
+        "C": {
+          "result": "completed_shared_L2_retrieval",
+          "application_bytes": 1250243754,
+          "seconds": 32.0751,
+          "peak_rss_kib": 805636,
+          "gpu_peak_owned_bytes": 8200,
+          "gpu_kernels": 4,
+          "gpu_upload_bytes": 32768,
+          "gpu_download_bytes": 32,
+          "heartbeats_received": 2
+        },
+        "S": {
+          "result": "completed_shared_L2_retrieval",
+          "application_bytes": 1250243754,
+          "seconds": 32.0774,
+          "peak_rss_kib": 805636,
+          "gpu_peak_owned_bytes": 8200,
+          "gpu_kernels": 4,
+          "gpu_upload_bytes": 32768,
+          "gpu_download_bytes": 32,
+          "heartbeats_received": 2
+        }
+      },
+      "numeric_failure": false
+    },
+    {
+      "name": "RoPE_lookup_boundary_component",
+      "record": "records/hybrid112_lookup_97ece7006ee243c0912d17ed95acb7a3.json",
+      "record_sha256": "0905ed9a84038f52947fec40f124705522d45b2b341a3b0eec277bb4c7f2c79f",
+      "result": {
+        "result": "matched_CUDA_oracle",
+        "rows": 8,
+        "columns": 128,
+        "output_words": 1024,
+        "flags": 8,
+        "seconds": 0.755701,
+        "application_bytes": 5846137,
+        "model_executed": false,
+        "production_enabled": false
+      },
+      "boundary": "public positions 0,1,1278,1279,1280,ring -1,high bit,sign bit; not a full model"
+    },
+    {
+      "name": "retained_GPU_cache_abort_cleanup",
+      "record": "records/hybrid112_cache_cleanup_54c56e0a08434c7d8b0675c856f4b054.json",
+      "record_sha256": "9a7eb39ad457318f06a137100b809452297b2d3f591a89acefeb0b63623ea103",
+      "execution_source_archive": "records/hybrid112_release_cleanup_source_snapshot.tar.gz",
+      "archive_sha256": "b099c5d711ba626865481e303c52345a8c719a1879a0eae89d83ebdc658f8b6c",
+      "cases": [
+        {
+          "fault": "token_weight_loader",
+          "cache_released_before_destructor": true,
+          "cache_reuse_rejected": true,
+          "crypto_aborted": true,
+          "model_arithmetic_executed": false
+        },
+        {
+          "fault": "stage_callback",
+          "cache_released_before_destructor": true,
+          "cache_reuse_rejected": true,
+          "crypto_aborted": true,
+          "model_arithmetic_executed": false
+        }
+      ],
+      "boundary": "faults injected before model arithmetic; does not certify any model output"
+    },
+    {
+      "name": "production_build_closed_gate",
+      "record": "records/hybrid112_production_build.json",
+      "record_sha256": "d25d0007cbf9c64e5e78e214e19889c9ca7cb47a5a715373fe37a21c46edbc00",
+      "execution_source_archive": "records/hybrid112_release_cleanup_source_snapshot.tar.gz",
+      "archive_sha256": "b099c5d711ba626865481e303c52345a8c719a1879a0eae89d83ebdc658f8b6c",
+      "boundary": "compilation and input-before-gate rejection only; no model run"
+    },
+    {
+      "name": "fresh_directory_build_entry",
+      "record": "records/hybrid112_fresh_build_entry.json",
+      "record_sha256": "0df0e1a64b0bdf2d61fa0bb2dd15240845f37da9f7fba716127a8bf49a0248c2",
+      "execution_source_archive": "records/hybrid112_fresh_build_source_snapshot.tar.gz",
+      "archive_sha256": "96793b4d40b205ce1103014e0933ce992c0ad16e6c8fffcf503f29c402fa12ea",
+      "boundary": "independent build identity and closed gates; no model run"
+    },
+    {
+      "name": "registered_development_build_entry",
+      "record": "records/hybrid112_registered_development_build.json",
+      "record_sha256": "1439e31d50dc90ae63b76e5e8aba4d315c139280dfbf8d12454458f361265318",
+      "execution_source_archive": "records/hybrid112_registered_development_build.source.tar.gz",
+      "archive_sha256": "f4facd583e4aab2dc1cc14f99e1da0a28092236b29b29d8ac4dec3b4294bd220",
+      "boundary": "build and execution source binding; no M1/M2/M3 run with these entry changes"
+    },
+    {
+      "name": "M2_decode",
+      "registration": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.registration.json",
+      "registration_sha256": "bfe81f2cec30ac3d4a995ee89647606504427b3837f7090fbb495320fd5f7891",
+      "execution_source_archive": "records/hybrid112_M2_running_source_snapshot.tar.gz",
+      "archive_sha256": "222bbe249197100765080d6239a7f7801449bcd264540451a79bfc9e975137b1",
+      "record": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json",
+      "record_sha256": "eb1b96e4f473821bc68ded56388093d297a94553328421e39b8386a9da4a097b",
+      "result": "matched_CUDA_R1",
+      "ledger_observations": [
+        {
+          "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.C.ledger",
+          "observation": "closed_and_burned"
+        },
+        {
+          "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.S.ledger",
+          "observation": "closed_and_burned"
+        }
+      ]
+    }
+  ],
+  "pending": [
+    {
+      "name": "M3_private_embedding_delivery_retrieval",
+      "registration": "records/hybrid112_M3_0ef42a29ee7b4f499a4a70681b65c868.registration.json",
+      "registration_sha256": "18aadd485b723b905ec49ec2d700d1cc01123b91275a0529e71bd9d01c1700f6",
+      "execution_source_archive": "records/hybrid112_M3_0ef42a29ee7b4f499a4a70681b65c868.source.tar.gz",
+      "archive_sha256": "c7002946df04ed5a1c2c5b3bb90653691bd31556c8b676592ecdb89caaa131ed",
+      "status": "registered_execution_in_progress_not_a_pass"
+    }
+  ],
+  "M1_complete_finite_shapes": true,
+  "M2_complete": true,
+  "M3_complete": false,
+  "reference_boundary": "CUDA R1 final oracle only; plaintext/reconstructed oracle data never input to native R2 participants",
+  "resource_policy": {
+    "R0_R1": "RTX2060 required; no CPU model fallback",
+    "R2_CPU": "pinned SEAL/SCI BFV, OT, GC, Beaver cryptographic operations",
+    "R2_RTX2060": "exact local share arithmetic, public layout, KV own-share storage",
+    "transfers": "own shares, S-owned weights, public constants only"
+  }
+}

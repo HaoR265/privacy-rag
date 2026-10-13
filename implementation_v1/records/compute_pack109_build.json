@@ -1,0 +1,91 @@
+{
+  "scope": "Actual current native and worker builds with closed model gate; no full model execution",
+  "native_version": "1.0.9",
+  "observed_build_group_exit_code": 0,
+  "jobs_per_build": 2,
+  "worker_crypto_library_matches_mtls_library": true,
+  "source_and_binary_sha256": {
+    "native/build/libprag_crypto.a": "44500092601318cb14d1d83cbfb76d1c3f6409b303af2d9b21e5c35803e9d299",
+    "native/build-pack109/libprag_crypto.a": "44500092601318cb14d1d83cbfb76d1c3f6409b303af2d9b21e5c35803e9d299",
+    "build/compute/native/libprag_crypto.a": "44500092601318cb14d1d83cbfb76d1c3f6409b303af2d9b21e5c35803e9d299",
+    "experiments/pack109_production/build/native/libprag_crypto.a": "44500092601318cb14d1d83cbfb76d1c3f6409b303af2d9b21e5c35803e9d299",
+    "compute/CMakeLists.txt": "2e6699a80168c584f173fa0fe9d4200ca218575fb16a476ea6baf34a3c2ed1d7",
+    "compute/model.hpp": "66f17d37d80ecfd6dd68c145e1620e47194979e25993fb5a8a039b245d68424f",
+    "compute/numerics.hpp": "a74879011592e0537110c1236eab870418d083d8b33aa2c144e39c7c5cb24af8",
+    "compute/model_compile.cpp": "f40a59cb1ea9bfd3a0a50252e06e709505b771aa87602a18c5d2afbdfbf7957c",
+    "compute/worker_main.cpp": "72187de6488bd7ea4fdd1235b56bd88bb3e3f7653584b591ea3939b297c2c834",
+    "native/CMakeLists.txt": "d02dd428c9099b3222774270cc7387d1b688519b4e5c0df86ebbff69ffdc826d",
+    "build/compute/prag_worker": "181937ff7649aad7b8f74601a7cc3627262ec0d20530b2a17f200395a8189d93",
+    "native/build/prag_bfv_context": "e8aeff44cd525e385be0103741c3a513fc0cf56a9c1c19de4d452cf87941062d",
+    "records/bfv_pack109_actual_context.json": "b8de8cea65703556f5dc00ca6161f052fd6e79301485faf5e425a060c50b729a",
+    "records/pack109_main_configure.log": "4e789b0247d2630aed2da68a8daf94c1175a4831215ff3a70af8c45a94d6039c",
+    "records/pack109_main_build.log": "796147f1f78c63017c18bc28edeebff9a159705bf02fc91138234c9245286b02",
+    "records/pack109_compute_build.log": "a6b7d887798381308a444ab9ef0d0061d134875c97ac2074e26f62a3864c2b2b"
+  },
+  "actual_context_export_matches_locked_artifact": true,
+  "current_gate_probe": {
+    "scope": "Current full-model execution resource policy, not protocol validation",
+    "required_device": "NVIDIA GeForce RTX 2060",
+    "cpu_model_execution_permitted": false,
+    "cpu_model_fallback_permitted": false,
+    "cpu_management_compilation_and_isolated_crypto_primitives_permitted": true,
+    "R0_R1_cuda_backend_available": true,
+    "R2_cuda_backend_available": false,
+    "R2_current_crypto_backend": "Pinned SEAL/SCI CPU primitives; CUDA references do not provide private GPU computation",
+    "activation": {
+      "production_enabled": false,
+      "capabilities": [
+        {
+          "name": "bfv_session_failure_bound",
+          "available": true,
+          "evidence": "artifacts/bfv_correctness_bound.json"
+        },
+        {
+          "name": "private_model_rtx2060_backend",
+          "available": false,
+          "evidence": "records/private_model_device_policy.json"
+        },
+        {
+          "name": "model_numeric_range_evidence",
+          "available": false,
+          "evidence": "artifacts/constants/range_evidence_v1_coordinated.json"
+        },
+        {
+          "name": "complete_private_model_execution",
+          "available": false,
+          "evidence": "records/implementation_progress.md"
+        },
+        {
+          "name": "compute_mtls_framing_and_cleanup",
+          "available": false,
+          "evidence": "records/crypto-debug-run.json"
+        }
+      ],
+      "reference_fallback": false,
+      "required_model_device": "NVIDIA GeForce RTX 2060",
+      "cpu_model_fallback": false
+    },
+    "native_gate": "private_model_gpu_backend_available() is false, independently required before reading inputs, opening protocol channels or constructing SecureOps",
+    "python_gate_development_evidence": "records/compute_process_debug.json",
+    "native_compilation_and_runtime_gate_check": {
+      "build": "existing_binary_runtime_gate_checked",
+      "build_model_executed": false,
+      "worker_path": "build/compute/prag_worker",
+      "worker_bytes": 1275776,
+      "worker_sha256": "181937ff7649aad7b8f74601a7cc3627262ec0d20530b2a17f200395a8189d93",
+      "exit_code": 2,
+      "public_stderr": "BACKEND_NOT_READY",
+      "rejected_before_input_or_sockets": true,
+      "production_library_excludes_development_decode_symbol": true,
+      "probe": "tools/check_private_model_policy.py"
+    },
+    "source_sha256": {
+      "private_rag/activation.py": "b5137dce71f1e103de2dea8b42ebcdc1428ecb395cf80ff512b432bf81f84a9f",
+      "compute/model_compile.cpp": "f40a59cb1ea9bfd3a0a50252e06e709505b771aa87602a18c5d2afbdfbf7957c",
+      "compute/worker_main.cpp": "72187de6488bd7ea4fdd1235b56bd88bb3e3f7653584b591ea3939b297c2c834"
+    }
+  },
+  "model_executed": false,
+  "full_R2": false,
+  "warnings": "Pinned SCI OpenSSL3 deprecation warnings; upstream unchanged"
+}

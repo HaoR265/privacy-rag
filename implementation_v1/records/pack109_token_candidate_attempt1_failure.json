@@ -1,0 +1,17 @@
+{
+  "kind": "candidate_runtime_failure_not_success",
+  "error": "poly_index must be within [0, size)",
+  "cause": "SEAL Ciphertext(context,parms_id,capacity) reserves capacity but size remains zero; token_raw must explicitly resize to two components",
+  "failure_after_key_setup": true,
+  "both_parties_aborted_materials_burned": true,
+  "key_setup_application_bytes": 200026336,
+  "source_sha256": {
+    "experiments/pack109/token_engine.inc": "7c2089578d875f6cbf4b075c806ca1842dc6809c87a28e07599afa9ef34d3ceb",
+    "experiments/pack109/build/prag_pack109_token": "48d098723b3a30c88213e9c7e8ffd8064aac545b76ce209d66c3d8e88645fc3b"
+  },
+  "ledgers": {
+    "records/pack109_token_candidate_H1024_id0_5b3e4f5f0b83490083a39242efcde4d4.C.ledger": "2f3c900cd6dc541945dc04fea6765226976f2023bffc11f83e3411d5d6e4eac1",
+    "records/pack109_token_candidate_H1024_id0_5b3e4f5f0b83490083a39242efcde4d4.S.ledger": "2f3c900cd6dc541945dc04fea6765226976f2023bffc11f83e3411d5d6e4eac1"
+  },
+  "full_model_R2": false
+}

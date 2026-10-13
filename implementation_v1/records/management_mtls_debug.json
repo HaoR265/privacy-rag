@@ -1,0 +1,20 @@
+{
+  "scope": "isolated_real_transport_and_management_debug",
+  "formal_acceptance": false,
+  "private_computation_executed": false,
+  "configuration_sha256": "d023e3914e9a1bd6c6ce3576449fab9d00761ec6497c44ed3c423b7136596f21",
+  "preparation_admission_gate": "real mTLS route rejects BACKEND_NOT_READY before session insertion",
+  "owner_local_application": "actual tokenizer preprocessing and mTLS N0 response; N>0 fresh full sync then closed gate; D selected chunk rejected before local files, acceptance, sockets or worker",
+  "production_clients": "OS keystore registration; D metadata/ACL/reshare/HPKE/stage/publish; complete U sync twice; revoke; backend gate fixed error",
+  "full_sync_package_fetches": 6,
+  "full_sync_N": 2,
+  "preparation_source": "public_synthetic_debug_only_not_private_embedding",
+  "preparation_persist_ack": "D reads own completed+release_acknowledged via mTLS; foreign account rejected; unknown total_bytes remains null",
+  "temporary_client_hpke_key_deleted": true,
+  "missing_client_certificate": "TLS connection rejected",
+  "untrusted_client_CA": "TLS connection rejected",
+  "negotiated_tls": "TLSv1.3",
+  "authenticated_routes": "U key registration/full sync/N0; D metadata registration; role and header spoof rejection",
+  "temporary_listener_stopped": true,
+  "temporary_postgresql_stopped": true
+}

@@ -1,0 +1,272 @@
+{
+  "kind": "static_changed_operator_scope_not_full_model_or_runtime",
+  "native_version": "1.0.9",
+  "counts": {
+    "prepare_embedding_257": {
+      "inputs": 114083,
+      "returns": 233474,
+      "matrix_calls": 1904,
+      "joint_calls": 952,
+      "matrix_targets": 88424448,
+      "matrix_gc_tiles": 172704,
+      "matrix_gc_chunks": 5353824,
+      "token_calls": 257,
+      "token_targets": 263168,
+      "token_gc_tiles": 514,
+      "diagonal_coordinates": 37106688,
+      "matrix_bytes": 851045137152,
+      "token_bfv_gc_bytes": 12439647072,
+      "token_onehot_bytes": 6951862336,
+      "diagonal_bytes": 95538976944
+    },
+    "query_embedding_160": {
+      "inputs": 70240,
+      "returns": 143680,
+      "matrix_calls": 1120,
+      "joint_calls": 560,
+      "matrix_targets": 55050240,
+      "matrix_gc_tiles": 107520,
+      "matrix_gc_chunks": 3333120,
+      "token_calls": 160,
+      "token_targets": 163840,
+      "token_gc_tiles": 320,
+      "diagonal_coordinates": 23101440,
+      "matrix_bytes": 527283402240,
+      "token_bfv_gc_bytes": 7744527360,
+      "token_onehot_bytes": 4328007680,
+      "diagonal_bytes": 59479518720
+    },
+    "generation_prefill_1024": {
+      "inputs": 764928,
+      "returns": 1609728,
+      "matrix_calls": 7168,
+      "joint_calls": 3584,
+      "matrix_targets": 587202560,
+      "matrix_gc_tiles": 1146880,
+      "matrix_gc_chunks": 35553280,
+      "token_calls": 1024,
+      "token_targets": 2097152,
+      "token_gc_tiles": 4096,
+      "diagonal_coordinates": 207618048,
+      "matrix_bytes": 5729590558720,
+      "token_bfv_gc_bytes": 68526080000,
+      "token_onehot_bytes": 27699249152,
+      "diagonal_bytes": 531751452672
+    },
+    "generation_decode_255": {
+      "inputs": 747405,
+      "returns": 1600380,
+      "matrix_calls": 28560,
+      "joint_calls": 14280,
+      "matrix_targets": 146227200,
+      "matrix_gc_tiles": 285600,
+      "matrix_gc_chunks": 8853600,
+      "token_calls": 255,
+      "token_targets": 522240,
+      "token_gc_tiles": 1020,
+      "diagonal_coordinates": 51701760,
+      "matrix_bytes": 3246285423360,
+      "token_bfv_gc_bytes": 17064600000,
+      "token_onehot_bytes": 6897762240,
+      "diagonal_bytes": 132418574640
+    },
+    "generation_logits_256": {
+      "inputs": 32768,
+      "returns": 76032,
+      "matrix_calls": 256,
+      "joint_calls": 0,
+      "matrix_targets": 38895616,
+      "matrix_gc_tiles": 76032,
+      "matrix_gc_chunks": 2354944,
+      "token_calls": 0,
+      "token_targets": 0,
+      "token_gc_tiles": 0,
+      "diagonal_coordinates": 0,
+      "matrix_bytes": 329555865600,
+      "token_bfv_gc_bytes": 0,
+      "token_onehot_bytes": 0,
+      "diagonal_bytes": 0
+    },
+    "one_decode_token_including_logits": {
+      "inputs": 3059,
+      "returns": 6573,
+      "matrix_calls": 113,
+      "joint_calls": 56,
+      "matrix_targets": 725376,
+      "matrix_gc_tiles": 1417,
+      "matrix_gc_chunks": 43919,
+      "token_calls": 1,
+      "token_targets": 2048,
+      "token_gc_tiles": 4,
+      "diagonal_coordinates": 202752,
+      "matrix_bytes": 14017858672,
+      "token_bfv_gc_bytes": 66920000,
+      "token_onehot_bytes": 27050048,
+      "diagonal_bytes": 519288528
+    },
+    "generation_total": {
+      "inputs": 1545101,
+      "returns": 3286140,
+      "matrix_calls": 35984,
+      "joint_calls": 17864,
+      "matrix_targets": 772325376,
+      "matrix_gc_tiles": 1508512,
+      "matrix_gc_chunks": 46761824,
+      "token_calls": 1279,
+      "token_targets": 2619392,
+      "token_gc_tiles": 5116,
+      "diagonal_coordinates": 259319808,
+      "matrix_bytes": 9305431847680,
+      "token_bfv_gc_bytes": 85590680000,
+      "token_onehot_bytes": 34597011392,
+      "diagonal_bytes": 664170027312
+    },
+    "nonempty_query_total": {
+      "inputs": 1615341,
+      "returns": 3429820,
+      "matrix_calls": 37104,
+      "joint_calls": 18424,
+      "matrix_targets": 827375616,
+      "matrix_gc_tiles": 1616032,
+      "matrix_gc_chunks": 50094944,
+      "token_calls": 1439,
+      "token_targets": 2783232,
+      "token_gc_tiles": 5436,
+      "diagonal_coordinates": 282421248,
+      "matrix_bytes": 9832715249920,
+      "token_bfv_gc_bytes": 93335207360,
+      "token_onehot_bytes": 38925019072,
+      "diagonal_bytes": 723649546032
+    }
+  },
+  "online_application_bytes": {
+    "prepare_embedding_257": 965975623504,
+    "query_embedding_160": 598835456000,
+    "generation_prefill_1024": 6357567340544,
+    "generation_decode_255": 3402666360240,
+    "generation_logits_256": 329555865600,
+    "one_decode_token_including_logits": 14631117248,
+    "generation_total": 10089789566384,
+    "nonempty_query_total": 10688625022384
+  },
+  "same_functional_scope_excluding_onehot_and_setup": {
+    "prepare_embedding_257": 959023761168,
+    "query_embedding_160": 594507448320,
+    "generation_prefill_1024": 6329868091392,
+    "generation_decode_255": 3395768598000,
+    "generation_logits_256": 329555865600,
+    "one_decode_token_including_logits": 14604067200,
+    "generation_total": 10055192554992,
+    "nonempty_query_total": 10649700003312
+  },
+  "previous_v108_same_functional_scope_bytes": {
+    "prepare_embedding_257": 5380733904608,
+    "query_embedding_160": 3333421392640,
+    "generation_prefill_1024": 31589161689088,
+    "generation_decode_255": 19995867276960,
+    "generation_logits_256": 329555865600,
+    "one_decode_token_including_logits": 79702493392,
+    "generation_total": 51914584831648,
+    "nonempty_query_total": 55248006224288
+  },
+  "setup_per_session": {
+    "input_public_key": 1835104,
+    "acyclic_switch_keys_and_final_public_key": 200026336,
+    "base_OT_streams": 3,
+    "all_base_OT_bytes": 173283,
+    "total": 202034723
+  },
+  "setup_accounting": "Paid once for one shared SecureOps session; if phases have separate sessions, charge each session again.",
+  "per_unit_bytes": {
+    "input": 1572960,
+    "return_c1": 786528,
+    "token_GC_512": 8471824,
+    "token_onehot_warm": 27050048,
+    "base_OT_stream": 57761
+  },
+  "measured_transcript_reconciliation": [
+    {
+      "record": "records/pack109_production_16x17x33_m0.json",
+      "bytes": 9056177
+    },
+    {
+      "record": "records/pack109_production_16x2048x2048_m0.json",
+      "bytes": 387061601
+    },
+    {
+      "record": "records/pack109_production_16x2048x6144_m0.json",
+      "bytes": 905715553
+    },
+    {
+      "record": "records/pack109_production_16x6144x2048_m0.json",
+      "bytes": 538071905
+    },
+    {
+      "record": "records/pack109_production_1x2048x12288_m3.json",
+      "bytes": 196668737
+    },
+    {
+      "record": "records/pack109_production_1x2048x4096_m2.json",
+      "bytes": 100375105
+    },
+    {
+      "record": "records/pack109_production_3x17x7_m0.json",
+      "bytes": 4682008
+    },
+    {
+      "record": "records/pack109_production_3x17x7_m1.json",
+      "bytes": 4682008
+    },
+    {
+      "record": "records/pack109_token_production_H1024_ids0_8191_8192_155647.json",
+      "case": 0,
+      "bytes": 277488067
+    },
+    {
+      "record": "records/pack109_token_production_H1024_ids0_8191_8192_155647.json",
+      "case": 1,
+      "bytes": 75453344
+    },
+    {
+      "record": "records/pack109_token_production_H1024_ids0_8191_8192_155647.json",
+      "case": 2,
+      "bytes": 75453344
+    },
+    {
+      "record": "records/pack109_token_production_H1024_ids0_8191_8192_155647.json",
+      "case": 3,
+      "bytes": 75453344
+    },
+    {
+      "record": "records/pack109_token_production_H2048_ids151935_155647.json",
+      "case": 0,
+      "bytes": 296004771
+    },
+    {
+      "record": "records/pack109_token_production_H2048_ids151935_155647.json",
+      "case": 1,
+      "bytes": 93970048
+    }
+  ],
+  "all_available_measured_bytes_match": true,
+  "full_model_R2": false,
+  "formal_acceptance": false,
+  "excludes": [
+    "secret Attention QK/PV and other Beaver operations",
+    "range checks, validity/failure handling, floor, RMS/Softmax/NR and greedy selection",
+    "management, retrieval, heartbeat and TLS/TCP/IP transport overhead",
+    "runtime and hardware performance extrapolation"
+  ],
+  "source_sha256": {
+    "tools/build_pack109_cost.py": "bd822af532ef4c1f7ed50c2385b06764008401758af1e5c64983eb2878368129",
+    "tools/build_tile_cost.py": "46db14a4851008e704d3b3eff08be0dd2c039ce274588f0bdccf1702f1f78685",
+    "native/include/prag/bfv_layout.hpp": "f28ee69f41264b8032d20d89f8b8f66ecc38412f7d8d96cbca9e194a1026045a",
+    "native/src/bfv_matrix.inc": "5cf0e4455dc4a6055214c8acd01a6f11e408e4b2c0fcdc0a816f0cc5238a1be5",
+    "native/src/bfv.cpp": "90a63d9bc16c220bd3c13b4f442d5eb56f08964269eb3826da915d5472f25c8d",
+    "native/src/secure_ops.cpp": "20e2c7340d6f5042b21ea6b83dc38e426258d7c34a3b368d20e0513c1897a25c",
+    "native/src/bfv_token_engine.inc": "971926e19420c99ccc3c13f8d353b0952bba2edabe4991bcd463c142625a6100",
+    "native/src/bfv_token_decoder.inc": "6c2880ebc6a9735e538e430a22acdc3810591793e0699bcadef31b7211b4d796",
+    "compute/model.hpp": "66f17d37d80ecfd6dd68c145e1620e47194979e25993fb5a8a039b245d68424f",
+    "compute/numerics.hpp": "a74879011592e0537110c1236eab870418d083d8b33aa2c144e39c7c5cb24af8"
+  }
+}

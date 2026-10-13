@@ -1,0 +1,54 @@
+{
+  "scope": "M2 original execution evidence checked before source publication; no new model execution",
+  "record": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.json",
+  "record_sha256": "eb1b96e4f473821bc68ded56388093d297a94553328421e39b8386a9da4a097b",
+  "source_archive_sha256": "222bbe249197100765080d6239a7f7801449bcd264540451a79bfc9e975137b1",
+  "archive_identities_verified": true,
+  "ledger_observations": [
+    {
+      "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.C.ledger",
+      "observation": "closed_and_burned"
+    },
+    {
+      "path": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.S.ledger",
+      "observation": "closed_and_burned"
+    }
+  ],
+  "public_schedule": [
+    {
+      "party": "C",
+      "trace": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.C.trace.jsonl",
+      "trace_sha256": "769bd8566645ea6e35df69ec965907e865a38e9363bf018e932e5a09b78288ac",
+      "counts": {
+        "Transformer_layer": 28,
+        "RoPE_shared_public_coefficients": 28,
+        "shared_QK": 448,
+        "shared_PV": 448,
+        "SiLU": 56,
+        "coordinate_range": 113
+      },
+      "token_lookup_trace_available": false
+    },
+    {
+      "party": "S",
+      "trace": "records/hybrid112_decode_e245f7c77f914382806a5a8e7a07689e.S.trace.jsonl",
+      "trace_sha256": "b95804a6e8b4f50399573ab708b35714e12dcde55c4e8f345a625657792686ae",
+      "counts": {
+        "Transformer_layer": 28,
+        "RoPE_shared_public_coefficients": 28,
+        "shared_QK": 448,
+        "shared_PV": 448,
+        "SiLU": 56,
+        "coordinate_range": 113
+      },
+      "token_lookup_trace_available": false
+    }
+  ],
+  "final_token_and_KV_matched": true,
+  "output_words": 57345,
+  "numeric_failure": false,
+  "client_seconds": 6249.32,
+  "client_application_bytes": 500658003539,
+  "prefix_was_computed_by_R2": false,
+  "full_R2_completed": false
+}

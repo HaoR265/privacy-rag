@@ -1,0 +1,34 @@
+{
+  "scope": "Ledger-only localization of incomplete RMS; not a value comparison",
+  "native_version": "1.0.9",
+  "deadline_seconds": 300,
+  "complete_RMS": false,
+  "ledgers": [
+    {
+      "path": "records/pack109_production_rms_gamma_047ade18559f40cb8cc02fe024783577.C.ledger",
+      "sha256": "9e95ca4a43b7b6236f7ffa97de9d30a621cff4f7e092afe6b63951be9ee8d6a0",
+      "reservation_operation_counts": {
+        "session": 1,
+        "boolean_cross_OT": 201317,
+        "ot_C_to_S": 405,
+        "beaver": 243,
+        "ot_S_to_C": 243
+      },
+      "gamma_descriptor_reached": false,
+      "terminal": "terminal=aborted all_reserved=burned"
+    },
+    {
+      "path": "records/pack109_production_rms_gamma_047ade18559f40cb8cc02fe024783577.S.ledger",
+      "sha256": "9e95ca4a43b7b6236f7ffa97de9d30a621cff4f7e092afe6b63951be9ee8d6a0",
+      "reservation_operation_counts": {
+        "session": 1,
+        "boolean_cross_OT": 201317,
+        "ot_C_to_S": 405,
+        "beaver": 243,
+        "ot_S_to_C": 243
+      },
+      "gamma_descriptor_reached": false,
+      "terminal": "terminal=aborted all_reserved=burned"
+    }
+  ]
+}

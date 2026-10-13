@@ -1,0 +1,18 @@
+{
+  "scope": "independent public R1 complete embedding developer check, not formal acceptance",
+  "numeric_profile": "v1-f12-coordinated-20261013",
+  "public_input": "交付方案使用 X25519、HKDF-SHA256 和 AES-128-GCM。",
+  "input_kind": "document2",
+  "physical_slots": 257,
+  "layers": 28,
+  "elapsed_seconds": 25.282042198989075,
+  "output_shape": [
+    1024
+  ],
+  "eligible": 1,
+  "numeric_failure": false,
+  "output_nonzero_count": 1023,
+  "output_l2_norm_after_f20": 0.9999995678189383,
+  "first_failure": null,
+  "r2_executed": false
+}

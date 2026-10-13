@@ -1,0 +1,44 @@
+{
+  "scope": "independent public R1 complete embedding developer check, not formal acceptance",
+  "numeric_profile": "v1-f12-qk-swiglu-local-20261013",
+  "public_input": "交付方案使用 X25519、HKDF-SHA256 和 AES-128-GCM。",
+  "input_kind": "document2",
+  "physical_slots": 257,
+  "layers": 28,
+  "elapsed_seconds": 127.11346019600751,
+  "output_shape": [
+    1024
+  ],
+  "eligible": 0,
+  "numeric_failure": true,
+  "output_nonzero_count": 0,
+  "output_l2_norm_after_f20": 0.0,
+  "first_failure": {
+    "operator": "linear",
+    "operator_line": 193,
+    "operator_source": "return result if raw else self.checked(floor_shift(result,12))",
+    "weight_path": "/srv/shared/Documents/ChatGPT/密码比赛/implementation_v1/artifacts/models/embedding/quantized_f12/model.layers.2.mlp.down_proj.weight.npy",
+    "layer": 2,
+    "forward_line": 90,
+    "forward_source": "x=self.num.checked(y+self.num.linear(joint,w(\"mlp.down_proj\"),input_bound=joint_bound))",
+    "shape": [
+      257,
+      1024
+    ],
+    "minimum_integer": -617225,
+    "maximum_integer": 26834075,
+    "lower_allowed": -1048576,
+    "upper_allowed": 1048576,
+    "max_abs_index": [
+      0,
+      35
+    ],
+    "max_abs_integer": 26834075,
+    "bad_value_count": 3,
+    "physical_position_axis": 0,
+    "valid_position_minimum_integer": -617225,
+    "valid_position_maximum_integer": 26834075,
+    "max_abs_is_valid_position": true
+  },
+  "r2_executed": false
+}

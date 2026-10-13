@@ -1,0 +1,27 @@
+{
+  "scope": "read-only integer operator ordering review after coordinated revision; not full R2 model verification",
+  "numeric_profile_version": "v1-f12-coordinated-20261013",
+  "source_hashes": {
+    "references/r1_numeric.py": "df2e708dbad9f14e5d388ba41e2a78729a25b216090ec6a8137aaf9f6a9397cc",
+    "references/r1_model.py": "e764d7356941887ca771a584ea91f3b5c53c4d95578c48b258d37ac887736334",
+    "compute/numerics.hpp": "15b14cf78270368fafe2d7859b00e13fc986d573f88a982755d5e1dc6b3de983",
+    "artifacts/constants/numeric_profile_v1_qk.json": "ff53725bf7f455075d5276141051227c7292f348fe10a872b2bc5996c352f1ee"
+  },
+  "matched": [
+    "coordinate guards before multiplication",
+    "per-term remaining-budget check before addition",
+    "row failure resets entire vector and sum",
+    "RMS failed row A=F, k0; otherwise floor(S/d)+16",
+    "L2 invalid record/no-last/zero selects zero vector and positive dummy without introducing numeric failure",
+    "existing six-round NR and all floors unchanged",
+    "Q/K dedicated output bounds unchanged",
+    "checked SiLU output before enlarged joint",
+    "complete weighted sum before floor and output/residual check"
+  ],
+  "reference_only_implementation_differences": [
+    "R1 arrays may perform independent coordinate checks before the fixed per-feature sum scan; arithmetic values and failure OR are equivalent",
+    "R1 additionally checks the mathematically implied nonnegative probability mass<4F on plaintext public-reference data before its PV matrix multiply",
+    "R1 may represent provably bounded integer GEMM in float64 with exactness preconditions; R2 continues secure integer protocols"
+  ],
+  "scope_limit": "Read order and guard semantics agree; this does not establish full private model execution or validate arbitrary out-of-contract API inputs"
+}

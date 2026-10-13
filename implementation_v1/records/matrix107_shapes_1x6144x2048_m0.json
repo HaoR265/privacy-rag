@@ -1,0 +1,87 @@
+{
+  "native_version": "1.0.7",
+  "shape_B_K_O": [
+    1,
+    6144,
+    2048
+  ],
+  "result": "matched_CUDA_R1",
+  "raw_fractional_bits": 24,
+  "input_ciphertexts": 384,
+  "returned_ciphertext_groups": 4,
+  "output_coordinates": 2048,
+  "application_bytes": 5777870049,
+  "frames_sent": 262787,
+  "frames_received": 80005,
+  "transcript_direction_runs": 4102,
+  "direction_runs_are_not_RTT": true,
+  "elapsed_seconds": 36.6822,
+  "client_process_peak_RSS_bytes": 752111616,
+  "server_process_peak_RSS_bytes": 666931200,
+  "native_TLS13_mTLS": true,
+  "isolated_development": false,
+  "protocol_GPU_used": false,
+  "full_model_R2": false,
+  "scope": "real matrix-level public synthetic R2 primitive vs separate GPU R1, not formal acceptance or a model",
+  "R1_reference": {
+    "device": "cuda:0",
+    "device_name": "NVIDIA GeForce RTX 2060",
+    "CPU_reference_matmul": false,
+    "elapsed_seconds": 0.008258454996393993,
+    "peak_allocated_bytes": 210028032,
+    "raw_partial_sum_abs_bound": 24188928,
+    "raw_output_fractional_bits": 24,
+    "exact_GEMM_counts": {
+      "direct_float64": 1,
+      "split_float64": 0
+    },
+    "output_sha256": "e93e848b2dfead14c8b1f7666ef499d2411a9ee2c39757550b094ad207d1c9b7",
+    "synthetic_input_and_weights": true,
+    "model_checkpoint_used": false
+  },
+  "source_and_binary_sha256": {
+    "native/src/bfv.cpp": "d0e79a80c2ffd74ba821e0e2a28271e9b242b5e97543b5209c300d2bf4f67277",
+    "native/src/bfv_matrix.inc": "0b3878fff99c511404482089e8eb1eea8504e918c236aa9197ff471784722101",
+    "native/src/channel.cpp": "61411745b9ac3506f1fb1927bb9c8efb02ccbbcb60107041fee7a1973817f3d9",
+    "native/include/prag/channel.hpp": "c4ebc039c61c17ee3e833913f62cce983944d0458f712a0d892fe23e1b89fb42",
+    "native/include/prag/secure_ops.hpp": "35011ff2e23e98578c5498e4331a0ffdd3813caa0fdb530adc52210b608326d5",
+    "native/include/prag/bfv.hpp": "8e88568d77fbf2933e61a1d81a8403e11dc7fb16d4069edd1ae016254b357626",
+    "native/src/dev_matrix_probe.cpp": "911881d475f070f705addd2d61372ee9243ed56c18550a06f38182a9b1edc7c9",
+    "native/CMakeLists.txt": "1e1e07a87381b5a2a756c087381c1dcffce92e309977f9a04d541cb6402b6b72",
+    "references/r1_cuda_numeric.py": "0fa528ec4da5806d6e587341994d5101cc313f1091bb6008bce08e7b5f1653c9",
+    "tools/run_matrix_protocol.py": "de5361f25391cdfd0e55dbd8fc388a13cc0a0f0af110e3b5b9fff63133fa8e5b",
+    "native/build-matrix107/prag_production_matrix_probe": "04e9c8c91a1406e5db5d1b57fed0d96f8d99e598e95a9390bbae3f2ec55823a8",
+    "native/build-matrix107/libprag_crypto.a": "8a784691a3d3d2cfd93003eee3b6285397a459c5e5b9f2f95874867defb8bafb"
+  },
+  "ledgers": [
+    {
+      "path": "records/matrix107_shapes_1x6144x2048_m0_48dfea5e7191480dabb21e6c2503c7da.C.ledger",
+      "sha256": "44f7b22c662a95167feb18e600a50ece0d63d11eaaa2d289434ca501cb71e69a",
+      "counts": {
+        "session": 1,
+        "bfv_matrix_descriptor": 1,
+        "bfv_key_and_GC_independent_OT": 1,
+        "bfv_matrix_input": 384,
+        "bfv_matrix_tile_mask_Enc0": 4,
+        "bfv_matrix_target_GC": 2048
+      }
+    },
+    {
+      "path": "records/matrix107_shapes_1x6144x2048_m0_48dfea5e7191480dabb21e6c2503c7da.S.ledger",
+      "sha256": "44f7b22c662a95167feb18e600a50ece0d63d11eaaa2d289434ca501cb71e69a",
+      "counts": {
+        "session": 1,
+        "bfv_matrix_descriptor": 1,
+        "bfv_key_and_GC_independent_OT": 1,
+        "bfv_matrix_input": 384,
+        "bfv_matrix_tile_mask_Enc0": 4,
+        "bfv_matrix_target_GC": 2048
+      }
+    }
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "temporary_PKI_and_reference_removed": true,
+  "source_unchanged_during_run": true,
+  "child_waited": true
+}

@@ -1,0 +1,40 @@
+{
+  "scope": "Device open, CUDA initialization and tiny GPU arithmetic only",
+  "timestamp_utc": "2026-10-12T23:27:54.843683+00:00",
+  "model_loaded": false,
+  "CPU_model_fallback_permitted": false,
+  "full_R2_executed": false,
+  "gpu_ready": true,
+  "nvidia_smi": {
+    "returncode": 0,
+    "stdout": "NVIDIA GeForce RTX 2060, 550.163.01, 6144 MiB, 21 MiB, 0 %",
+    "stderr": ""
+  },
+  "device_nodes": {
+    "/dev/nvidiactl": {
+      "open": true
+    },
+    "/dev/nvidia0": {
+      "open": true
+    },
+    "/dev/nvidia-uvm": {
+      "open": true
+    }
+  },
+  "cuInit": {
+    "code": 0,
+    "name": "CUDA_SUCCESS"
+  },
+  "torch": {
+    "version": "2.6.0+cu124",
+    "cuda_version": "12.4",
+    "device_names": [
+      "NVIDIA GeForce RTX 2060"
+    ]
+  },
+  "tiny_arithmetic": {
+    "device": "cuda:0",
+    "fp64_matmul_and_int64_recomposition_correct": true,
+    "allocated_bytes": 8523264
+  }
+}

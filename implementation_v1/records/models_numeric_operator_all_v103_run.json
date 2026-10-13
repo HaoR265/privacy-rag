@@ -1,0 +1,108 @@
+{
+  "scope": "seven public synthetic nonlinear cases on real SecureOps; not full model or formal acceptance",
+  "native_version": "1.0.3",
+  "command": [
+    "build/models-probe/prag_dev_numeric_operator_probe",
+    "build/models-probe/operator-all-v103-1791834996677330277",
+    "artifacts/constants/constants_v1.bin",
+    "records/models_numeric_operator_expected.txt",
+    "all"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 104.63075118800043,
+  "stdout": "{\"entry\":\"isolated_public_numeric_operator_probe\",\"case\":\"exp_zero\",\"matched_R1\":true,\"two_processes\":true,\"real_SecureOps\":true,\"actual_constants\":true,\"client_channel_bytes\":52499762,\"elapsed_seconds\":1.90759,\"full_model_not_run\":true,\"production_TLS_not_run\":true}\n{\"entry\":\"isolated_public_numeric_operator_probe\",\"case\":\"exp_32\",\"matched_R1\":true,\"two_processes\":true,\"real_SecureOps\":true,\"actual_constants\":true,\"client_channel_bytes\":52384240,\"elapsed_seconds\":1.87296,\"full_model_not_run\":true,\"production_TLS_not_run\":true}\n{\"entry\":\"isolated_public_numeric_operator_probe\",\"case\":\"exp_tail\",\"matched_R1\":true,\"two_processes\":true,\"real_SecureOps\":true,\"actual_constants\":true,\"client_channel_bytes\":52384240,\"elapsed_seconds\":1.81038,\"full_model_not_run\":true,\"production_TLS_not_run\":true}\n{\"entry\":\"isolated_public_numeric_operator_probe\",\"case\":\"silu_positive\",\"matched_R1\":true,\"two_processes\":true,\"real_SecureOps\":true,\"actual_constants\":true,\"client_channel_bytes\":625474278,\"elapsed_seconds\":23.1145,\"full_model_not_run\":true,\"production_TLS_not_run\":true}\n{\"entry\":\"isolated_public_numeric_operator_probe\",\"case\":\"silu_negative\",\"matched_R1\":true,\"two_processes\":true,\"real_SecureOps\":true,\"actual_constants\":true,\"client_channel_bytes\":625474278,\"elapsed_seconds\":22.5388,\"full_model_not_run\":true,\"production_TLS_not_run\":true}\n{\"entry\":\"isolated_public_numeric_operator_probe\",\"case\":\"softmax_valid\",\"matched_R1\":true,\"two_processes\":true,\"real_SecureOps\":true,\"actual_constants\":true,\"client_channel_bytes\":692276660,\"elapsed_seconds\":26.0717,\"full_model_not_run\":true,\"production_TLS_not_run\":true}\n{\"entry\":\"isolated_public_numeric_operator_probe\",\"case\":\"softmax_invalid\",\"matched_R1\":true,\"two_processes\":true,\"real_SecureOps\":true,\"actual_constants\":true,\"client_channel_bytes\":692276660,\"elapsed_seconds\":27.2995,\"full_model_not_run\":true,\"production_TLS_not_run\":true}\n",
+  "stderr": "",
+  "sources_sha256": {
+    "compute/dev_numeric_operator_probe.cpp": "4625291a5497ef54275426b12f3ad25baafe9ef938634caa9cefcdb2a3946aad",
+    "compute/numerics.hpp": "439cd295a86243ca8d5bf1a99b2b9343836bc2c460e731973a9fdab7dc0efab5",
+    "native/src/secure_ops.cpp": "1ce08945c787f57b075cd1d071bb24dafbfc457bcf0aee87f7f1bad587c948b0",
+    "artifacts/constants/constants_v1.bin": "25e102e96ff83ed40620793af5cd80b3e37b46ff5d64009c2440a32c7bfec04f",
+    "records/models_numeric_operator_expected.txt": "e6a32804cbb49d002d511a26d6c5bb862baec4b5de44a7c2b56037857110e0b5"
+  },
+  "cases": [
+    {
+      "entry": "isolated_public_numeric_operator_probe",
+      "case": "exp_zero",
+      "matched_R1": true,
+      "two_processes": true,
+      "real_SecureOps": true,
+      "actual_constants": true,
+      "client_channel_bytes": 52499762,
+      "elapsed_seconds": 1.90759,
+      "full_model_not_run": true,
+      "production_TLS_not_run": true
+    },
+    {
+      "entry": "isolated_public_numeric_operator_probe",
+      "case": "exp_32",
+      "matched_R1": true,
+      "two_processes": true,
+      "real_SecureOps": true,
+      "actual_constants": true,
+      "client_channel_bytes": 52384240,
+      "elapsed_seconds": 1.87296,
+      "full_model_not_run": true,
+      "production_TLS_not_run": true
+    },
+    {
+      "entry": "isolated_public_numeric_operator_probe",
+      "case": "exp_tail",
+      "matched_R1": true,
+      "two_processes": true,
+      "real_SecureOps": true,
+      "actual_constants": true,
+      "client_channel_bytes": 52384240,
+      "elapsed_seconds": 1.81038,
+      "full_model_not_run": true,
+      "production_TLS_not_run": true
+    },
+    {
+      "entry": "isolated_public_numeric_operator_probe",
+      "case": "silu_positive",
+      "matched_R1": true,
+      "two_processes": true,
+      "real_SecureOps": true,
+      "actual_constants": true,
+      "client_channel_bytes": 625474278,
+      "elapsed_seconds": 23.1145,
+      "full_model_not_run": true,
+      "production_TLS_not_run": true
+    },
+    {
+      "entry": "isolated_public_numeric_operator_probe",
+      "case": "silu_negative",
+      "matched_R1": true,
+      "two_processes": true,
+      "real_SecureOps": true,
+      "actual_constants": true,
+      "client_channel_bytes": 625474278,
+      "elapsed_seconds": 22.5388,
+      "full_model_not_run": true,
+      "production_TLS_not_run": true
+    },
+    {
+      "entry": "isolated_public_numeric_operator_probe",
+      "case": "softmax_valid",
+      "matched_R1": true,
+      "two_processes": true,
+      "real_SecureOps": true,
+      "actual_constants": true,
+      "client_channel_bytes": 692276660,
+      "elapsed_seconds": 26.0717,
+      "full_model_not_run": true,
+      "production_TLS_not_run": true
+    },
+    {
+      "entry": "isolated_public_numeric_operator_probe",
+      "case": "softmax_invalid",
+      "matched_R1": true,
+      "two_processes": true,
+      "real_SecureOps": true,
+      "actual_constants": true,
+      "client_channel_bytes": 692276660,
+      "elapsed_seconds": 27.2995,
+      "full_model_not_run": true,
+      "production_TLS_not_run": true
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "result": "incomplete",
+  "error": "E_DISCONNECTED",
+  "application_bytes": 9122286306,
+  "seconds": 300.002,
+  "exit_code": 1,
+  "stderr": "",
+  "case": "mask_boundaries",
+  "rows": 16,
+  "keys": 1280,
+  "reference_failed": true,
+  "fixture_sha256": "bac54e0396a7d6336afb2217deb9d4e6daa0ae13a8bc16a50f1d2d22a0f605b6",
+  "CUDA_R1_device": "NVIDIA GeForce RTX 2060",
+  "deadline_seconds": 300,
+  "full_layer_R2": false,
+  "full_model_R2": false,
+  "private_GPU_backend": false,
+  "source_and_binary_sha256": {
+    "native/src/batch.cpp": "535d0d21267210730b143e73f5dd64e2ce932e907e2d659fcc797d896e1dae2b",
+    "native/include/prag/batch.hpp": "9bbb149776b53ad442ada932571ef994a4ad013f9c3910c8ab2e7d1ceb950381",
+    "compute/batch_numerics.hpp": "440a9ab111fa04e0af30233497e709cc02095bda617a86bb431a16f02ed4e021",
+    "compute/numerics.hpp": "2a3ee42ba9247fb1c182d4e0deb2f510c11c37bc3cbd16bab1b564996986af06",
+    "compute/model.hpp": "dc4144b6a78270aee8ccaddddcd1819ee612b7355fa55dd17f519398488dea0a",
+    "compute/numeric_profile.hpp": "4645b0df127689565c7e1a61f4871bd5e07ec6cd4f384eb78707c334c73fa3fe",
+    "experiments/batch110/attention_probe.cpp": "8cd6cb02bdf0209d32f7313d3e83b4b06b8d96298cb962e1f471637ee00088d8",
+    "experiments/batch110/run_attention.py": "3eddc4d2e5858ab3333e9d94426abef9cfff10af8c9a20a6eddffa091d71d8fd",
+    "experiments/batch110/build/prag_batch110_attention": "c8b38420ab9f7c14a75d87d974875f4f4d3c44d0921bd1e0b8625f26f9dac88b",
+    "experiments/batch110/build/native/libprag_crypto.a": "7dbe754298c3daceb72eab0ef8f78d9bb161b5e9b25e630ba7458c32c873148a",
+    "references/r1_cuda_numeric.py": "0fa528ec4da5806d6e587341994d5101cc313f1091bb6008bce08e7b5f1653c9",
+    "artifacts/constants/constants_v1.json": "1582764ed3503b73e8d42fc61d99d6a1f18159c6c77865a2437e919645fa9a40",
+    "artifacts/constants/constants_v1.bin": "25e102e96ff83ed40620793af5cd80b3e37b46ff5d64009c2440a32c7bfec04f"
+  },
+  "evidence": [
+    {
+      "path": "records/batch110_attention_16_1280_mask_boundaries_dd511c3e8cb442b6ba539456339fb9a9.C.ledger",
+      "sha256": "4d391db8642e1b5ce95768cbe9441179caad3ff024d9e64649397849449f0afb"
+    },
+    {
+      "path": "records/batch110_attention_16_1280_mask_boundaries_dd511c3e8cb442b6ba539456339fb9a9.C.trace.jsonl",
+      "sha256": "f07684b718d6fe27822abd7e586668c5047416a72c4c5a2bbb24f194d6239d79"
+    },
+    {
+      "path": "records/batch110_attention_16_1280_mask_boundaries_dd511c3e8cb442b6ba539456339fb9a9.S.ledger",
+      "sha256": "4d391db8642e1b5ce95768cbe9441179caad3ff024d9e64649397849449f0afb"
+    },
+    {
+      "path": "records/batch110_attention_16_1280_mask_boundaries_dd511c3e8cb442b6ba539456339fb9a9.S.trace.jsonl",
+      "sha256": "0bbcb804f913432e3e79e33554f14706cf0e43814f6d573ed9ba647359ffc7b7"
+    }
+  ]
+}

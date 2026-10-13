@@ -1,0 +1,122 @@
+{
+  "native_version": "1.0.8",
+  "result": "expected_failure_and_cleanup",
+  "source_and_binary_sha256": {
+    "native/src/dev_matrix_failure_probe.cpp": "65c64803a2be1fe0929f5f6992dc23ec57d43fd9348f29d6aa01d5885d89b6c3",
+    "native/build-tile108/libprag_crypto.a": "4806a6114d0faacf433bd40743c912cc512bde0aa88525c2b16bf8b4c0f9967b",
+    "native/build-tile108/prag_matrix_failure_probe": "c898525f7de340d7c5bb26d16c0eba5b5690662f8362b62f9f7383412ad03163",
+    "tools/run_tile_failures.py": "29858604a717129157d872c9df4c5353ce4d407ffcfc0afe84204a43428b6b82"
+  },
+  "compile_command": [
+    "c++",
+    "-O3",
+    "-std=c++17",
+    "-maes",
+    "-msse4.1",
+    "-mavx",
+    "-mavx2",
+    "-DEMP_USE_RANDOM_DEVICE=1",
+    "-I/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/native/include",
+    "-I/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/third_party/EzPC/SCI/src",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/native/src/dev_matrix_failure_probe.cpp",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/native/build-tile108/libprag_crypto.a",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/third_party/SEAL/build/lib/libseal-4.1.a",
+    "-lssl",
+    "-lcrypto",
+    "-lgmpxx",
+    "-lgmp",
+    "-o",
+    "/srv/shared/Documents/ChatGPT/\u5bc6\u7801\u6bd4\u8d5b/implementation_v1/native/build-tile108/prag_matrix_failure_probe"
+  ],
+  "cases": [
+    {
+      "mode": "bad_callback",
+      "parties": [
+        {
+          "mode": 0,
+          "error": "E_DISCONNECTED",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 4981376,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/tile108_failure_0_52efb8ecee674b6a96887baf8daae878.C.ledger",
+          "ledger_sha256": "86bc61971881b92e77a0d2f9d570345b6ac679341e3ac115b966d5b9b6791ff4",
+          "terminal": "terminal=aborted all_reserved=burned"
+        },
+        {
+          "mode": 0,
+          "error": "E_BFV_WEIGHT_BLOCK_SHAPE",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 4981376,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/tile108_failure_0_52efb8ecee674b6a96887baf8daae878.S.ledger",
+          "ledger_sha256": "657afee785d0399c26ae9ba1dc97f5c376962c2cf3675a43ad16cb61c325548d",
+          "terminal": "terminal=aborted all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "mode": "descriptor_mismatch",
+      "parties": [
+        {
+          "mode": 1,
+          "error": "E_DISCONNECTED",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 176,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/tile108_failure_1_245a4923638b438c939c1e82777b11b4.C.ledger",
+          "ledger_sha256": "a783d221c7a8bf5175cd82f8648c20b3867c01727589e1de51c087d4fd1c14bd",
+          "terminal": "terminal=aborted all_reserved=burned"
+        },
+        {
+          "mode": 1,
+          "error": "E_MATRIX_DESCRIPTOR",
+          "session_active_after_error": false,
+          "network_bytes_after_entry": 176,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/tile108_failure_1_245a4923638b438c939c1e82777b11b4.S.ledger",
+          "ledger_sha256": "a783d221c7a8bf5175cd82f8648c20b3867c01727589e1de51c087d4fd1c14bd",
+          "terminal": "terminal=aborted all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    },
+    {
+      "mode": "public_shape_limit",
+      "parties": [
+        {
+          "mode": 2,
+          "error": "E_SHAPE",
+          "session_active_after_error": true,
+          "network_bytes_after_entry": 0,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/tile108_failure_2_8a98185aadca48b9a3e89daf8222d370.C.ledger",
+          "ledger_sha256": "88df8bc038c72a61d629f0317a005de82b62d2b1cbd3b43e640ac0f8369eda30",
+          "terminal": "terminal=closed all_reserved=burned"
+        },
+        {
+          "mode": 2,
+          "error": "E_SHAPE",
+          "session_active_after_error": true,
+          "network_bytes_after_entry": 0,
+          "native_TLS13_mTLS": true,
+          "isolated_development": false,
+          "ledger_path": "records/tile108_failure_2_8a98185aadca48b9a3e89daf8222d370.S.ledger",
+          "ledger_sha256": "88df8bc038c72a61d629f0317a005de82b62d2b1cbd3b43e640ac0f8369eda30",
+          "terminal": "terminal=closed all_reserved=burned"
+        }
+      ],
+      "exit_code": 0,
+      "stderr": ""
+    }
+  ],
+  "temporary_PKI_removed": true,
+  "full_model_R2": false
+}

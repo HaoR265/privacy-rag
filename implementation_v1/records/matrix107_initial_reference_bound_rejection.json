@@ -1,0 +1,8 @@
+{
+  "scope": "Development oracle rejected before boundary protocol launch",
+  "completed_protocol_case": "matrix107_small_3x17x7_m0.json",
+  "failure": "R1_CUDA_SPLIT_GEMM_BOUND_NOT_ESTABLISHED",
+  "cause": "The generic maximum input times full row L1 overbounds a public sparse two-column case above 2^56",
+  "protocol_boundary_case_executed": false,
+  "resolution": "Evaluate the two publicly nonzero columns separately with the existing exact CUDA integer GEMM and add on CUDA; keep original 2^55-1 boundary input and unchanged native protocol"
+}

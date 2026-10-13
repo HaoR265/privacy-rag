@@ -1,0 +1,75 @@
+{
+  "kind": "static_public_shape_cost_not_runtime_benchmark",
+  "profile": "prag-native-v1.0.2",
+  "AND_gates_per_return": 457505,
+  "fixed_64KiB_GC_chunks_per_return": 224,
+  "actual_table_bytes": 14640160,
+  "public_padding_bytes": 39904,
+  "return_frame_parts_lower_bytes_excluding_input": {
+    "returned_c1_frame": 786528,
+    "fixed_padded_garbled_table_frames": 14701568,
+    "server_input_labels_frame": 5872,
+    "C_output_permutation_frame": 155
+  },
+  "per_return_lower_bytes_excluding_input": 15494123,
+  "per_input_ciphertext_frame_bytes": 1572960,
+  "BFV_return_counts": {
+    "prepare_embedding_257": 130531328,
+    "query_embedding_160": 81264640,
+    "generation_1279_forward_tokens": 1042518016,
+    "generation_256_logits": 38895616,
+    "generation_total": 1081413632,
+    "nonempty_query_total": 1162678272
+  },
+  "BFV_input_ciphertext_counts": {
+    "prepare_embedding_257": 39874835,
+    "query_embedding_160": 24824800,
+    "generation_1279_forward_tokens": 282263789,
+    "generation_256_logits": 1215488,
+    "generation_total": 283479277,
+    "nonempty_query_total": 308304077
+  },
+  "bfv_only_communication_lower_bytes": {
+    "prepare_embedding_257": 2085189971846944,
+    "query_embedding_160": 1298172745118720,
+    "generation_1279_forward_tokens": 16596892019165408,
+    "generation_256_logits": 604565372469248,
+    "generation_total": 17201457391634656,
+    "nonempty_query_total": 18499630136753376
+  },
+  "per_token": {
+    "embedding": {
+      "returns": 507904,
+      "input_ciphertexts": 155155
+    },
+    "generation": {
+      "returns": 815104,
+      "input_ciphertexts": 220691
+    }
+  },
+  "source_sha256": {
+    "native/src/bfv.cpp": "db758451a7ba63f6c2552b17688ac252a1efe946a487d653810c79bf26a0cde8",
+    "native/src/gc_batch_channel.cpp": "1e693c04b313fce7e09f409d58be18bd0b5ac35428ff543d89ccd729147452e4",
+    "native/include/prag/gc_batch_channel.hpp": "0f2512b976ab6efc8b1b0ff0be327c7611dcb80bdca5c8fdb71ca983515e039e",
+    "native/src/channel.cpp": "e956667857b344d3de9db0c3fc34364c49d8c42b7cd906741310ead190ee3db1",
+    "third_party/EzPC/SCI/src/GC/halfgate_gen.h": "d6e15b7076bcf14409a54eb71ba9cc7ebc5bbde27e0c934711407f6b35df74ad",
+    "compute/model.hpp": "bd9dbc70927da647002b68ac4568f1f61117c5220cbd23804eb28875b8cba580",
+    "compute/numerics.hpp": "439cd295a86243ca8d5bf1a99b2b9343836bc2c460e731973a9fdab7dc0efab5",
+    "compute/pipeline.hpp": "77e6360b5f6d61d65ac01179c8d4675130c28620d16718e1b294d4aaef8a11f8",
+    "tools/build_crypto_cost.py": "b9a10e98be97b5d3464fb18e55f09cd4c41eaf96f4b68a8fa6d6ca42b4baff67"
+  },
+  "excludes": [
+    "GC input OT",
+    "base OT and setup/public key",
+    "all remaining shared/boolean/lookup/range operations",
+    "TLS TCP IP heartbeat and management",
+    "wall time and throughput"
+  ],
+  "assumes": [
+    "N>0 query and successful public fixed schedule",
+    "current 32-output project tiles and scalar private gamma",
+    "no early exit for private EOS or numeric failure",
+    "same input encryption reused only within one private_linear input block",
+    "independent full polynomial mask and fresh Enc(0) for every return"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "scope": "Independent public R1 reference development; not acceptance or R2",
+  "status": "interrupted_on_user_cpu_resource_constraint",
+  "exit_code": 130,
+  "signal": "SIGINT",
+  "sender": "root agent",
+  "pid": 858384,
+  "process_exit_confirmed": true,
+  "model_processes_remaining": false,
+  "reason": "User explicitly prohibits use of CPU for large model inference. No further CPU Embedding/R0/R1 inference may be started.",
+  "numeric_profile_version": "v1-f12-coordinated-20261013",
+  "numeric_profile_sha256": "ff53725bf7f455075d5276141051227c7292f348fe10a872b2bc5996c352f1ee",
+  "source_hashes_before_resource_guard": {
+    "references/r1_model.py": "ec88a2812a8714a512398ea81ccc38ba3c032ead14fbc0ea304df45b75fbce53",
+    "references/r1_numeric.py": "2953a086b52458009ad6940d7b319881fd4c17882014bec615eead38be165391",
+    "references/pipeline.py": "a803329a32d51b083c5ead2118c38c71059af2dd0948e8fbac37ff16ceed845b"
+  },
+  "last_recorded_event": {
+    "elapsed_seconds": 193.98531413901947,
+    "event": "generation_prefill_layer",
+    "completed_layers": 18,
+    "numeric_failure": false
+  },
+  "document_embedding_completions": [
+    {
+      "elapsed_seconds": 25.100793846009765,
+      "event": "document_embedding_complete",
+      "index": 0,
+      "eligible": 1
+    },
+    {
+      "elapsed_seconds": 50.54172744799871,
+      "event": "document_embedding_complete",
+      "index": 1,
+      "eligible": 1
+    }
+  ],
+  "query_embedding_completion": {
+    "elapsed_seconds": 64.38766436700826,
+    "event": "query_embedding_complete",
+    "eligible": 1
+  },
+  "prefill_completed_layers": 18,
+  "prefill_complete": false,
+  "numeric_failure_observed": false,
+  "fixed_generation_executed": false,
+  "fixed_generation_decode_calls": 0,
+  "answer_slots_complete": false,
+  "R2_executed": false,
+  "progress_record": "records/models_coordinated_full_r1_rag_attempt2_interrupted.progress.jsonl",
+  "limitations": "Only fully logged layer completions are reported; the next layer was interrupted. No complete R1 RAG result exists."
+}

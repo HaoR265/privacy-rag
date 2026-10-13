@@ -1,0 +1,4503 @@
+{
+  "kind": "verified_reusable_numeric_kernel_stage_not_full_R2",
+  "native_version": "1.0.10",
+  "native_library_sha256": "7dbe754298c3daceb72eab0ef8f78d9bb161b5e9b25e630ba7458c32c873148a",
+  "worker_sha256": "38c1129e64fb6de156da2bc554aa9f7c735d3bbb866ea3c91e178d27de1a596f",
+  "archived_v109_manifest_files_verified": 156,
+  "unchanged_BFV_OT_source_files": [
+    "native/include/prag/bfv.hpp",
+    "native/include/prag/bfv_layout.hpp",
+    "native/include/prag/channel.hpp",
+    "native/include/prag/development_bfv_decode.hpp",
+    "native/include/prag/gc_batch_channel.hpp",
+    "native/include/prag/heartbeat.hpp",
+    "native/include/prag/joint_matrix.hpp",
+    "native/include/prag/secure_ops.hpp",
+    "native/src/bfv.cpp",
+    "native/src/bfv_acyclic_pack.hpp",
+    "native/src/bfv_matrix.inc",
+    "native/src/bfv_tile_decoder.inc",
+    "native/src/bfv_token_api.inc",
+    "native/src/bfv_token_decoder.inc",
+    "native/src/bfv_token_engine.inc",
+    "native/src/channel.cpp",
+    "native/src/context_main.cpp",
+    "native/src/dev_bfv_decode60_probe.cpp",
+    "native/src/dev_bfv_merged_probe.cpp",
+    "native/src/dev_bfv_packed_probe.cpp",
+    "native/src/dev_bfv_tls_probe.cpp",
+    "native/src/dev_heartbeat_probe.cpp",
+    "native/src/dev_lookup_probe.cpp",
+    "native/src/dev_matrix_failure_probe.cpp",
+    "native/src/dev_matrix_probe.cpp",
+    "native/src/dev_protocol_probe.cpp",
+    "native/src/dev_tile_long_probe.cpp",
+    "native/src/gc_batch_channel.cpp",
+    "native/src/heartbeat.cpp",
+    "native/src/secure_ops.cpp",
+    "third_party/EzPC/SCI/src/OT/iknp.h",
+    "third_party/SEAL/build/native/src/seal/util/config.h",
+    "third_party/SEAL/native/src/seal/encryptor.cpp",
+    "third_party/SEAL/native/src/seal/evaluator.cpp",
+    "third_party/SEAL/native/src/seal/keygenerator.cpp",
+    "third_party/SEAL/native/src/seal/util/defines.h",
+    "third_party/SEAL/native/src/seal/util/rlwe.cpp",
+    "third_party/SEAL/native/src/seal/util/rns.cpp",
+    "third_party/SEAL/native/src/seal/util/scalingvariant.cpp"
+  ],
+  "historical_runtime_identity": "v109 runs remain v109; archive holds matching sources/binaries",
+  "rms_runs": [
+    {
+      "record": "records/batch110_rms_1024_16_boundaries_adc3ddc84056428cadf0429042a4f23c.json",
+      "dimension": 1024,
+      "batch": 16,
+      "case": "boundaries",
+      "application_bytes": 3378020915,
+      "elapsed_seconds": 13.7723,
+      "reference_failed": true,
+      "tensor": "model.layers.0.input_layernorm.weight",
+      "weight_sha256": "1ae2c1a37fccda9f671b79319868392b7995ba497dc46f3d1d987cc9c00ba34e",
+      "phases_inclusive": {
+        "coordinate_range": {
+          "occurrences": 1,
+          "seconds": 0.671791,
+          "application_bytes": 296824977,
+          "frames_sent": 7810,
+          "frames_received": 4389,
+          "direction_runs": 6,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6782976,
+            "batch_descriptor": 1,
+            "batch_input_OT": 966656,
+            "batch_mask_bits": 16384,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "square": {
+          "occurrences": 1,
+          "seconds": 2.68661,
+          "application_bytes": 83470658,
+          "frames_sent": 122163,
+          "frames_received": 122163,
+          "direction_runs": 3782,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_descriptor": 1,
+            "beaver": 16384,
+            "ot_C_to_S": 966656,
+            "ot_S_to_C": 966656
+          },
+          "last_event": "end"
+        },
+        "guarded_row_sum": {
+          "occurrences": 1,
+          "seconds": 0.762129,
+          "application_bytes": 375395345,
+          "frames_sent": 7810,
+          "frames_received": 5715,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 9712880,
+            "batch_descriptor": 2,
+            "batch_input_OT": 983056,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "whole_row_substitute": {
+          "occurrences": 1,
+          "seconds": 0.80125,
+          "application_bytes": 359707632,
+          "frames_sent": 15233,
+          "frames_received": 5213,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6766592,
+            "batch_descriptor": 1,
+            "batch_input_OT": 1949696,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "mean_floor_epsilon": {
+          "occurrences": 1,
+          "seconds": 0.0150447,
+          "application_bytes": 1113248,
+          "frames_sent": 258,
+          "frames_received": 19,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 10384,
+            "batch_descriptor": 2,
+            "batch_input_OT": 2848,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_exponent": {
+          "occurrences": 1,
+          "seconds": 0.00960318,
+          "application_bytes": 2860513,
+          "frames_sent": 258,
+          "frames_received": 46,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 67088,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_mantissa": {
+          "occurrences": 1,
+          "seconds": 0.00750365,
+          "application_bytes": 1839761,
+          "frames_sent": 258,
+          "frames_received": 31,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 33648,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1904,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "NR_state": {
+          "occurrences": 6,
+          "seconds": 0.03856046,
+          "application_bytes": 5646822,
+          "frames_sent": 1548,
+          "frames_received": 102,
+          "direction_runs": 48,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 39840,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5760,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_y_square_floor24": {
+          "occurrences": 6,
+          "seconds": 0.04929207,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_multiply_m_floor24": {
+          "occurrences": 6,
+          "seconds": 0.0480112,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_correction_floor24": {
+          "occurrences": 6,
+          "seconds": 0.04708742,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_half_floor1": {
+          "occurrences": 6,
+          "seconds": 0.020413700000000003,
+          "application_bytes": 2807424,
+          "frames_sent": 774,
+          "frames_received": 48,
+          "direction_runs": 24,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 6,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_round": {
+          "occurrences": 6,
+          "seconds": 0.20406400000000002,
+          "application_bytes": 18432006,
+          "frames_sent": 7002,
+          "frames_received": 2652,
+          "direction_runs": 252,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 130464,
+            "batch_descriptor": 54,
+            "batch_input_OT": 28416,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 480,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "NR_final_state": {
+          "occurrences": 1,
+          "seconds": 0.00577016,
+          "application_bytes": 941137,
+          "frames_sent": 258,
+          "frames_received": 17,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6640,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "six_NR": {
+          "occurrences": 1,
+          "seconds": 0.209886,
+          "application_bytes": 19373143,
+          "frames_sent": 7260,
+          "frames_received": 2669,
+          "direction_runs": 260,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 137104,
+            "batch_descriptor": 56,
+            "batch_input_OT": 29376,
+            "batch_mask_bits": 119,
+            "batch_mask_words": 496,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "input_scale": {
+          "occurrences": 1,
+          "seconds": 1.80506,
+          "application_bytes": 906493233,
+          "frames_sent": 7810,
+          "frames_received": 13552,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 25764144,
+            "batch_descriptor": 2,
+            "batch_input_OT": 983984,
+            "batch_mask_bits": 16385,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "scaled_range": {
+          "occurrences": 1,
+          "seconds": 0.63571,
+          "application_bytes": 298355441,
+          "frames_sent": 7682,
+          "frames_received": 4290,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6799360,
+            "batch_descriptor": 2,
+            "batch_input_OT": 983040,
+            "batch_mask_bits": 16385,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "normalize_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 3.24067,
+          "application_bytes": 286383856,
+          "frames_sent": 129331,
+          "frames_received": 124615,
+          "direction_runs": 3782,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 3866624,
+            "batch_descriptor": 2,
+            "batch_input_OT": 966656,
+            "batch_mask_words": 16384,
+            "beaver": 16384,
+            "ot_C_to_S": 966656,
+            "ot_S_to_C": 966656
+          },
+          "last_event": "end"
+        },
+        "normalize_floor12": {
+          "occurrences": 1,
+          "seconds": 0.457758,
+          "application_bytes": 203028720,
+          "frames_sent": 7553,
+          "frames_received": 2837,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 3866624,
+            "batch_descriptor": 1,
+            "batch_input_OT": 966656,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "private_gamma": {
+          "occurrences": 1,
+          "seconds": 1.36594,
+          "application_bytes": 41415712,
+          "frames_sent": 120834,
+          "frames_received": 946,
+          "direction_runs": 1892,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "ot_S_to_C": 966656,
+            "private_diagonal_descriptor": 2
+          },
+          "last_event": "end"
+        },
+        "gamma_floor12": {
+          "occurrences": 1,
+          "seconds": 0.434643,
+          "application_bytes": 203028720,
+          "frames_sent": 7553,
+          "frames_received": 2837,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 3866624,
+            "batch_descriptor": 1,
+            "batch_input_OT": 966656,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "output_range": {
+          "occurrences": 1,
+          "seconds": 0.65864,
+          "application_bytes": 298355441,
+          "frames_sent": 7682,
+          "frames_received": 4290,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6799360,
+            "batch_descriptor": 2,
+            "batch_input_OT": 983040,
+            "batch_mask_bits": 16385,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "full_RMS": {
+          "occurrences": 1,
+          "seconds": 13.7721,
+          "application_bytes": 3378020915,
+          "frames_sent": 449753,
+          "frames_received": 293748,
+          "direction_runs": 9796,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 74473421,
+            "batch_descriptor": 78,
+            "batch_input_OT": 9784541,
+            "batch_mask_bits": 65710,
+            "batch_mask_words": 131664,
+            "beaver": 33056,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 1950304,
+            "ot_S_to_C": 2916960,
+            "private_diagonal_descriptor": 2
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_rms_1024_16_normal_45d08e79994e4f8f84cac8bdbe240ca8.json",
+      "dimension": 1024,
+      "batch": 16,
+      "case": "normal",
+      "application_bytes": 3378020915,
+      "elapsed_seconds": 13.8456,
+      "reference_failed": false,
+      "tensor": "model.layers.0.input_layernorm.weight",
+      "weight_sha256": "1ae2c1a37fccda9f671b79319868392b7995ba497dc46f3d1d987cc9c00ba34e",
+      "phases_inclusive": {
+        "coordinate_range": {
+          "occurrences": 1,
+          "seconds": 0.712923,
+          "application_bytes": 296824977,
+          "frames_sent": 7810,
+          "frames_received": 4389,
+          "direction_runs": 6,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6782976,
+            "batch_descriptor": 1,
+            "batch_input_OT": 966656,
+            "batch_mask_bits": 16384,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "square": {
+          "occurrences": 1,
+          "seconds": 2.89937,
+          "application_bytes": 83470658,
+          "frames_sent": 122163,
+          "frames_received": 122163,
+          "direction_runs": 3782,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_descriptor": 1,
+            "beaver": 16384,
+            "ot_C_to_S": 966656,
+            "ot_S_to_C": 966656
+          },
+          "last_event": "end"
+        },
+        "guarded_row_sum": {
+          "occurrences": 1,
+          "seconds": 0.780422,
+          "application_bytes": 375395345,
+          "frames_sent": 7810,
+          "frames_received": 5715,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 9712880,
+            "batch_descriptor": 2,
+            "batch_input_OT": 983056,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "whole_row_substitute": {
+          "occurrences": 1,
+          "seconds": 0.738019,
+          "application_bytes": 359707632,
+          "frames_sent": 15233,
+          "frames_received": 5213,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6766592,
+            "batch_descriptor": 1,
+            "batch_input_OT": 1949696,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "mean_floor_epsilon": {
+          "occurrences": 1,
+          "seconds": 0.0137982,
+          "application_bytes": 1113248,
+          "frames_sent": 258,
+          "frames_received": 19,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 10384,
+            "batch_descriptor": 2,
+            "batch_input_OT": 2848,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_exponent": {
+          "occurrences": 1,
+          "seconds": 0.00962601,
+          "application_bytes": 2860513,
+          "frames_sent": 258,
+          "frames_received": 46,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 67088,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_mantissa": {
+          "occurrences": 1,
+          "seconds": 0.00892141,
+          "application_bytes": 1839761,
+          "frames_sent": 258,
+          "frames_received": 31,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 33648,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1904,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "NR_state": {
+          "occurrences": 6,
+          "seconds": 0.039613499999999996,
+          "application_bytes": 5646822,
+          "frames_sent": 1548,
+          "frames_received": 102,
+          "direction_runs": 48,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 39840,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5760,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_y_square_floor24": {
+          "occurrences": 6,
+          "seconds": 0.0433057,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_multiply_m_floor24": {
+          "occurrences": 6,
+          "seconds": 0.044054949999999996,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_correction_floor24": {
+          "occurrences": 6,
+          "seconds": 0.04367725,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_half_floor1": {
+          "occurrences": 6,
+          "seconds": 0.01958375,
+          "application_bytes": 2807424,
+          "frames_sent": 774,
+          "frames_received": 48,
+          "direction_runs": 24,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 6,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_round": {
+          "occurrences": 6,
+          "seconds": 0.1909118,
+          "application_bytes": 18432006,
+          "frames_sent": 7002,
+          "frames_received": 2652,
+          "direction_runs": 252,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 130464,
+            "batch_descriptor": 54,
+            "batch_input_OT": 28416,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 480,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "NR_final_state": {
+          "occurrences": 1,
+          "seconds": 0.00657347,
+          "application_bytes": 941137,
+          "frames_sent": 258,
+          "frames_received": 17,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6640,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "six_NR": {
+          "occurrences": 1,
+          "seconds": 0.19754,
+          "application_bytes": 19373143,
+          "frames_sent": 7260,
+          "frames_received": 2669,
+          "direction_runs": 260,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 137104,
+            "batch_descriptor": 56,
+            "batch_input_OT": 29376,
+            "batch_mask_bits": 119,
+            "batch_mask_words": 496,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "input_scale": {
+          "occurrences": 1,
+          "seconds": 1.76077,
+          "application_bytes": 906493233,
+          "frames_sent": 7810,
+          "frames_received": 13552,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 25764144,
+            "batch_descriptor": 2,
+            "batch_input_OT": 983984,
+            "batch_mask_bits": 16385,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "scaled_range": {
+          "occurrences": 1,
+          "seconds": 0.611488,
+          "application_bytes": 298355441,
+          "frames_sent": 7682,
+          "frames_received": 4290,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6799360,
+            "batch_descriptor": 2,
+            "batch_input_OT": 983040,
+            "batch_mask_bits": 16385,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "normalize_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 3.1969,
+          "application_bytes": 286383856,
+          "frames_sent": 129331,
+          "frames_received": 124615,
+          "direction_runs": 3782,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 3866624,
+            "batch_descriptor": 2,
+            "batch_input_OT": 966656,
+            "batch_mask_words": 16384,
+            "beaver": 16384,
+            "ot_C_to_S": 966656,
+            "ot_S_to_C": 966656
+          },
+          "last_event": "end"
+        },
+        "normalize_floor12": {
+          "occurrences": 1,
+          "seconds": 0.438272,
+          "application_bytes": 203028720,
+          "frames_sent": 7553,
+          "frames_received": 2837,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 3866624,
+            "batch_descriptor": 1,
+            "batch_input_OT": 966656,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "private_gamma": {
+          "occurrences": 1,
+          "seconds": 1.4073,
+          "application_bytes": 41415712,
+          "frames_sent": 120834,
+          "frames_received": 946,
+          "direction_runs": 1892,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "ot_S_to_C": 966656,
+            "private_diagonal_descriptor": 2
+          },
+          "last_event": "end"
+        },
+        "gamma_floor12": {
+          "occurrences": 1,
+          "seconds": 0.440733,
+          "application_bytes": 203028720,
+          "frames_sent": 7553,
+          "frames_received": 2837,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 3866624,
+            "batch_descriptor": 1,
+            "batch_input_OT": 966656,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "output_range": {
+          "occurrences": 1,
+          "seconds": 0.621159,
+          "application_bytes": 298355441,
+          "frames_sent": 7682,
+          "frames_received": 4290,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6799360,
+            "batch_descriptor": 2,
+            "batch_input_OT": 983040,
+            "batch_mask_bits": 16385,
+            "batch_mask_words": 16384
+          },
+          "last_event": "end"
+        },
+        "full_RMS": {
+          "occurrences": 1,
+          "seconds": 13.8452,
+          "application_bytes": 3378020915,
+          "frames_sent": 449753,
+          "frames_received": 293748,
+          "direction_runs": 9796,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 74473421,
+            "batch_descriptor": 78,
+            "batch_input_OT": 9784541,
+            "batch_mask_bits": 65710,
+            "batch_mask_words": 131664,
+            "beaver": 33056,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 1950304,
+            "ot_S_to_C": 2916960,
+            "private_diagonal_descriptor": 2
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_rms_1024_1_normal_9853a495931d45ff81411e370b959cd4.json",
+      "dimension": 1024,
+      "batch": 1,
+      "case": "normal",
+      "application_bytes": 228126756,
+      "elapsed_seconds": 1.10777,
+      "reference_failed": false,
+      "tensor": "model.layers.0.input_layernorm.weight",
+      "weight_sha256": "1ae2c1a37fccda9f671b79319868392b7995ba497dc46f3d1d987cc9c00ba34e",
+      "phases_inclusive": {
+        "coordinate_range": {
+          "occurrences": 1,
+          "seconds": 0.053791,
+          "application_bytes": 18692177,
+          "frames_sent": 770,
+          "frames_received": 399,
+          "direction_runs": 6,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 423936,
+            "batch_descriptor": 1,
+            "batch_input_OT": 60416,
+            "batch_mask_bits": 1024,
+            "batch_mask_words": 1024
+          },
+          "last_event": "end"
+        },
+        "square": {
+          "occurrences": 1,
+          "seconds": 0.193146,
+          "application_bytes": 5325698,
+          "frames_sent": 7998,
+          "frames_received": 7998,
+          "direction_runs": 242,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_descriptor": 1,
+            "beaver": 1024,
+            "ot_C_to_S": 60416,
+            "ot_S_to_C": 60416
+          },
+          "last_event": "end"
+        },
+        "guarded_row_sum": {
+          "occurrences": 1,
+          "seconds": 0.0503266,
+          "application_bytes": 23888061,
+          "frames_sent": 642,
+          "frames_received": 369,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 607055,
+            "batch_descriptor": 2,
+            "batch_input_OT": 61441,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 1
+          },
+          "last_event": "end"
+        },
+        "whole_row_substitute": {
+          "occurrences": 1,
+          "seconds": 0.0524739,
+          "application_bytes": 22669616,
+          "frames_sent": 1025,
+          "frames_received": 331,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 422912,
+            "batch_descriptor": 1,
+            "batch_input_OT": 121856,
+            "batch_mask_words": 1024
+          },
+          "last_event": "end"
+        },
+        "mean_floor_epsilon": {
+          "occurrences": 1,
+          "seconds": 0.00585296,
+          "application_bytes": 692374,
+          "frames_sent": 258,
+          "frames_received": 14,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 649,
+            "batch_descriptor": 2,
+            "batch_input_OT": 178,
+            "batch_mask_words": 2
+          },
+          "last_event": "end"
+        },
+        "rsqrt_exponent": {
+          "occurrences": 1,
+          "seconds": 0.00570305,
+          "application_bytes": 818008,
+          "frames_sent": 258,
+          "frames_received": 16,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 4193,
+            "batch_descriptor": 2,
+            "batch_input_OT": 60,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 2
+          },
+          "last_event": "end"
+        },
+        "rsqrt_mantissa": {
+          "occurrences": 1,
+          "seconds": 0.00537599,
+          "application_bytes": 754205,
+          "frames_sent": 258,
+          "frames_received": 15,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 2103,
+            "batch_descriptor": 2,
+            "batch_input_OT": 119,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 1
+          },
+          "last_event": "end"
+        },
+        "NR_state": {
+          "occurrences": 6,
+          "seconds": 0.03363919,
+          "application_bytes": 4114446,
+          "frames_sent": 1548,
+          "frames_received": 84,
+          "direction_runs": 48,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 2490,
+            "batch_descriptor": 12,
+            "batch_input_OT": 360,
+            "batch_mask_bits": 12,
+            "batch_mask_words": 6
+          },
+          "last_event": "end"
+        },
+        "NR_y_square_floor24": {
+          "occurrences": 6,
+          "seconds": 0.03582303,
+          "application_bytes": 2279970,
+          "frames_sent": 1560,
+          "frames_received": 828,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 12,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6,
+            "beaver": 6,
+            "ot_C_to_S": 354,
+            "ot_S_to_C": 354
+          },
+          "last_event": "end"
+        },
+        "NR_multiply_m_floor24": {
+          "occurrences": 6,
+          "seconds": 0.036765589999999994,
+          "application_bytes": 2279970,
+          "frames_sent": 1560,
+          "frames_received": 828,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 12,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6,
+            "beaver": 6,
+            "ot_C_to_S": 354,
+            "ot_S_to_C": 354
+          },
+          "last_event": "end"
+        },
+        "NR_correction_floor24": {
+          "occurrences": 6,
+          "seconds": 0.0366748,
+          "application_bytes": 2279970,
+          "frames_sent": 1560,
+          "frames_received": 828,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 12,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6,
+            "beaver": 6,
+            "ot_C_to_S": 354,
+            "ot_S_to_C": 354
+          },
+          "last_event": "end"
+        },
+        "NR_half_floor1": {
+          "occurrences": 6,
+          "seconds": 0.018681160000000002,
+          "application_bytes": 2068482,
+          "frames_sent": 774,
+          "frames_received": 42,
+          "direction_runs": 24,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 6,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6
+          },
+          "last_event": "end"
+        },
+        "NR_round": {
+          "occurrences": 6,
+          "seconds": 0.162192,
+          "application_bytes": 13022838,
+          "frames_sent": 7002,
+          "frames_received": 2610,
+          "direction_runs": 252,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 8154,
+            "batch_descriptor": 54,
+            "batch_input_OT": 1776,
+            "batch_mask_bits": 12,
+            "batch_mask_words": 30,
+            "beaver": 18,
+            "ot_C_to_S": 1062,
+            "ot_S_to_C": 1062
+          },
+          "last_event": "end"
+        },
+        "NR_final_state": {
+          "occurrences": 1,
+          "seconds": 0.00559606,
+          "application_bytes": 685741,
+          "frames_sent": 258,
+          "frames_received": 14,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 415,
+            "batch_descriptor": 2,
+            "batch_input_OT": 60,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 1
+          },
+          "last_event": "end"
+        },
+        "six_NR": {
+          "occurrences": 1,
+          "seconds": 0.16784,
+          "application_bytes": 13708579,
+          "frames_sent": 7260,
+          "frames_received": 2624,
+          "direction_runs": 260,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 8569,
+            "batch_descriptor": 56,
+            "batch_input_OT": 1836,
+            "batch_mask_bits": 14,
+            "batch_mask_words": 31,
+            "beaver": 18,
+            "ot_C_to_S": 1062,
+            "ot_S_to_C": 1062
+          },
+          "last_event": "end"
+        },
+        "input_scale": {
+          "occurrences": 1,
+          "seconds": 0.104869,
+          "application_bytes": 57028353,
+          "frames_sent": 642,
+          "frames_received": 858,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1610259,
+            "batch_descriptor": 2,
+            "batch_input_OT": 61499,
+            "batch_mask_bits": 1025,
+            "batch_mask_words": 1024
+          },
+          "last_event": "end"
+        },
+        "scaled_range": {
+          "occurrences": 1,
+          "seconds": 0.0475282,
+          "application_bytes": 19024497,
+          "frames_sent": 642,
+          "frames_received": 278,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 424960,
+            "batch_descriptor": 2,
+            "batch_input_OT": 61440,
+            "batch_mask_bits": 1025,
+            "batch_mask_words": 1024
+          },
+          "last_event": "end"
+        },
+        "normalize_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 0.210531,
+          "application_bytes": 17985936,
+          "frames_sent": 8126,
+          "frames_received": 7795,
+          "direction_runs": 242,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 241664,
+            "batch_descriptor": 2,
+            "batch_input_OT": 60416,
+            "batch_mask_words": 1024,
+            "beaver": 1024,
+            "ot_C_to_S": 60416,
+            "ot_S_to_C": 60416
+          },
+          "last_event": "end"
+        },
+        "normalize_floor12": {
+          "occurrences": 1,
+          "seconds": 0.0347703,
+          "application_bytes": 12775760,
+          "frames_sent": 513,
+          "frames_received": 182,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 241664,
+            "batch_descriptor": 1,
+            "batch_input_OT": 60416,
+            "batch_mask_words": 1024
+          },
+          "last_event": "end"
+        },
+        "private_gamma": {
+          "occurrences": 1,
+          "seconds": 0.092263,
+          "application_bytes": 2588720,
+          "frames_sent": 7553,
+          "frames_received": 60,
+          "direction_runs": 120,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "ot_S_to_C": 60416,
+            "private_diagonal_descriptor": 1
+          },
+          "last_event": "end"
+        },
+        "gamma_floor12": {
+          "occurrences": 1,
+          "seconds": 0.0357897,
+          "application_bytes": 12775760,
+          "frames_sent": 513,
+          "frames_received": 182,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 241664,
+            "batch_descriptor": 1,
+            "batch_input_OT": 60416,
+            "batch_mask_words": 1024
+          },
+          "last_event": "end"
+        },
+        "output_range": {
+          "occurrences": 1,
+          "seconds": 0.0398492,
+          "application_bytes": 19024497,
+          "frames_sent": 642,
+          "frames_received": 278,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 424960,
+            "batch_descriptor": 2,
+            "batch_input_OT": 61440,
+            "batch_mask_bits": 1025,
+            "batch_mask_words": 1024
+          },
+          "last_event": "end"
+        },
+        "full_RMS": {
+          "occurrences": 1,
+          "seconds": 1.10746,
+          "application_bytes": 228126756,
+          "frames_sent": 37358,
+          "frames_received": 21535,
+          "direction_runs": 944,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 4654601,
+            "batch_descriptor": 78,
+            "batch_input_OT": 611546,
+            "batch_mask_bits": 4120,
+            "batch_mask_words": 8229,
+            "beaver": 2066,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 121894,
+            "ot_S_to_C": 182310,
+            "private_diagonal_descriptor": 1
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_rms_128_16_boundaries_29470d6c07724749a55e9eba2eabd557.json",
+      "dimension": 128,
+      "batch": 16,
+      "case": "boundaries",
+      "application_bytes": 447420259,
+      "elapsed_seconds": 2.01745,
+      "reference_failed": true,
+      "tensor": "model.layers.0.self_attn.q_norm.weight",
+      "weight_sha256": "1ed86b923158ec5fa9ce440ef5aeb8aadba7a1da2d1f08f18a8c8f24f2cbb708",
+      "phases_inclusive": {
+        "coordinate_range": {
+          "occurrences": 1,
+          "seconds": 0.109465,
+          "application_bytes": 37325841,
+          "frames_sent": 1282,
+          "frames_received": 665,
+          "direction_runs": 6,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 847872,
+            "batch_descriptor": 1,
+            "batch_input_OT": 120832,
+            "batch_mask_bits": 2048,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "square": {
+          "occurrences": 1,
+          "seconds": 0.354959,
+          "application_bytes": 10535362,
+          "frames_sent": 15609,
+          "frames_received": 15609,
+          "direction_runs": 478,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_descriptor": 1,
+            "beaver": 2048,
+            "ot_C_to_S": 120832,
+            "ot_S_to_C": 120832
+          },
+          "last_event": "end"
+        },
+        "guarded_row_sum": {
+          "occurrences": 1,
+          "seconds": 0.0937476,
+          "application_bytes": 47318129,
+          "frames_sent": 1154,
+          "frames_received": 724,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1211632,
+            "batch_descriptor": 2,
+            "batch_input_OT": 122896,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "whole_row_substitute": {
+          "occurrences": 1,
+          "seconds": 0.101717,
+          "application_bytes": 44998416,
+          "frames_sent": 1921,
+          "frames_received": 656,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 845824,
+            "batch_descriptor": 1,
+            "batch_input_OT": 243712,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "mean_floor_epsilon": {
+          "occurrences": 1,
+          "seconds": 0.00957693,
+          "application_bytes": 1113248,
+          "frames_sent": 258,
+          "frames_received": 19,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 10384,
+            "batch_descriptor": 2,
+            "batch_input_OT": 2848,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_exponent": {
+          "occurrences": 1,
+          "seconds": 0.00942722,
+          "application_bytes": 2860513,
+          "frames_sent": 258,
+          "frames_received": 46,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 67088,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_mantissa": {
+          "occurrences": 1,
+          "seconds": 0.00725138,
+          "application_bytes": 1839761,
+          "frames_sent": 258,
+          "frames_received": 31,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 33648,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1904,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "NR_state": {
+          "occurrences": 6,
+          "seconds": 0.037465700000000005,
+          "application_bytes": 5646822,
+          "frames_sent": 1548,
+          "frames_received": 102,
+          "direction_runs": 48,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 39840,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5760,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_y_square_floor24": {
+          "occurrences": 6,
+          "seconds": 0.042090499999999996,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_multiply_m_floor24": {
+          "occurrences": 6,
+          "seconds": 0.04528679,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_correction_floor24": {
+          "occurrences": 6,
+          "seconds": 0.04435559,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_half_floor1": {
+          "occurrences": 6,
+          "seconds": 0.0195201,
+          "application_bytes": 2807424,
+          "frames_sent": 774,
+          "frames_received": 48,
+          "direction_runs": 24,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 6,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_round": {
+          "occurrences": 6,
+          "seconds": 0.1895428,
+          "application_bytes": 18432006,
+          "frames_sent": 7002,
+          "frames_received": 2652,
+          "direction_runs": 252,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 130464,
+            "batch_descriptor": 54,
+            "batch_input_OT": 28416,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 480,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "NR_final_state": {
+          "occurrences": 1,
+          "seconds": 0.00585222,
+          "application_bytes": 941137,
+          "frames_sent": 258,
+          "frames_received": 17,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6640,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "six_NR": {
+          "occurrences": 1,
+          "seconds": 0.195452,
+          "application_bytes": 19373143,
+          "frames_sent": 7260,
+          "frames_received": 2669,
+          "direction_runs": 260,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 137104,
+            "batch_descriptor": 56,
+            "batch_input_OT": 29376,
+            "batch_mask_bits": 119,
+            "batch_mask_words": 496,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "input_scale": {
+          "occurrences": 1,
+          "seconds": 0.207306,
+          "application_bytes": 114017201,
+          "frames_sent": 1154,
+          "frames_received": 1708,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 3227952,
+            "batch_descriptor": 2,
+            "batch_input_OT": 123824,
+            "batch_mask_bits": 2049,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "scaled_range": {
+          "occurrences": 1,
+          "seconds": 0.0908255,
+          "application_bytes": 37707409,
+          "frames_sent": 1154,
+          "frames_received": 545,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 849920,
+            "batch_descriptor": 2,
+            "batch_input_OT": 122880,
+            "batch_mask_bits": 2049,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "normalize_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 0.442452,
+          "application_bytes": 35970608,
+          "frames_sent": 16249,
+          "frames_received": 15583,
+          "direction_runs": 478,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 483328,
+            "batch_descriptor": 2,
+            "batch_input_OT": 120832,
+            "batch_mask_words": 2048,
+            "beaver": 2048,
+            "ot_C_to_S": 120832,
+            "ot_S_to_C": 120832
+          },
+          "last_event": "end"
+        },
+        "normalize_floor12": {
+          "occurrences": 1,
+          "seconds": 0.0729541,
+          "application_bytes": 25550768,
+          "frames_sent": 1025,
+          "frames_received": 359,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 483328,
+            "batch_descriptor": 1,
+            "batch_input_OT": 120832,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "private_gamma": {
+          "occurrences": 1,
+          "seconds": 0.17305,
+          "application_bytes": 5177168,
+          "frames_sent": 15105,
+          "frames_received": 119,
+          "direction_runs": 238,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "ot_S_to_C": 120832,
+            "private_diagonal_descriptor": 1
+          },
+          "last_event": "end"
+        },
+        "gamma_floor12": {
+          "occurrences": 1,
+          "seconds": 0.0605403,
+          "application_bytes": 25550768,
+          "frames_sent": 1025,
+          "frames_received": 359,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 483328,
+            "batch_descriptor": 1,
+            "batch_input_OT": 120832,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "output_range": {
+          "occurrences": 1,
+          "seconds": 0.0797163,
+          "application_bytes": 37707409,
+          "frames_sent": 1154,
+          "frames_received": 545,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 849920,
+            "batch_descriptor": 2,
+            "batch_input_OT": 122880,
+            "batch_mask_bits": 2049,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "full_RMS": {
+          "occurrences": 1,
+          "seconds": 2.01728,
+          "application_bytes": 447420259,
+          "frames_sent": 65124,
+          "frames_received": 39773,
+          "direction_runs": 1534,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 9531341,
+            "batch_descriptor": 78,
+            "batch_input_OT": 1254621,
+            "batch_mask_bits": 8366,
+            "batch_mask_words": 16976,
+            "beaver": 4384,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 258656,
+            "ot_S_to_C": 379488,
+            "private_diagonal_descriptor": 1
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_rms_128_16_normal_d1b49d64129e4eb58d2128c94232cbbc.json",
+      "dimension": 128,
+      "batch": 16,
+      "case": "normal",
+      "application_bytes": 447420259,
+      "elapsed_seconds": 2.05881,
+      "reference_failed": false,
+      "tensor": "model.layers.0.self_attn.q_norm.weight",
+      "weight_sha256": "1ed86b923158ec5fa9ce440ef5aeb8aadba7a1da2d1f08f18a8c8f24f2cbb708",
+      "phases_inclusive": {
+        "coordinate_range": {
+          "occurrences": 1,
+          "seconds": 0.120112,
+          "application_bytes": 37325841,
+          "frames_sent": 1282,
+          "frames_received": 665,
+          "direction_runs": 6,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 847872,
+            "batch_descriptor": 1,
+            "batch_input_OT": 120832,
+            "batch_mask_bits": 2048,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "square": {
+          "occurrences": 1,
+          "seconds": 0.354943,
+          "application_bytes": 10535362,
+          "frames_sent": 15609,
+          "frames_received": 15609,
+          "direction_runs": 478,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_descriptor": 1,
+            "beaver": 2048,
+            "ot_C_to_S": 120832,
+            "ot_S_to_C": 120832
+          },
+          "last_event": "end"
+        },
+        "guarded_row_sum": {
+          "occurrences": 1,
+          "seconds": 0.0963676,
+          "application_bytes": 47318129,
+          "frames_sent": 1154,
+          "frames_received": 724,
+          "direction_runs": 8,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 1211632,
+            "batch_descriptor": 2,
+            "batch_input_OT": 122896,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "whole_row_substitute": {
+          "occurrences": 1,
+          "seconds": 0.100668,
+          "application_bytes": 44998416,
+          "frames_sent": 1921,
+          "frames_received": 656,
+          "direction_runs": 4,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 845824,
+            "batch_descriptor": 1,
+            "batch_input_OT": 243712,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "mean_floor_epsilon": {
+          "occurrences": 1,
+          "seconds": 0.00874227,
+          "application_bytes": 1113248,
+          "frames_sent": 258,
+          "frames_received": 19,
+          "direction_runs": 8,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 10384,
+            "batch_descriptor": 2,
+            "batch_input_OT": 2848,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_exponent": {
+          "occurrences": 1,
+          "seconds": 0.00959221,
+          "application_bytes": 2860513,
+          "frames_sent": 258,
+          "frames_received": 46,
+          "direction_runs": 8,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 67088,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_mantissa": {
+          "occurrences": 1,
+          "seconds": 0.00742591,
+          "application_bytes": 1839761,
+          "frames_sent": 258,
+          "frames_received": 31,
+          "direction_runs": 8,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 33648,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1904,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "NR_state": {
+          "occurrences": 6,
+          "seconds": 0.04025647,
+          "application_bytes": 5646822,
+          "frames_sent": 1548,
+          "frames_received": 102,
+          "direction_runs": 48,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 39840,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5760,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_y_square_floor24": {
+          "occurrences": 6,
+          "seconds": 0.04597285999999999,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_multiply_m_floor24": {
+          "occurrences": 6,
+          "seconds": 0.044106259999999994,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_correction_floor24": {
+          "occurrences": 6,
+          "seconds": 0.04538715000000001,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_half_floor1": {
+          "occurrences": 6,
+          "seconds": 0.01875822,
+          "application_bytes": 2807424,
+          "frames_sent": 774,
+          "frames_received": 48,
+          "direction_runs": 24,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 6,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_round": {
+          "occurrences": 6,
+          "seconds": 0.1954152,
+          "application_bytes": 18432006,
+          "frames_sent": 7002,
+          "frames_received": 2652,
+          "direction_runs": 252,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 130464,
+            "batch_descriptor": 54,
+            "batch_input_OT": 28416,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 480,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "NR_final_state": {
+          "occurrences": 1,
+          "seconds": 0.00645464,
+          "application_bytes": 941137,
+          "frames_sent": 258,
+          "frames_received": 17,
+          "direction_runs": 8,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 6640,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "six_NR": {
+          "occurrences": 1,
+          "seconds": 0.20193,
+          "application_bytes": 19373143,
+          "frames_sent": 7260,
+          "frames_received": 2669,
+          "direction_runs": 260,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 137104,
+            "batch_descriptor": 56,
+            "batch_input_OT": 29376,
+            "batch_mask_bits": 119,
+            "batch_mask_words": 496,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "input_scale": {
+          "occurrences": 1,
+          "seconds": 0.224773,
+          "application_bytes": 114017201,
+          "frames_sent": 1154,
+          "frames_received": 1708,
+          "direction_runs": 8,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 3227952,
+            "batch_descriptor": 2,
+            "batch_input_OT": 123824,
+            "batch_mask_bits": 2049,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "scaled_range": {
+          "occurrences": 1,
+          "seconds": 0.0801772,
+          "application_bytes": 37707409,
+          "frames_sent": 1154,
+          "frames_received": 545,
+          "direction_runs": 8,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 849920,
+            "batch_descriptor": 2,
+            "batch_input_OT": 122880,
+            "batch_mask_bits": 2049,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "normalize_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 0.44471,
+          "application_bytes": 35970608,
+          "frames_sent": 16249,
+          "frames_received": 15583,
+          "direction_runs": 478,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 483328,
+            "batch_descriptor": 2,
+            "batch_input_OT": 120832,
+            "batch_mask_words": 2048,
+            "beaver": 2048,
+            "ot_C_to_S": 120832,
+            "ot_S_to_C": 120832
+          },
+          "last_event": "end"
+        },
+        "normalize_floor12": {
+          "occurrences": 1,
+          "seconds": 0.0727299,
+          "application_bytes": 25550768,
+          "frames_sent": 1025,
+          "frames_received": 359,
+          "direction_runs": 4,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 483328,
+            "batch_descriptor": 1,
+            "batch_input_OT": 120832,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "private_gamma": {
+          "occurrences": 1,
+          "seconds": 0.162916,
+          "application_bytes": 5177168,
+          "frames_sent": 15105,
+          "frames_received": 119,
+          "direction_runs": 238,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "ot_S_to_C": 120832,
+            "private_diagonal_descriptor": 1
+          },
+          "last_event": "end"
+        },
+        "gamma_floor12": {
+          "occurrences": 1,
+          "seconds": 0.0714462,
+          "application_bytes": 25550768,
+          "frames_sent": 1025,
+          "frames_received": 359,
+          "direction_runs": 4,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 483328,
+            "batch_descriptor": 1,
+            "batch_input_OT": 120832,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "output_range": {
+          "occurrences": 1,
+          "seconds": 0.0922367,
+          "application_bytes": 37707409,
+          "frames_sent": 1154,
+          "frames_received": 545,
+          "direction_runs": 8,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 849920,
+            "batch_descriptor": 2,
+            "batch_input_OT": 122880,
+            "batch_mask_bits": 2049,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "full_RMS": {
+          "occurrences": 1,
+          "seconds": 2.05864,
+          "application_bytes": 447420259,
+          "frames_sent": 65124,
+          "frames_received": 39773,
+          "direction_runs": 1534,
+          "peak_rss_kib": 773572,
+          "reservations": {
+            "batch_GC_AND": 9531341,
+            "batch_descriptor": 78,
+            "batch_input_OT": 1254621,
+            "batch_mask_bits": 8366,
+            "batch_mask_words": 16976,
+            "beaver": 4384,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 258656,
+            "ot_S_to_C": 379488,
+            "private_diagonal_descriptor": 1
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_rms_128_1_normal_a880f68a236a4728a78071f1f9f4243b.json",
+      "dimension": 128,
+      "batch": 1,
+      "case": "normal",
+      "application_bytes": 45445604,
+      "elapsed_seconds": 0.382983,
+      "reference_failed": false,
+      "tensor": "model.layers.0.self_attn.q_norm.weight",
+      "weight_sha256": "1ed86b923158ec5fa9ce440ef5aeb8aadba7a1da2d1f08f18a8c8f24f2cbb708",
+      "phases_inclusive": {
+        "coordinate_range": {
+          "occurrences": 1,
+          "seconds": 0.0297742,
+          "application_bytes": 2533201,
+          "frames_sent": 386,
+          "frames_received": 167,
+          "direction_runs": 6,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 52992,
+            "batch_descriptor": 1,
+            "batch_input_OT": 7552,
+            "batch_mask_bits": 128,
+            "batch_mask_words": 128
+          },
+          "last_event": "end"
+        },
+        "square": {
+          "occurrences": 1,
+          "seconds": 0.0518846,
+          "application_bytes": 786818,
+          "frames_sent": 1419,
+          "frames_received": 1419,
+          "direction_runs": 38,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_descriptor": 1,
+            "beaver": 128,
+            "ot_C_to_S": 7552,
+            "ot_S_to_C": 7552
+          },
+          "last_event": "end"
+        },
+        "guarded_row_sum": {
+          "occurrences": 1,
+          "seconds": 0.0117775,
+          "application_bytes": 3414973,
+          "frames_sent": 258,
+          "frames_received": 57,
+          "direction_runs": 8,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 75727,
+            "batch_descriptor": 2,
+            "batch_input_OT": 7681,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 1
+          },
+          "last_event": "end"
+        },
+        "whole_row_substitute": {
+          "occurrences": 1,
+          "seconds": 0.0099197,
+          "application_bytes": 2842576,
+          "frames_sent": 129,
+          "frames_received": 46,
+          "direction_runs": 4,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 52864,
+            "batch_descriptor": 1,
+            "batch_input_OT": 15232,
+            "batch_mask_words": 128
+          },
+          "last_event": "end"
+        },
+        "mean_floor_epsilon": {
+          "occurrences": 1,
+          "seconds": 0.00648399,
+          "application_bytes": 692374,
+          "frames_sent": 258,
+          "frames_received": 14,
+          "direction_runs": 8,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 649,
+            "batch_descriptor": 2,
+            "batch_input_OT": 178,
+            "batch_mask_words": 2
+          },
+          "last_event": "end"
+        },
+        "rsqrt_exponent": {
+          "occurrences": 1,
+          "seconds": 0.00654333,
+          "application_bytes": 818008,
+          "frames_sent": 258,
+          "frames_received": 16,
+          "direction_runs": 8,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 4193,
+            "batch_descriptor": 2,
+            "batch_input_OT": 60,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 2
+          },
+          "last_event": "end"
+        },
+        "rsqrt_mantissa": {
+          "occurrences": 1,
+          "seconds": 0.00736744,
+          "application_bytes": 754205,
+          "frames_sent": 258,
+          "frames_received": 15,
+          "direction_runs": 8,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 2103,
+            "batch_descriptor": 2,
+            "batch_input_OT": 119,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 1
+          },
+          "last_event": "end"
+        },
+        "NR_state": {
+          "occurrences": 6,
+          "seconds": 0.03347098,
+          "application_bytes": 4114446,
+          "frames_sent": 1548,
+          "frames_received": 84,
+          "direction_runs": 48,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 2490,
+            "batch_descriptor": 12,
+            "batch_input_OT": 360,
+            "batch_mask_bits": 12,
+            "batch_mask_words": 6
+          },
+          "last_event": "end"
+        },
+        "NR_y_square_floor24": {
+          "occurrences": 6,
+          "seconds": 0.03437272,
+          "application_bytes": 2279970,
+          "frames_sent": 1560,
+          "frames_received": 828,
+          "direction_runs": 60,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 12,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6,
+            "beaver": 6,
+            "ot_C_to_S": 354,
+            "ot_S_to_C": 354
+          },
+          "last_event": "end"
+        },
+        "NR_multiply_m_floor24": {
+          "occurrences": 6,
+          "seconds": 0.03377364,
+          "application_bytes": 2279970,
+          "frames_sent": 1560,
+          "frames_received": 828,
+          "direction_runs": 60,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 12,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6,
+            "beaver": 6,
+            "ot_C_to_S": 354,
+            "ot_S_to_C": 354
+          },
+          "last_event": "end"
+        },
+        "NR_correction_floor24": {
+          "occurrences": 6,
+          "seconds": 0.033189029999999994,
+          "application_bytes": 2279970,
+          "frames_sent": 1560,
+          "frames_received": 828,
+          "direction_runs": 60,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 12,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6,
+            "beaver": 6,
+            "ot_C_to_S": 354,
+            "ot_S_to_C": 354
+          },
+          "last_event": "end"
+        },
+        "NR_half_floor1": {
+          "occurrences": 6,
+          "seconds": 0.01643999,
+          "application_bytes": 2068482,
+          "frames_sent": 774,
+          "frames_received": 42,
+          "direction_runs": 24,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 6,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6
+          },
+          "last_event": "end"
+        },
+        "NR_round": {
+          "occurrences": 6,
+          "seconds": 0.1517994,
+          "application_bytes": 13022838,
+          "frames_sent": 7002,
+          "frames_received": 2610,
+          "direction_runs": 252,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 8154,
+            "batch_descriptor": 54,
+            "batch_input_OT": 1776,
+            "batch_mask_bits": 12,
+            "batch_mask_words": 30,
+            "beaver": 18,
+            "ot_C_to_S": 1062,
+            "ot_S_to_C": 1062
+          },
+          "last_event": "end"
+        },
+        "NR_final_state": {
+          "occurrences": 1,
+          "seconds": 0.00538605,
+          "application_bytes": 685741,
+          "frames_sent": 258,
+          "frames_received": 14,
+          "direction_runs": 8,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 415,
+            "batch_descriptor": 2,
+            "batch_input_OT": 60,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 1
+          },
+          "last_event": "end"
+        },
+        "six_NR": {
+          "occurrences": 1,
+          "seconds": 0.157245,
+          "application_bytes": 13708579,
+          "frames_sent": 7260,
+          "frames_received": 2624,
+          "direction_runs": 260,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 8569,
+            "batch_descriptor": 56,
+            "batch_input_OT": 1836,
+            "batch_mask_bits": 14,
+            "batch_mask_words": 31,
+            "beaver": 18,
+            "ot_C_to_S": 1062,
+            "ot_S_to_C": 1062
+          },
+          "last_event": "end"
+        },
+        "input_scale": {
+          "occurrences": 1,
+          "seconds": 0.0174251,
+          "application_bytes": 7616481,
+          "frames_sent": 258,
+          "frames_received": 119,
+          "direction_runs": 8,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 201747,
+            "batch_descriptor": 2,
+            "batch_input_OT": 7739,
+            "batch_mask_bits": 129,
+            "batch_mask_words": 128
+          },
+          "last_event": "end"
+        },
+        "scaled_range": {
+          "occurrences": 1,
+          "seconds": 0.0102131,
+          "application_bytes": 2822513,
+          "frames_sent": 258,
+          "frames_received": 46,
+          "direction_runs": 8,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 53120,
+            "batch_descriptor": 2,
+            "batch_input_OT": 7680,
+            "batch_mask_bits": 129,
+            "batch_mask_words": 128
+          },
+          "last_event": "end"
+        },
+        "normalize_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 0.0297071,
+          "application_bytes": 2422608,
+          "frames_sent": 1163,
+          "frames_received": 1062,
+          "direction_runs": 38,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 30208,
+            "batch_descriptor": 2,
+            "batch_input_OT": 7552,
+            "batch_mask_words": 128,
+            "beaver": 128,
+            "ot_C_to_S": 7552,
+            "ot_S_to_C": 7552
+          },
+          "last_event": "end"
+        },
+        "normalize_floor12": {
+          "occurrences": 1,
+          "seconds": 0.00529926,
+          "application_bytes": 1751312,
+          "frames_sent": 129,
+          "frames_received": 28,
+          "direction_runs": 4,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 30208,
+            "batch_descriptor": 1,
+            "batch_input_OT": 7552,
+            "batch_mask_words": 128
+          },
+          "last_event": "end"
+        },
+        "private_gamma": {
+          "occurrences": 1,
+          "seconds": 0.0125118,
+          "application_bytes": 333616,
+          "frames_sent": 1025,
+          "frames_received": 9,
+          "direction_runs": 18,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "ot_S_to_C": 7552,
+            "private_diagonal_descriptor": 1
+          },
+          "last_event": "end"
+        },
+        "gamma_floor12": {
+          "occurrences": 1,
+          "seconds": 0.00841418,
+          "application_bytes": 1751312,
+          "frames_sent": 129,
+          "frames_received": 28,
+          "direction_runs": 4,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 30208,
+            "batch_descriptor": 1,
+            "batch_input_OT": 7552,
+            "batch_mask_words": 128
+          },
+          "last_event": "end"
+        },
+        "output_range": {
+          "occurrences": 1,
+          "seconds": 0.0110616,
+          "application_bytes": 2822513,
+          "frames_sent": 258,
+          "frames_received": 46,
+          "direction_runs": 8,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 53120,
+            "batch_descriptor": 2,
+            "batch_input_OT": 7680,
+            "batch_mask_bits": 129,
+            "batch_mask_words": 128
+          },
+          "last_event": "end"
+        },
+        "full_RMS": {
+          "occurrences": 1,
+          "seconds": 0.382737,
+          "application_bytes": 45445604,
+          "frames_sent": 13704,
+          "frames_received": 5832,
+          "direction_runs": 434,
+          "peak_rss_kib": 772420,
+          "reservations": {
+            "batch_GC_AND": 595721,
+            "batch_descriptor": 78,
+            "batch_input_OT": 78426,
+            "batch_mask_bits": 536,
+            "batch_mask_words": 1061,
+            "beaver": 274,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 16166,
+            "ot_S_to_C": 23718,
+            "private_diagonal_descriptor": 1
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_rms_2048_16_boundaries_8e9702c0a0bc4d5695caaef978ffd4a8.json",
+      "dimension": 2048,
+      "batch": 16,
+      "case": "boundaries",
+      "application_bytes": 6729356883,
+      "elapsed_seconds": 27.1663,
+      "reference_failed": true,
+      "tensor": "model.layers.0.input_layernorm.weight",
+      "weight_sha256": "ef312492f59ba4c3b99b9059f4c61dc05b7ce3c5a6a989984678ef46a72d28f3",
+      "phases_inclusive": {
+        "coordinate_range": {
+          "occurrences": 1,
+          "seconds": 1.39618,
+          "application_bytes": 593591441,
+          "frames_sent": 15362,
+          "frames_received": 8645,
+          "direction_runs": 6,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 13565952,
+            "batch_descriptor": 1,
+            "batch_input_OT": 1933312,
+            "batch_mask_bits": 32768,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "square": {
+          "occurrences": 1,
+          "seconds": 5.3903,
+          "application_bytes": 166825282,
+          "frames_sent": 243939,
+          "frames_received": 243939,
+          "direction_runs": 7558,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_descriptor": 1,
+            "beaver": 32768,
+            "ot_C_to_S": 1933312,
+            "ot_S_to_C": 1933312
+          },
+          "last_event": "end"
+        },
+        "guarded_row_sum": {
+          "occurrences": 1,
+          "seconds": 1.48589,
+          "application_bytes": 750497553,
+          "frames_sent": 15490,
+          "frames_received": 11419,
+          "direction_runs": 8,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 19428592,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1966096,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "whole_row_substitute": {
+          "occurrences": 1,
+          "seconds": 1.61092,
+          "application_bytes": 719414512,
+          "frames_sent": 30465,
+          "frames_received": 10421,
+          "direction_runs": 4,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 13533184,
+            "batch_descriptor": 1,
+            "batch_input_OT": 3899392,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "mean_floor_epsilon": {
+          "occurrences": 1,
+          "seconds": 0.0106587,
+          "application_bytes": 1113248,
+          "frames_sent": 258,
+          "frames_received": 19,
+          "direction_runs": 8,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 10384,
+            "batch_descriptor": 2,
+            "batch_input_OT": 2848,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_exponent": {
+          "occurrences": 1,
+          "seconds": 0.0102894,
+          "application_bytes": 2860513,
+          "frames_sent": 258,
+          "frames_received": 46,
+          "direction_runs": 8,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 67088,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_mantissa": {
+          "occurrences": 1,
+          "seconds": 0.00758618,
+          "application_bytes": 1839761,
+          "frames_sent": 258,
+          "frames_received": 31,
+          "direction_runs": 8,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 33648,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1904,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "NR_state": {
+          "occurrences": 6,
+          "seconds": 0.03860171,
+          "application_bytes": 5646822,
+          "frames_sent": 1548,
+          "frames_received": 102,
+          "direction_runs": 48,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 39840,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5760,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_y_square_floor24": {
+          "occurrences": 6,
+          "seconds": 0.04451293,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_multiply_m_floor24": {
+          "occurrences": 6,
+          "seconds": 0.04561538,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_correction_floor24": {
+          "occurrences": 6,
+          "seconds": 0.046512899999999996,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_half_floor1": {
+          "occurrences": 6,
+          "seconds": 0.022303340000000005,
+          "application_bytes": 2807424,
+          "frames_sent": 774,
+          "frames_received": 48,
+          "direction_runs": 24,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 6,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_round": {
+          "occurrences": 6,
+          "seconds": 0.19822789999999998,
+          "application_bytes": 18432006,
+          "frames_sent": 7002,
+          "frames_received": 2652,
+          "direction_runs": 252,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 130464,
+            "batch_descriptor": 54,
+            "batch_input_OT": 28416,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 480,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "NR_final_state": {
+          "occurrences": 1,
+          "seconds": 0.0075101,
+          "application_bytes": 941137,
+          "frames_sent": 258,
+          "frames_received": 17,
+          "direction_runs": 8,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 6640,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "six_NR": {
+          "occurrences": 1,
+          "seconds": 0.205791,
+          "application_bytes": 19373143,
+          "frames_sent": 7260,
+          "frames_received": 2669,
+          "direction_runs": 260,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 137104,
+            "batch_descriptor": 56,
+            "batch_input_OT": 29376,
+            "batch_mask_bits": 119,
+            "batch_mask_words": 496,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "input_scale": {
+          "occurrences": 1,
+          "seconds": 3.6233,
+          "application_bytes": 1812336945,
+          "frames_sent": 15490,
+          "frames_received": 27088,
+          "direction_runs": 8,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 51519792,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1967024,
+            "batch_mask_bits": 32769,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "scaled_range": {
+          "occurrences": 1,
+          "seconds": 1.28401,
+          "application_bytes": 596709361,
+          "frames_sent": 15362,
+          "frames_received": 8570,
+          "direction_runs": 8,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 13598720,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1966080,
+            "batch_mask_bits": 32769,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "normalize_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 6.3378,
+          "application_bytes": 572766448,
+          "frames_sent": 258659,
+          "frames_received": 249223,
+          "direction_runs": 7558,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 7733248,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1933312,
+            "batch_mask_words": 32768,
+            "beaver": 32768,
+            "ot_C_to_S": 1933312,
+            "ot_S_to_C": 1933312
+          },
+          "last_event": "end"
+        },
+        "normalize_floor12": {
+          "occurrences": 1,
+          "seconds": 0.894897,
+          "application_bytes": 406056688,
+          "frames_sent": 15105,
+          "frames_received": 5669,
+          "direction_runs": 4,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 7733248,
+            "batch_descriptor": 1,
+            "batch_input_OT": 1933312,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "private_gamma": {
+          "occurrences": 1,
+          "seconds": 2.73395,
+          "application_bytes": 82831424,
+          "frames_sent": 241668,
+          "frames_received": 1892,
+          "direction_runs": 3784,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "ot_S_to_C": 1933312,
+            "private_diagonal_descriptor": 4
+          },
+          "last_event": "end"
+        },
+        "gamma_floor12": {
+          "occurrences": 1,
+          "seconds": 0.912172,
+          "application_bytes": 406056688,
+          "frames_sent": 15105,
+          "frames_received": 5669,
+          "direction_runs": 4,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 7733248,
+            "batch_descriptor": 1,
+            "batch_input_OT": 1933312,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "output_range": {
+          "occurrences": 1,
+          "seconds": 1.2533,
+          "application_bytes": 596709361,
+          "frames_sent": 15362,
+          "frames_received": 8570,
+          "direction_runs": 8,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 13598720,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1966080,
+            "batch_mask_bits": 32769,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "full_RMS": {
+          "occurrences": 1,
+          "seconds": 27.1661,
+          "application_bytes": 6729356883,
+          "frames_sent": 890299,
+          "frames_received": 584006,
+          "direction_runs": 19240,
+          "peak_rss_kib": 793552,
+          "reservations": {
+            "batch_GC_AND": 148692941,
+            "batch_descriptor": 78,
+            "batch_input_OT": 19533021,
+            "batch_mask_bits": 131246,
+            "batch_mask_words": 262736,
+            "beaver": 65824,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 3883616,
+            "ot_S_to_C": 5816928,
+            "private_diagonal_descriptor": 4
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_rms_2048_16_normal_bbcaef1ef9d643f488cd3fa014c722c8.json",
+      "dimension": 2048,
+      "batch": 16,
+      "case": "normal",
+      "application_bytes": 6729356883,
+      "elapsed_seconds": 27.6801,
+      "reference_failed": false,
+      "tensor": "model.layers.0.input_layernorm.weight",
+      "weight_sha256": "ef312492f59ba4c3b99b9059f4c61dc05b7ce3c5a6a989984678ef46a72d28f3",
+      "phases_inclusive": {
+        "coordinate_range": {
+          "occurrences": 1,
+          "seconds": 1.36618,
+          "application_bytes": 593591441,
+          "frames_sent": 15362,
+          "frames_received": 8645,
+          "direction_runs": 6,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 13565952,
+            "batch_descriptor": 1,
+            "batch_input_OT": 1933312,
+            "batch_mask_bits": 32768,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "square": {
+          "occurrences": 1,
+          "seconds": 5.56573,
+          "application_bytes": 166825282,
+          "frames_sent": 243939,
+          "frames_received": 243939,
+          "direction_runs": 7558,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_descriptor": 1,
+            "beaver": 32768,
+            "ot_C_to_S": 1933312,
+            "ot_S_to_C": 1933312
+          },
+          "last_event": "end"
+        },
+        "guarded_row_sum": {
+          "occurrences": 1,
+          "seconds": 1.53107,
+          "application_bytes": 750497553,
+          "frames_sent": 15490,
+          "frames_received": 11419,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 19428592,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1966096,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "whole_row_substitute": {
+          "occurrences": 1,
+          "seconds": 1.7376,
+          "application_bytes": 719414512,
+          "frames_sent": 30465,
+          "frames_received": 10421,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 13533184,
+            "batch_descriptor": 1,
+            "batch_input_OT": 3899392,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "mean_floor_epsilon": {
+          "occurrences": 1,
+          "seconds": 0.0125549,
+          "application_bytes": 1113248,
+          "frames_sent": 258,
+          "frames_received": 19,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 10384,
+            "batch_descriptor": 2,
+            "batch_input_OT": 2848,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_exponent": {
+          "occurrences": 1,
+          "seconds": 0.0108959,
+          "application_bytes": 2860513,
+          "frames_sent": 258,
+          "frames_received": 46,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 67088,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 32
+          },
+          "last_event": "end"
+        },
+        "rsqrt_mantissa": {
+          "occurrences": 1,
+          "seconds": 0.00734549,
+          "application_bytes": 1839761,
+          "frames_sent": 258,
+          "frames_received": 31,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 33648,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1904,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "NR_state": {
+          "occurrences": 6,
+          "seconds": 0.039006189999999996,
+          "application_bytes": 5646822,
+          "frames_sent": 1548,
+          "frames_received": 102,
+          "direction_runs": 48,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 39840,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5760,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_y_square_floor24": {
+          "occurrences": 6,
+          "seconds": 0.042452449999999996,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_multiply_m_floor24": {
+          "occurrences": 6,
+          "seconds": 0.050376569999999996,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_correction_floor24": {
+          "occurrences": 6,
+          "seconds": 0.04730561,
+          "application_bytes": 3325920,
+          "frames_sent": 1560,
+          "frames_received": 834,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 12,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96,
+            "beaver": 96,
+            "ot_C_to_S": 5664,
+            "ot_S_to_C": 5664
+          },
+          "last_event": "end"
+        },
+        "NR_half_floor1": {
+          "occurrences": 6,
+          "seconds": 0.020612070000000003,
+          "application_bytes": 2807424,
+          "frames_sent": 774,
+          "frames_received": 48,
+          "direction_runs": 24,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 22656,
+            "batch_descriptor": 6,
+            "batch_input_OT": 5664,
+            "batch_mask_words": 96
+          },
+          "last_event": "end"
+        },
+        "NR_round": {
+          "occurrences": 6,
+          "seconds": 0.2004335,
+          "application_bytes": 18432006,
+          "frames_sent": 7002,
+          "frames_received": 2652,
+          "direction_runs": 252,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 130464,
+            "batch_descriptor": 54,
+            "batch_input_OT": 28416,
+            "batch_mask_bits": 102,
+            "batch_mask_words": 480,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "NR_final_state": {
+          "occurrences": 1,
+          "seconds": 0.0064899,
+          "application_bytes": 941137,
+          "frames_sent": 258,
+          "frames_received": 17,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 6640,
+            "batch_descriptor": 2,
+            "batch_input_OT": 960,
+            "batch_mask_bits": 17,
+            "batch_mask_words": 16
+          },
+          "last_event": "end"
+        },
+        "six_NR": {
+          "occurrences": 1,
+          "seconds": 0.207008,
+          "application_bytes": 19373143,
+          "frames_sent": 7260,
+          "frames_received": 2669,
+          "direction_runs": 260,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 137104,
+            "batch_descriptor": 56,
+            "batch_input_OT": 29376,
+            "batch_mask_bits": 119,
+            "batch_mask_words": 496,
+            "beaver": 288,
+            "ot_C_to_S": 16992,
+            "ot_S_to_C": 16992
+          },
+          "last_event": "end"
+        },
+        "input_scale": {
+          "occurrences": 1,
+          "seconds": 3.75216,
+          "application_bytes": 1812336945,
+          "frames_sent": 15490,
+          "frames_received": 27088,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 51519792,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1967024,
+            "batch_mask_bits": 32769,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "scaled_range": {
+          "occurrences": 1,
+          "seconds": 1.34553,
+          "application_bytes": 596709361,
+          "frames_sent": 15362,
+          "frames_received": 8570,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 13598720,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1966080,
+            "batch_mask_bits": 32769,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "normalize_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 6.43575,
+          "application_bytes": 572766448,
+          "frames_sent": 258659,
+          "frames_received": 249223,
+          "direction_runs": 7558,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 7733248,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1933312,
+            "batch_mask_words": 32768,
+            "beaver": 32768,
+            "ot_C_to_S": 1933312,
+            "ot_S_to_C": 1933312
+          },
+          "last_event": "end"
+        },
+        "normalize_floor12": {
+          "occurrences": 1,
+          "seconds": 0.882191,
+          "application_bytes": 406056688,
+          "frames_sent": 15105,
+          "frames_received": 5669,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 7733248,
+            "batch_descriptor": 1,
+            "batch_input_OT": 1933312,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "private_gamma": {
+          "occurrences": 1,
+          "seconds": 2.71995,
+          "application_bytes": 82831424,
+          "frames_sent": 241668,
+          "frames_received": 1892,
+          "direction_runs": 3784,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "ot_S_to_C": 1933312,
+            "private_diagonal_descriptor": 4
+          },
+          "last_event": "end"
+        },
+        "gamma_floor12": {
+          "occurrences": 1,
+          "seconds": 0.865236,
+          "application_bytes": 406056688,
+          "frames_sent": 15105,
+          "frames_received": 5669,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 7733248,
+            "batch_descriptor": 1,
+            "batch_input_OT": 1933312,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "output_range": {
+          "occurrences": 1,
+          "seconds": 1.2326,
+          "application_bytes": 596709361,
+          "frames_sent": 15362,
+          "frames_received": 8570,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 13598720,
+            "batch_descriptor": 2,
+            "batch_input_OT": 1966080,
+            "batch_mask_bits": 32769,
+            "batch_mask_words": 32768
+          },
+          "last_event": "end"
+        },
+        "full_RMS": {
+          "occurrences": 1,
+          "seconds": 27.6799,
+          "application_bytes": 6729356883,
+          "frames_sent": 890299,
+          "frames_received": 584006,
+          "direction_runs": 19240,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 148692941,
+            "batch_descriptor": 78,
+            "batch_input_OT": 19533021,
+            "batch_mask_bits": 131246,
+            "batch_mask_words": 262736,
+            "beaver": 65824,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 3883616,
+            "ot_S_to_C": 5816928,
+            "private_diagonal_descriptor": 4
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_rms_2048_1_normal_874a38a85fff4f8aaaf376b2820bef25.json",
+      "dimension": 2048,
+      "batch": 1,
+      "case": "normal",
+      "application_bytes": 437951364,
+      "elapsed_seconds": 2.06493,
+      "reference_failed": false,
+      "tensor": "model.layers.0.input_layernorm.weight",
+      "weight_sha256": "ef312492f59ba4c3b99b9059f4c61dc05b7ce3c5a6a989984678ef46a72d28f3",
+      "phases_inclusive": {
+        "coordinate_range": {
+          "occurrences": 1,
+          "seconds": 0.107536,
+          "application_bytes": 37325841,
+          "frames_sent": 1282,
+          "frames_received": 665,
+          "direction_runs": 6,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 847872,
+            "batch_descriptor": 1,
+            "batch_input_OT": 120832,
+            "batch_mask_bits": 2048,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "square": {
+          "occurrences": 1,
+          "seconds": 0.36465,
+          "application_bytes": 10535362,
+          "frames_sent": 15609,
+          "frames_received": 15609,
+          "direction_runs": 478,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_descriptor": 1,
+            "beaver": 2048,
+            "ot_C_to_S": 120832,
+            "ot_S_to_C": 120832
+          },
+          "last_event": "end"
+        },
+        "guarded_row_sum": {
+          "occurrences": 1,
+          "seconds": 0.101722,
+          "application_bytes": 47367741,
+          "frames_sent": 1154,
+          "frames_received": 725,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1214287,
+            "batch_descriptor": 2,
+            "batch_input_OT": 122881,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 1
+          },
+          "last_event": "end"
+        },
+        "whole_row_substitute": {
+          "occurrences": 1,
+          "seconds": 0.101015,
+          "application_bytes": 44998416,
+          "frames_sent": 1921,
+          "frames_received": 656,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 845824,
+            "batch_descriptor": 1,
+            "batch_input_OT": 243712,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "mean_floor_epsilon": {
+          "occurrences": 1,
+          "seconds": 0.00643451,
+          "application_bytes": 692374,
+          "frames_sent": 258,
+          "frames_received": 14,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 649,
+            "batch_descriptor": 2,
+            "batch_input_OT": 178,
+            "batch_mask_words": 2
+          },
+          "last_event": "end"
+        },
+        "rsqrt_exponent": {
+          "occurrences": 1,
+          "seconds": 0.00597409,
+          "application_bytes": 818008,
+          "frames_sent": 258,
+          "frames_received": 16,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 4193,
+            "batch_descriptor": 2,
+            "batch_input_OT": 60,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 2
+          },
+          "last_event": "end"
+        },
+        "rsqrt_mantissa": {
+          "occurrences": 1,
+          "seconds": 0.00690271,
+          "application_bytes": 754205,
+          "frames_sent": 258,
+          "frames_received": 15,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 2103,
+            "batch_descriptor": 2,
+            "batch_input_OT": 119,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 1
+          },
+          "last_event": "end"
+        },
+        "NR_state": {
+          "occurrences": 6,
+          "seconds": 0.033211000000000004,
+          "application_bytes": 4114446,
+          "frames_sent": 1548,
+          "frames_received": 84,
+          "direction_runs": 48,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 2490,
+            "batch_descriptor": 12,
+            "batch_input_OT": 360,
+            "batch_mask_bits": 12,
+            "batch_mask_words": 6
+          },
+          "last_event": "end"
+        },
+        "NR_y_square_floor24": {
+          "occurrences": 6,
+          "seconds": 0.03441559,
+          "application_bytes": 2279970,
+          "frames_sent": 1560,
+          "frames_received": 828,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 12,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6,
+            "beaver": 6,
+            "ot_C_to_S": 354,
+            "ot_S_to_C": 354
+          },
+          "last_event": "end"
+        },
+        "NR_multiply_m_floor24": {
+          "occurrences": 6,
+          "seconds": 0.03597404,
+          "application_bytes": 2279970,
+          "frames_sent": 1560,
+          "frames_received": 828,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 12,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6,
+            "beaver": 6,
+            "ot_C_to_S": 354,
+            "ot_S_to_C": 354
+          },
+          "last_event": "end"
+        },
+        "NR_correction_floor24": {
+          "occurrences": 6,
+          "seconds": 0.03469466,
+          "application_bytes": 2279970,
+          "frames_sent": 1560,
+          "frames_received": 828,
+          "direction_runs": 60,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 12,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6,
+            "beaver": 6,
+            "ot_C_to_S": 354,
+            "ot_S_to_C": 354
+          },
+          "last_event": "end"
+        },
+        "NR_half_floor1": {
+          "occurrences": 6,
+          "seconds": 0.01796347,
+          "application_bytes": 2068482,
+          "frames_sent": 774,
+          "frames_received": 42,
+          "direction_runs": 24,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 1416,
+            "batch_descriptor": 6,
+            "batch_input_OT": 354,
+            "batch_mask_words": 6
+          },
+          "last_event": "end"
+        },
+        "NR_round": {
+          "occurrences": 6,
+          "seconds": 0.1569843,
+          "application_bytes": 13022838,
+          "frames_sent": 7002,
+          "frames_received": 2610,
+          "direction_runs": 252,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 8154,
+            "batch_descriptor": 54,
+            "batch_input_OT": 1776,
+            "batch_mask_bits": 12,
+            "batch_mask_words": 30,
+            "beaver": 18,
+            "ot_C_to_S": 1062,
+            "ot_S_to_C": 1062
+          },
+          "last_event": "end"
+        },
+        "NR_final_state": {
+          "occurrences": 1,
+          "seconds": 0.00607648,
+          "application_bytes": 685741,
+          "frames_sent": 258,
+          "frames_received": 14,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 415,
+            "batch_descriptor": 2,
+            "batch_input_OT": 60,
+            "batch_mask_bits": 2,
+            "batch_mask_words": 1
+          },
+          "last_event": "end"
+        },
+        "six_NR": {
+          "occurrences": 1,
+          "seconds": 0.163125,
+          "application_bytes": 13708579,
+          "frames_sent": 7260,
+          "frames_received": 2624,
+          "direction_runs": 260,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 8569,
+            "batch_descriptor": 56,
+            "batch_input_OT": 1836,
+            "batch_mask_bits": 14,
+            "batch_mask_words": 31,
+            "beaver": 18,
+            "ot_C_to_S": 1062,
+            "ot_S_to_C": 1062
+          },
+          "last_event": "end"
+        },
+        "input_scale": {
+          "occurrences": 1,
+          "seconds": 0.247975,
+          "application_bytes": 113712193,
+          "frames_sent": 1154,
+          "frames_received": 1704,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 3219987,
+            "batch_descriptor": 2,
+            "batch_input_OT": 122939,
+            "batch_mask_bits": 2049,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "scaled_range": {
+          "occurrences": 1,
+          "seconds": 0.0850156,
+          "application_bytes": 37707409,
+          "frames_sent": 1154,
+          "frames_received": 545,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 849920,
+            "batch_descriptor": 2,
+            "batch_input_OT": 122880,
+            "batch_mask_bits": 2049,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "normalize_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 0.430946,
+          "application_bytes": 35970608,
+          "frames_sent": 16249,
+          "frames_received": 15583,
+          "direction_runs": 478,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 483328,
+            "batch_descriptor": 2,
+            "batch_input_OT": 120832,
+            "batch_mask_words": 2048,
+            "beaver": 2048,
+            "ot_C_to_S": 120832,
+            "ot_S_to_C": 120832
+          },
+          "last_event": "end"
+        },
+        "normalize_floor12": {
+          "occurrences": 1,
+          "seconds": 0.064846,
+          "application_bytes": 25550768,
+          "frames_sent": 1025,
+          "frames_received": 359,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 483328,
+            "batch_descriptor": 1,
+            "batch_input_OT": 120832,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "private_gamma": {
+          "occurrences": 1,
+          "seconds": 0.190187,
+          "application_bytes": 5177168,
+          "frames_sent": 15105,
+          "frames_received": 119,
+          "direction_runs": 238,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "ot_S_to_C": 120832,
+            "private_diagonal_descriptor": 1
+          },
+          "last_event": "end"
+        },
+        "gamma_floor12": {
+          "occurrences": 1,
+          "seconds": 0.0753209,
+          "application_bytes": 25550768,
+          "frames_sent": 1025,
+          "frames_received": 359,
+          "direction_runs": 4,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 483328,
+            "batch_descriptor": 1,
+            "batch_input_OT": 120832,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "output_range": {
+          "occurrences": 1,
+          "seconds": 0.104981,
+          "application_bytes": 37707409,
+          "frames_sent": 1154,
+          "frames_received": 545,
+          "direction_runs": 8,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 849920,
+            "batch_descriptor": 2,
+            "batch_input_OT": 122880,
+            "batch_mask_bits": 2049,
+            "batch_mask_words": 2048
+          },
+          "last_event": "end"
+        },
+        "full_RMS": {
+          "occurrences": 1,
+          "seconds": 2.06463,
+          "application_bytes": 437951364,
+          "frames_sent": 65124,
+          "frames_received": 39674,
+          "direction_runs": 1534,
+          "peak_rss_kib": 793424,
+          "reservations": {
+            "batch_GC_AND": 9293321,
+            "batch_descriptor": 78,
+            "batch_input_OT": 1220826,
+            "batch_mask_bits": 8216,
+            "batch_mask_words": 16421,
+            "beaver": 4114,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 242726,
+            "ot_S_to_C": 363558,
+            "private_diagonal_descriptor": 1
+          },
+          "last_event": "end"
+        }
+      }
+    }
+  ],
+  "primitive_record": "records/batch110_primitives_bd8599f79e5c489891c29b4dc40e6259.json",
+  "primitive_cases": 27,
+  "failure_record": "records/batch110_failures_d2b850d83a14478c917f9f751950b90a.json",
+  "failure_modes": 8,
+  "attention_runs": [
+    {
+      "record": "records/batch110_attention_4_16_normal_de63f9c6bc984c92b92ee92df1dc05e9.json",
+      "complete": true,
+      "rows": 4,
+      "keys": 16,
+      "case": "normal",
+      "application_bytes": 145229925,
+      "seconds": 3.07799,
+      "reference_failed": false,
+      "phases_inclusive": {
+        "shared_QK": {
+          "occurrences": 1,
+          "seconds": 1.37301,
+          "application_bytes": 41793666,
+          "frames_sent": 61276,
+          "frames_received": 61276,
+          "direction_runs": 1896,
+          "peak_rss_kib": 849320,
+          "reservations": {
+            "batch_descriptor": 2,
+            "beaver": 8192,
+            "ot_C_to_S": 483328,
+            "ot_S_to_C": 483328
+          },
+          "last_event": "end"
+        },
+        "QK_floor12_scale_floor20": {
+          "occurrences": 1,
+          "seconds": 0.026398,
+          "application_bytes": 2149889,
+          "frames_sent": 515,
+          "frames_received": 162,
+          "direction_runs": 10,
+          "peak_rss_kib": 849320,
+          "reservations": {
+            "batch_GC_AND": 30208,
+            "batch_descriptor": 2,
+            "batch_input_OT": 7552,
+            "batch_mask_words": 128
+          },
+          "last_event": "end"
+        },
+        "softmax_row_max_mask": {
+          "occurrences": 1,
+          "seconds": 0.00782314,
+          "application_bytes": 2113557,
+          "frames_sent": 258,
+          "frames_received": 35,
+          "direction_runs": 8,
+          "peak_rss_kib": 849320,
+          "reservations": {
+            "batch_GC_AND": 38388,
+            "batch_descriptor": 2,
+            "batch_input_OT": 3848,
+            "batch_mask_bits": 69,
+            "batch_mask_words": 64
+          },
+          "last_event": "end"
+        },
+        "softmax_exp_LUT": {
+          "occurrences": 1,
+          "seconds": 0.0728791,
+          "application_bytes": 13035393,
+          "frames_sent": 2200,
+          "frames_received": 1238,
+          "direction_runs": 78,
+          "peak_rss_kib": 849320,
+          "reservations": {
+            "batch_GC_AND": 225024,
+            "batch_descriptor": 11,
+            "batch_input_OT": 37952,
+            "batch_mask_bits": 129,
+            "batch_mask_words": 640,
+            "beaver": 128,
+            "ot_C_to_S": 7552,
+            "ot_S_to_C": 7552
+          },
+          "last_event": "end"
+        },
+        "softmax_reciprocal_six_NR": {
+          "occurrences": 1,
+          "seconds": 0.146497,
+          "application_bytes": 13510567,
+          "frames_sent": 5958,
+          "frames_received": 1826,
+          "direction_runs": 208,
+          "peak_rss_kib": 849320,
+          "reservations": {
+            "batch_GC_AND": 58204,
+            "batch_descriptor": 46,
+            "batch_input_OT": 5944,
+            "batch_mask_bits": 55,
+            "batch_mask_words": 96,
+            "beaver": 48,
+            "ot_C_to_S": 2832,
+            "ot_S_to_C": 2832
+          },
+          "last_event": "end"
+        },
+        "softmax_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 0.0168648,
+          "application_bytes": 1381968,
+          "frames_sent": 647,
+          "frames_received": 535,
+          "direction_runs": 22,
+          "peak_rss_kib": 849320,
+          "reservations": {
+            "batch_GC_AND": 15104,
+            "batch_descriptor": 2,
+            "batch_input_OT": 3776,
+            "batch_mask_words": 64,
+            "beaver": 64,
+            "ot_C_to_S": 3776,
+            "ot_S_to_C": 3776
+          },
+          "last_event": "end"
+        },
+        "softmax_probability_range": {
+          "occurrences": 1,
+          "seconds": 0.00968029,
+          "application_bytes": 1719313,
+          "frames_sent": 258,
+          "frames_received": 29,
+          "direction_runs": 8,
+          "peak_rss_kib": 849320,
+          "reservations": {
+            "batch_GC_AND": 26560,
+            "batch_descriptor": 2,
+            "batch_input_OT": 3840,
+            "batch_mask_bits": 65,
+            "batch_mask_words": 64
+          },
+          "last_event": "end"
+        },
+        "shared_PV": {
+          "occurrences": 1,
+          "seconds": 1.35669,
+          "application_bytes": 41678656,
+          "frames_sent": 60893,
+          "frames_received": 60893,
+          "direction_runs": 1894,
+          "peak_rss_kib": 849320,
+          "reservations": {
+            "batch_descriptor": 3,
+            "beaver": 8192,
+            "ot_C_to_S": 483328,
+            "ot_S_to_C": 483328
+          },
+          "last_event": "end"
+        },
+        "PV_floor24_query_mask_range": {
+          "occurrences": 1,
+          "seconds": 0.0597967,
+          "application_bytes": 27472305,
+          "frames_sent": 1156,
+          "frames_received": 409,
+          "direction_runs": 16,
+          "peak_rss_kib": 849320,
+          "reservations": {
+            "batch_GC_AND": 544768,
+            "batch_descriptor": 4,
+            "batch_input_OT": 121856,
+            "batch_mask_bits": 513,
+            "batch_mask_words": 1536
+          },
+          "last_event": "end"
+        },
+        "complete_attention_head": {
+          "occurrences": 1,
+          "seconds": 3.07786,
+          "application_bytes": 145229925,
+          "frames_sent": 133419,
+          "frames_received": 126539,
+          "direction_runs": 4146,
+          "peak_rss_kib": 849320,
+          "reservations": {
+            "batch_GC_AND": 938271,
+            "batch_descriptor": 75,
+            "batch_input_OT": 184783,
+            "batch_mask_bits": 832,
+            "batch_mask_words": 2592,
+            "beaver": 16624,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 980816,
+            "ot_S_to_C": 980816
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_attention_4_16_mask_boundaries_d787d1f652a74bcd9bdfd1d9c65a2abe.json",
+      "complete": true,
+      "rows": 4,
+      "keys": 16,
+      "case": "mask_boundaries",
+      "application_bytes": 145229925,
+      "seconds": 3.29011,
+      "reference_failed": true,
+      "phases_inclusive": {
+        "shared_QK": {
+          "occurrences": 1,
+          "seconds": 1.43911,
+          "application_bytes": 41793666,
+          "frames_sent": 61276,
+          "frames_received": 61276,
+          "direction_runs": 1896,
+          "peak_rss_kib": 849348,
+          "reservations": {
+            "batch_descriptor": 2,
+            "beaver": 8192,
+            "ot_C_to_S": 483328,
+            "ot_S_to_C": 483328
+          },
+          "last_event": "end"
+        },
+        "QK_floor12_scale_floor20": {
+          "occurrences": 1,
+          "seconds": 0.025461,
+          "application_bytes": 2149889,
+          "frames_sent": 515,
+          "frames_received": 162,
+          "direction_runs": 10,
+          "peak_rss_kib": 849348,
+          "reservations": {
+            "batch_GC_AND": 30208,
+            "batch_descriptor": 2,
+            "batch_input_OT": 7552,
+            "batch_mask_words": 128
+          },
+          "last_event": "end"
+        },
+        "softmax_row_max_mask": {
+          "occurrences": 1,
+          "seconds": 0.010697,
+          "application_bytes": 2113557,
+          "frames_sent": 258,
+          "frames_received": 35,
+          "direction_runs": 8,
+          "peak_rss_kib": 849348,
+          "reservations": {
+            "batch_GC_AND": 38388,
+            "batch_descriptor": 2,
+            "batch_input_OT": 3848,
+            "batch_mask_bits": 69,
+            "batch_mask_words": 64
+          },
+          "last_event": "end"
+        },
+        "softmax_exp_LUT": {
+          "occurrences": 1,
+          "seconds": 0.0851565,
+          "application_bytes": 13035393,
+          "frames_sent": 2200,
+          "frames_received": 1238,
+          "direction_runs": 78,
+          "peak_rss_kib": 849348,
+          "reservations": {
+            "batch_GC_AND": 225024,
+            "batch_descriptor": 11,
+            "batch_input_OT": 37952,
+            "batch_mask_bits": 129,
+            "batch_mask_words": 640,
+            "beaver": 128,
+            "ot_C_to_S": 7552,
+            "ot_S_to_C": 7552
+          },
+          "last_event": "end"
+        },
+        "softmax_reciprocal_six_NR": {
+          "occurrences": 1,
+          "seconds": 0.166079,
+          "application_bytes": 13510567,
+          "frames_sent": 5958,
+          "frames_received": 1826,
+          "direction_runs": 208,
+          "peak_rss_kib": 849348,
+          "reservations": {
+            "batch_GC_AND": 58204,
+            "batch_descriptor": 46,
+            "batch_input_OT": 5944,
+            "batch_mask_bits": 55,
+            "batch_mask_words": 96,
+            "beaver": 48,
+            "ot_C_to_S": 2832,
+            "ot_S_to_C": 2832
+          },
+          "last_event": "end"
+        },
+        "softmax_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 0.0207227,
+          "application_bytes": 1381968,
+          "frames_sent": 647,
+          "frames_received": 535,
+          "direction_runs": 22,
+          "peak_rss_kib": 849348,
+          "reservations": {
+            "batch_GC_AND": 15104,
+            "batch_descriptor": 2,
+            "batch_input_OT": 3776,
+            "batch_mask_words": 64,
+            "beaver": 64,
+            "ot_C_to_S": 3776,
+            "ot_S_to_C": 3776
+          },
+          "last_event": "end"
+        },
+        "softmax_probability_range": {
+          "occurrences": 1,
+          "seconds": 0.0116606,
+          "application_bytes": 1719313,
+          "frames_sent": 258,
+          "frames_received": 29,
+          "direction_runs": 8,
+          "peak_rss_kib": 849348,
+          "reservations": {
+            "batch_GC_AND": 26560,
+            "batch_descriptor": 2,
+            "batch_input_OT": 3840,
+            "batch_mask_bits": 65,
+            "batch_mask_words": 64
+          },
+          "last_event": "end"
+        },
+        "shared_PV": {
+          "occurrences": 1,
+          "seconds": 1.45026,
+          "application_bytes": 41678656,
+          "frames_sent": 60893,
+          "frames_received": 60893,
+          "direction_runs": 1894,
+          "peak_rss_kib": 849348,
+          "reservations": {
+            "batch_descriptor": 3,
+            "beaver": 8192,
+            "ot_C_to_S": 483328,
+            "ot_S_to_C": 483328
+          },
+          "last_event": "end"
+        },
+        "PV_floor24_query_mask_range": {
+          "occurrences": 1,
+          "seconds": 0.0725692,
+          "application_bytes": 27472305,
+          "frames_sent": 1156,
+          "frames_received": 409,
+          "direction_runs": 16,
+          "peak_rss_kib": 849348,
+          "reservations": {
+            "batch_GC_AND": 544768,
+            "batch_descriptor": 4,
+            "batch_input_OT": 121856,
+            "batch_mask_bits": 513,
+            "batch_mask_words": 1536
+          },
+          "last_event": "end"
+        },
+        "complete_attention_head": {
+          "occurrences": 1,
+          "seconds": 3.28981,
+          "application_bytes": 145229925,
+          "frames_sent": 133419,
+          "frames_received": 126539,
+          "direction_runs": 4146,
+          "peak_rss_kib": 849348,
+          "reservations": {
+            "batch_GC_AND": 938271,
+            "batch_descriptor": 75,
+            "batch_input_OT": 184783,
+            "batch_mask_bits": 832,
+            "batch_mask_words": 2592,
+            "beaver": 16624,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 980816,
+            "ot_S_to_C": 980816
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_attention_1_1280_normal_373f55b84fd348df9864aaa0c9e3859f.json",
+      "complete": true,
+      "rows": 1,
+      "keys": 1280,
+      "case": "normal",
+      "application_bytes": 2017816457,
+      "seconds": 55.7317,
+      "reference_failed": false,
+      "phases_inclusive": {
+        "shared_QK": {
+          "occurrences": 1,
+          "seconds": 27.1842,
+          "application_bytes": 833664642,
+          "frames_sent": 1218156,
+          "frames_received": 1218156,
+          "direction_runs": 37776,
+          "peak_rss_kib": 863048,
+          "reservations": {
+            "batch_descriptor": 6,
+            "beaver": 163840,
+            "ot_C_to_S": 9666560,
+            "ot_S_to_C": 9666560
+          },
+          "last_event": "end"
+        },
+        "QK_floor12_scale_floor20": {
+          "occurrences": 1,
+          "seconds": 0.0799672,
+          "application_bytes": 32062465,
+          "frames_sent": 1539,
+          "frames_received": 582,
+          "direction_runs": 10,
+          "peak_rss_kib": 863048,
+          "reservations": {
+            "batch_GC_AND": 604160,
+            "batch_descriptor": 2,
+            "batch_input_OT": 151040,
+            "batch_mask_words": 2560
+          },
+          "last_event": "end"
+        },
+        "softmax_row_max_mask": {
+          "occurrences": 1,
+          "seconds": 0.063872,
+          "application_bytes": 31193986,
+          "frames_sent": 770,
+          "frames_received": 461,
+          "direction_runs": 8,
+          "peak_rss_kib": 863048,
+          "reservations": {
+            "batch_GC_AND": 762941,
+            "batch_descriptor": 2,
+            "batch_input_OT": 76802,
+            "batch_mask_bits": 1282,
+            "batch_mask_words": 1280
+          },
+          "last_event": "end"
+        },
+        "softmax_exp_LUT": {
+          "occurrences": 1,
+          "seconds": 0.946491,
+          "application_bytes": 220950081,
+          "frames_sent": 25636,
+          "frames_received": 22090,
+          "direction_runs": 638,
+          "peak_rss_kib": 863048,
+          "reservations": {
+            "batch_GC_AND": 4500480,
+            "batch_descriptor": 11,
+            "batch_input_OT": 759040,
+            "batch_mask_bits": 2561,
+            "batch_mask_words": 12800,
+            "beaver": 2560,
+            "ot_C_to_S": 151040,
+            "ot_S_to_C": 151040
+          },
+          "last_event": "end"
+        },
+        "softmax_reciprocal_six_NR": {
+          "occurrences": 1,
+          "seconds": 0.126,
+          "application_bytes": 12372286,
+          "frames_sent": 5958,
+          "frames_received": 1814,
+          "direction_runs": 208,
+          "peak_rss_kib": 863048,
+          "reservations": {
+            "batch_GC_AND": 14551,
+            "batch_descriptor": 46,
+            "batch_input_OT": 1486,
+            "batch_mask_bits": 22,
+            "batch_mask_words": 24,
+            "beaver": 12,
+            "ot_C_to_S": 708,
+            "ot_S_to_C": 708
+          },
+          "last_event": "end"
+        },
+        "softmax_multiply_floor24": {
+          "occurrences": 1,
+          "seconds": 0.240185,
+          "application_bytes": 22521136,
+          "frames_sent": 10189,
+          "frames_received": 9775,
+          "direction_runs": 302,
+          "peak_rss_kib": 863048,
+          "reservations": {
+            "batch_GC_AND": 302080,
+            "batch_descriptor": 2,
+            "batch_input_OT": 75520,
+            "batch_mask_words": 1280,
+            "beaver": 1280,
+            "ot_C_to_S": 75520,
+            "ot_S_to_C": 75520
+          },
+          "last_event": "end"
+        },
+        "softmax_probability_range": {
+          "occurrences": 1,
+          "seconds": 0.0518556,
+          "application_bytes": 23711729,
+          "frames_sent": 770,
+          "frames_received": 346,
+          "direction_runs": 8,
+          "peak_rss_kib": 863048,
+          "reservations": {
+            "batch_GC_AND": 531200,
+            "batch_descriptor": 2,
+            "batch_input_OT": 76800,
+            "batch_mask_bits": 1281,
+            "batch_mask_words": 1280
+          },
+          "last_event": "end"
+        },
+        "shared_PV": {
+          "occurrences": 1,
+          "seconds": 27.0048,
+          "application_bytes": 833549120,
+          "frames_sent": 1217771,
+          "frames_received": 1217771,
+          "direction_runs": 37772,
+          "peak_rss_kib": 863048,
+          "reservations": {
+            "batch_descriptor": 6,
+            "beaver": 163840,
+            "ot_C_to_S": 9666560,
+            "ot_S_to_C": 9666560
+          },
+          "last_event": "end"
+        },
+        "PV_floor24_query_mask_range": {
+          "occurrences": 1,
+          "seconds": 0.024347,
+          "application_bytes": 7416401,
+          "frames_sent": 516,
+          "frames_received": 120,
+          "direction_runs": 16,
+          "peak_rss_kib": 863048,
+          "reservations": {
+            "batch_GC_AND": 136192,
+            "batch_descriptor": 4,
+            "batch_input_OT": 30464,
+            "batch_mask_bits": 129,
+            "batch_mask_words": 384
+          },
+          "last_event": "end"
+        },
+        "complete_attention_head": {
+          "occurrences": 1,
+          "seconds": 55.7315,
+          "application_bytes": 2017816457,
+          "frames_sent": 2481563,
+          "frames_received": 2471251,
+          "direction_runs": 76744,
+          "peak_rss_kib": 863048,
+          "reservations": {
+            "batch_GC_AND": 6851619,
+            "batch_descriptor": 82,
+            "batch_input_OT": 1171167,
+            "batch_mask_bits": 5276,
+            "batch_mask_words": 19608,
+            "beaver": 331532,
+            "boolean_cross_OT": 2,
+            "ot_C_to_S": 19560388,
+            "ot_S_to_C": 19560388
+          },
+          "last_event": "end"
+        }
+      }
+    },
+    {
+      "record": "records/batch110_attention_16_1280_mask_boundaries_dd511c3e8cb442b6ba539456339fb9a9.json",
+      "complete": false,
+      "rows": 16,
+      "keys": 1280,
+      "case": "mask_boundaries",
+      "application_bytes": 9122286306,
+      "seconds": 300.002,
+      "reference_failed": true,
+      "phases_inclusive": {
+        "shared_QK": {
+          "occurrences": 1,
+          "seconds": 299.999,
+          "application_bytes": 9122286306,
+          "frames_sent": 13262223,
+          "frames_received": 13394810,
+          "direction_runs": 413386,
+          "peak_rss_kib": 873728,
+          "reservations": {
+            "batch_descriptor": 56,
+            "beaver": 1802240,
+            "ot_C_to_S": 106332160,
+            "ot_S_to_C": 106332160
+          },
+          "last_event": "aborted"
+        },
+        "complete_attention_head": {
+          "occurrences": 1,
+          "seconds": 300.002,
+          "application_bytes": 9122286306,
+          "frames_sent": 13262223,
+          "frames_received": 13394810,
+          "direction_runs": 413386,
+          "peak_rss_kib": 873728,
+          "reservations": {
+            "batch_descriptor": 56,
+            "beaver": 1802240,
+            "ot_C_to_S": 106332160,
+            "ot_S_to_C": 106332160
+          },
+          "last_event": "aborted"
+        }
+      }
+    }
+  ],
+  "old_scalar_actual_profiles": [
+    {
+      "dimension": 128,
+      "batch": 1,
+      "elapsed_seconds": 18.0006,
+      "application_bytes": 254073857,
+      "completed": false
+    },
+    {
+      "dimension": 128,
+      "batch": 16,
+      "elapsed_seconds": 18.0007,
+      "application_bytes": 258327619,
+      "completed": false
+    },
+    {
+      "dimension": 1024,
+      "batch": 1,
+      "elapsed_seconds": 18.0006,
+      "application_bytes": 262334646,
+      "completed": false
+    },
+    {
+      "dimension": 1024,
+      "batch": 16,
+      "elapsed_seconds": 18.0006,
+      "application_bytes": 258602931,
+      "completed": false
+    },
+    {
+      "dimension": 2048,
+      "batch": 1,
+      "elapsed_seconds": 18.0005,
+      "application_bytes": 254267948,
+      "completed": false
+    },
+    {
+      "dimension": 2048,
+      "batch": 16,
+      "elapsed_seconds": 18.0006,
+      "application_bytes": 260012649,
+      "completed": false
+    }
+  ],
+  "old_scalar_unreached": [
+    "floor_mean",
+    "epsilon",
+    "exponent",
+    "mantissa",
+    "NR",
+    "normalize",
+    "gamma",
+    "output_guard"
+  ],
+  "candidate_matrix_preprocessing": [
+    {
+      "record": "records/batch110_matrix_candidate_16_1280_128_2a36afe0056d476bb8ba24bf985c525d.json",
+      "rows": 16,
+      "inner": 1280,
+      "columns": 128,
+      "application_bytes": 183340577,
+      "seconds": 8.64361,
+      "candidate_only": true
+    },
+    {
+      "record": "records/batch110_matrix_candidate_16_128_1280_89961aa8a3d54a7e9dfc09cb4119aa4d.json",
+      "rows": 16,
+      "inner": 128,
+      "columns": 1280,
+      "application_bytes": 669541793,
+      "seconds": 25.5869,
+      "candidate_only": true
+    },
+    {
+      "record": "records/batch110_matrix_candidate_3_17_7_f9143ac604c046b79a4dc0b09f1c4182.json",
+      "rows": 3,
+      "inner": 17,
+      "columns": 7,
+      "application_bytes": 7474319,
+      "seconds": 0.17655,
+      "candidate_only": true
+    }
+  ],
+  "candidate_production_enabled": false,
+  "profile_units": "C-side application bytes count both directions once; excludes TLS/TCP/IP and harness reconstruction",
+  "profile_aggregation": "Each phase includes nested phases. Do not sum parent and children. Repeated same-name NR phases are aggregated.",
+  "material_units": "batch_input_OT and ot_C_to_S/ot_S_to_C count choices, not RTT. Base OT setup is distinct. BFV candidate BatchOps GC counters do not count internal BFV GC.",
+  "full_layer_R2": false,
+  "full_Decode_R2": false,
+  "full_model_R2": false,
+  "private_GPU_backend": false,
+  "CPU_model_executed": false,
+  "full_system_production_enabled": false,
+  "formal_acceptance_defined": false,
+  "proof_scope": "local derivation, source review and finite actual runs; not independent audit",
+  "unmeasured_current_scope": [
+    "full layer/Decode",
+    "SwiGLU and RoPE batching",
+    "L2",
+    "private retrieval",
+    "full fixed-budget query and all session overhead"
+  ],
+  "proof_document": "records/batch110_implementation.md"
+}

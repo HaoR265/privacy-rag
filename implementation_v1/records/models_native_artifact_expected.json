@@ -1,0 +1,10 @@
+{
+  "purpose": "isolated developer probe, not formal acceptance specification",
+  "expected_source": "exact pinned original safetensors values, floor(x*4096)",
+  "sample_locations": "first, middle and last scalar of each of all 310 canonical tensors per model",
+  "total_weight_samples": 1860,
+  "constants_checked_words": 164609,
+  "constants_words_sha256": "330b8eb61a09ebde7aa9ec2da9ef6ef337b3d18d98d40643f78ca28bfc5ba4f1",
+  "fixture_sha256": "5aa0b03839ce424ea1393be61a4c93b091e42eff11695c5ff021dccd9a7e5481",
+  "weight_reconstruction_over_protocol": false
+}

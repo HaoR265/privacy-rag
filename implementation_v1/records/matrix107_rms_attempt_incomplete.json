@@ -1,0 +1,67 @@
+{
+  "scope": "One real two-party 128-wide RMS diagnostic attempt, not model execution or acceptance",
+  "native_version": "1.0.7",
+  "result": "incomplete_resource_timeout",
+  "exception": "subprocess.TimeoutExpired",
+  "timeout_seconds": 900,
+  "result_comparison_completed": false,
+  "numeric_success_or_failure_determined": false,
+  "full_RMS_completed": false,
+  "full_model_R2": false,
+  "model": "Qwen/Qwen3-1.7B",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "intended_tensor": "model.layers.0.self_attn.q_norm.weight",
+  "weight_sha256": "1ed86b923158ec5fa9ce440ef5aeb8aadba7a1da2d1f08f18a8c8f24f2cbb708",
+  "input": "public synthetic 128-vector, f12",
+  "R1_reference_device": "NVIDIA GeForce RTX 2060",
+  "CPU_model_executed": false,
+  "exit_code": 1,
+  "protocol_processes_stopped": true,
+  "owned_pids_absent": [
+    911787,
+    911863,
+    911864
+  ],
+  "cleanup": "Runner sent SIGTERM to the isolated process group after its 900-second resource cap, waited for its direct child; later ps and /proc confirmed both parties and runner absent",
+  "native_terminal_marker_written": false,
+  "material_reuse": "Reserved ledger paths retained unchanged; O_EXCL and destroyed ephemeral process state preclude reuse. No synthetic terminal=closed/aborted marker appended.",
+  "temporary_PKI_and_reference_removed": true,
+  "ledgers": [
+    {
+      "path": "records/matrix107_rms_gamma_5a376b1752904feea0e89e0d10476838.C.ledger",
+      "sha256": "9cf666981155e2e0561646a97a0b466b3b0e0d92034ab208d0825301e70f997e",
+      "reserved_kind_counts": {
+        "session": 1,
+        "boolean_cross_OT": 727687,
+        "ot_C_to_S": 1568,
+        "beaver": 796,
+        "ot_S_to_C": 796
+      },
+      "last_line": "730847 reserved boolean_cross_OT 1 ring59",
+      "terminal_marker_written": false
+    },
+    {
+      "path": "records/matrix107_rms_gamma_5a376b1752904feea0e89e0d10476838.S.ledger",
+      "sha256": "9cf666981155e2e0561646a97a0b466b3b0e0d92034ab208d0825301e70f997e",
+      "reserved_kind_counts": {
+        "session": 1,
+        "boolean_cross_OT": 727687,
+        "ot_C_to_S": 1568,
+        "beaver": 796,
+        "ot_S_to_C": 796
+      },
+      "last_line": "730847 reserved boolean_cross_OT 1 ring59",
+      "terminal_marker_written": false
+    }
+  ],
+  "source_and_binary_sha256": {
+    "tools/run_rms_matrix_protocol.py": "7a32a16df2dfd8f7d4fb2eaa37fb6bca309cb2eeb456143311da1a567d54c9bb",
+    "compute/dev_rms_matrix_probe.cpp": "090686dcd99f6bd4c78a076e95b2ff1750416d6c3cd716c8670f5ee55f97834b",
+    "compute/artifacts.hpp": "449a814d2f20b02571795afd06167dc3eb03e2c36a3f874ffc02e1a4113f44f5",
+    "compute/numeric_profile.hpp": "4645b0df127689565c7e1a61f4871bd5e07ec6cd4f384eb78707c334c73fa3fe",
+    "compute/numerics.hpp": "fbb5748fc5956e3a8fdd83da3bf0418ed0ad37a6707260475f7c810b4544a33c",
+    "references/r1_cuda_numeric.py": "0fa528ec4da5806d6e587341994d5101cc313f1091bb6008bce08e7b5f1653c9",
+    "native/build-matrix107/libprag_crypto.a": "8a784691a3d3d2cfd93003eee3b6285397a459c5e5b9f2f95874867defb8bafb",
+    "native/build-matrix107/prag_rms_matrix_probe": "8228ca3bd939423402b1fd9e0a07aed47a1bf94b701bc701aa32f48d9bf53551"
+  }
+}

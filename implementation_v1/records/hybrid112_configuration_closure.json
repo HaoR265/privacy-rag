@@ -1,0 +1,20 @@
+{
+  "observed_utc": "2026-10-13T03:51:14.697752+00:00",
+  "scope": "current configuration/artifact/document closure only, not completion of live M2/M3",
+  "native_version": "prag-native-v1.0.12",
+  "configuration_sha256": "8548469b2138c85c4f0c2220c62a7346f90731ed9410fb2031c66b9a710b1dfb",
+  "current_manifest_files_verified": 133,
+  "actual_configuration_files_verified": 653,
+  "quantized_payloads": 620,
+  "rules_checked": 62,
+  "machine_files": 22,
+  "full_R2_completed": false,
+  "production_enabled": false,
+  "M2_and_M3": "independently registered executions still pending",
+  "records": {
+    "artifacts/bfv_native_manifest.json": "44699c0447cdea628c640bac4d6901420cce437b70a5161646f9021c358bcc99",
+    "records/hybrid112_materialization.json": "3db16058fecc6d14ae083e6a208d234713980eba44f90557ccded8740329db8a",
+    "records/configuration_bindings_debug.json": "3fa1e28979922514d2df4bafa5c41676750096e85b9954556e39e1d1967bd0fb",
+    "records/spec_revision_manifest.json": "3ebe4cff596a929b48a0b36c7f53f21c7681454162121c48498d8819546427a0"
+  }
+}

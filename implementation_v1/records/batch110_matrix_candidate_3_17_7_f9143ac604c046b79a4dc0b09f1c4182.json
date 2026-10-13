@@ -1,0 +1,56 @@
+{
+  "cases": [
+    {
+      "case": 0,
+      "opcode": 101,
+      "rows": 3,
+      "cols": 7,
+      "seconds": 0.17655,
+      "application_bytes": 7474319,
+      "frames": 668,
+      "direction_runs": 18,
+      "GC_AND": 0,
+      "GC_input_OT": 0,
+      "matched": true
+    }
+  ],
+  "result": "matched_CUDA_integer_oracle",
+  "native_mTLS": true,
+  "model_executed": false,
+  "exit_code": 0,
+  "stderr": "",
+  "rows": 3,
+  "inner": 17,
+  "columns": 7,
+  "candidate_only": true,
+  "production_enabled": false,
+  "full_model_R2": false,
+  "private_GPU_backend": false,
+  "oracle": "CUDA exact integer via bounded FP64",
+  "device": "NVIDIA GeForce RTX 2060",
+  "fixture_sha256": "f666c92f92651832c7e88474c74ac96eb9c9671a56ee35447886aa641b5bc459",
+  "source_sha256": {
+    "experiments/batch110/candidate_matrix_probe.cpp": "90deeb2a16dcf681fef084bfc26934c5f025877b68c1edd09298478e59fa7f25",
+    "experiments/batch110/matrix_triple_candidate.hpp": "beb598be1123052b9d49898d9a8c351523572dc6f229b52047c820824a82deec",
+    "experiments/batch110/run_candidate.py": "46ce4eeb5b011545941201d40a4f39fa7464f499559c47cb1710d9df695b2d85",
+    "experiments/batch110/build/prag_batch110_candidate_matrix": "381b8ef66b1ac9c74e9bb39d5f8dedd2eec2fe2f4ef3f8bdc289c91589151aa9",
+    "experiments/batch110/build/native/libprag_crypto.a": "7dbe754298c3daceb72eab0ef8f78d9bb161b5e9b25e630ba7458c32c873148a",
+    "native/src/bfv.cpp": "90a63d9bc16c220bd3c13b4f442d5eb56f08964269eb3826da915d5472f25c8d",
+    "native/src/bfv_matrix.inc": "5cf0e4455dc4a6055214c8acd01a6f11e408e4b2c0fcdc0a816f0cc5238a1be5",
+    "native/src/bfv_tile_decoder.inc": "713f40dd79758f7faedfb14dca6ab8b95b76ba1f881049879b93dd26c043c3f4",
+    "native/src/secure_ops.cpp": "20e2c7340d6f5042b21ea6b83dc38e426258d7c34a3b368d20e0513c1897a25c"
+  },
+  "BFV_secret_key_owner": "C",
+  "preparation": "two cross products using existing BFV private_matrix",
+  "deadline_seconds": 300,
+  "ledgers": [
+    {
+      "path": "records/batch110_matrix_candidate_3_17_7_f9143ac604c046b79a4dc0b09f1c4182.C.ledger",
+      "sha256": "48b51a6f41068f0c8d9c36d059a89bf08f6f0b4d39ed679ea94092f13f7926ad"
+    },
+    {
+      "path": "records/batch110_matrix_candidate_3_17_7_f9143ac604c046b79a4dc0b09f1c4182.S.ledger",
+      "sha256": "48b51a6f41068f0c8d9c36d059a89bf08f6f0b4d39ed679ea94092f13f7926ad"
+    }
+  ]
+}

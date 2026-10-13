@@ -1,0 +1,55 @@
+{
+  "stage": "prag-native-v1.0.6 approved BFV packing and bounded input-block merge",
+  "scope": "Implemented, compiled, registered and bounded production-mTLS diagnostic; no full private model execution",
+  "current_configuration_sha256": "77da9d478a320e5413c15d5578026e8977af9b0758ff135abb06685b21020075",
+  "current_evidence_sha256": {
+    "artifacts/bfv_correctness_bound.json": "fca73fbce5522fbb4a187d4a87b7d7ab6bd23c4e6b83ecafc055ac242ee5cdf3",
+    "artifacts/bfv_native_manifest.json": "ed2e35a0d4cdcb8c2a8c4993c353e4be100f7077175a4058d6afddb5d0ffbeeb",
+    "artifacts/configuration.json": "77da9d478a320e5413c15d5578026e8977af9b0758ff135abb06685b21020075",
+    "build/compute/prag_worker": "a9639c7f9b27fa376ff06262bacaaa421aece153d6aded4ed96faf0b9bed587a",
+    "records/crypto_merged106_mtls_run.json": "091d1cb6692076c8ba919b3e5d6b88fe25a71b258a23cb18466d50373859150d",
+    "records/compute_merged106_build.json": "18fa5e9ab9f9355e0850c100ad47724da2519ab4481bba814ed143de4bd59807",
+    "records/configuration_bindings_debug.json": "77297fdae00f57245d149253c552f6de82dda7fac37975a985311726ad55bdb9",
+    "records/compute_process_debug.json": "fffa295a820566f0b51483695726c09a74b8a8aec7d8cbe07f3100791af4d0fd",
+    "records/spec_revision_manifest.json": "0953998a88f199a3ebd580f071bd206f5ca1a14d4a40d7c28b23c6b1a7ce5d0b",
+    "records/crypto_merged106_cost_review.json": "68b74d16daeb7a414731897a5b14e6d2280a01fb34a28620ec4b1c4b1acc15b4"
+  },
+  "native_manifest_files_verified": 72,
+  "spec_consistency": {
+    "check": "standalone_specification_consistency",
+    "yaml_files": 5,
+    "rules": 62,
+    "decision_count": 9,
+    "artifact_count": 5,
+    "unmaterialized_artifacts": [],
+    "system_tests_executed": false,
+    "errors": []
+  },
+  "native_production_mtls": {
+    "cases": 3,
+    "input_ciphertexts": 22,
+    "returned_ciphertext_groups": 5,
+    "GC_targets": 7,
+    "application_bytes": 58097814,
+    "temporary_pki_removed": true,
+    "ledgers_closed_and_burned": true
+  },
+  "model_execution_this_stage": false,
+  "full_R2_executed": false,
+  "CPU_model_fallback": false,
+  "GPU_compute_processes_at_cleanup": [],
+  "owned_probe_or_worker_processes_remaining": [],
+  "new_VM_or_browser_sessions": false,
+  "unresolved": [
+    "full private RTX2060 backend absent; locked SEAL/SCI primitives currently CPU",
+    "full fixed R2 query BFV frame subset remains 3401298000293088 bytes; no full-model throughput measurement",
+    "complete Token and full fixed-model R2 execution not performed",
+    "full-model management/snapshot/release integration remains unverified with actual private model"
+  ],
+  "continuation": [
+    "Read records/crypto_static_cost_v1_0_6.json and records/crypto_merged106_implementation.md; keep production gates closed",
+    "Investigate remaining per-target controlled-GC cost and a real private GPU backend within authorized layout and unchanged locked parameters/privacy/model budgets",
+    "Bind any new layout proof, actual compiled code, diagnostic results and both source specifications before activation; do not use plaintext CUDA R1 as private CUDA capability",
+    "Avoid another full R1 model run unless a new numeric or model change requires it"
+  ]
+}

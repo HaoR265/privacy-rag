@@ -1,0 +1,45 @@
+{
+  "format_version": "numeric-range-evidence-v1",
+  "rule_ids": [
+    "NUM-003",
+    "NUM-004"
+  ],
+  "assumptions": [
+    "Weights, gamma, token table and main multiplication inputs are checked at abs<=256 in f12",
+    "Probability abs<=1 at f24; retrieval components abs<=2 at f20",
+    "NR states checked in [0,2]; scaled RMS components checked at abs<=96",
+    "Every rescale occurs after complete sum as specified; no unchecked modular wrap",
+    "Private failure values use prescribed safe replacement and are never released as a normal answer"
+  ],
+  "integer_upper_bounds": {
+    "main_dot_6144": 6755399441055744,
+    "QK_dot_128": 140737488355328,
+    "RMS_square_sum_2048": 2251799813685248,
+    "PV_sum_1280": 22517998136852480,
+    "residual_sum": 2097152,
+    "retrieval_dot_1024": 4503599627370496,
+    "RMS_scaled_vector_times_NR": 54043195528445952,
+    "NR_m_times_y_square_after_rescale": 4503599627370496,
+    "NR_y_times_correction": 5066549580791808,
+    "reciprocal_r_times_correction": 2251799813685248,
+    "exp_two_factor": 281474976710656,
+    "softmax_probability_product": 281474976710656,
+    "silu_x_times_sigmoid": 17592186044416,
+    "rope_pair_sum": 2199023255552,
+    "attention_public_scale_product": 3184494911684608,
+    "softmax_denominator": 21474836480,
+    "I7_error_bound": 17605062558720
+  },
+  "engineering_budget_exclusive": 72057594037927936,
+  "signed_boundary_exclusive": 288230376151711744,
+  "all_listed_bounds_below_budget": true,
+  "scope": "Analytic operator-domain conditional no-wrap bounds; does not prove all model activations remain in domain",
+  "RMS_scaled_component_derivation": "For d<=2048, |X|/sqrt(A)<=sqrt(d). Quantized k gives sqrt(A)/2^k<2, so |B|/2^24<=2sqrt(2048)<91<96.",
+  "L2_scaled_component_derivation": "For positive sum of squares S and chosen k, |X|<=sqrt(S)<2^(k+1), so scaled component |B|/2^24<=2. Invalid branch uses zero vector and positive dummy denominator.",
+  "secret_shift_requirement": "Use exponent ranges and pre-shift bit bounds; invalid exponent must select both k=0 and a=1 before normalization",
+  "known_limitations": [
+    "This artifact is not a BFV noise bound or a session failure-probability proof.",
+    "Integer range checks are required during every R1/R2 model invocation.",
+    "Finite public constant agreement at two precisions is not a formal interval arithmetic certificate."
+  ]
+}
