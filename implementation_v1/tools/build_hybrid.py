@@ -29,6 +29,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--name', help='new direct child of build/; existing directories are rejected')
     parser.add_argument('--development', action='store_true', help='also compile isolated hybrid probes; execute no model')
+    parser.add_argument('--token-gpu', action='store_true',
+                        help='compile the optional exact RTX2060 Token backend; does not enable production')
+    parser.add_argument('--matrix-gpu', action='store_true',
+                        help='compile the optional exact RTX2060 full-ring matrix backend; no runtime CPU fallback')
     parser.add_argument('--jobs', type=int, choices=(1, 2), default=2)
     args = parser.parse_args()
     name = args.name or 'hybrid-' + datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S-') + uuid.uuid4().hex[:8]
@@ -45,14 +49,25 @@ def main():
     build.mkdir(parents=False, exist_ok=False)
     record = {'build_directory': str(build.relative_to(ROOT)), 'development': args.development,
               'model_executed': False, 'production_enabled': False, 'jobs': args.jobs,
+              'token_gpu': args.token_gpu, 'matrix_gpu': args.matrix_gpu,
               'started_utc': datetime.now(timezone.utc).isoformat(), 'result': 'incomplete'}
     inputs = {Path(__file__).resolve()}
     for folder in ('compute', 'native/src', 'native/include/prag'):
         inputs.update(p for p in (ROOT / folder).rglob('*') if p.is_file()
                       and p.suffix in ('.hpp', '.cpp', '.inc', '.cu', '.txt'))
     inputs.add(ROOT / 'native/CMakeLists.txt')
+    if args.token_gpu:
+        inputs.update(ROOT / 'experiments/resident_token_gpu' / name for name in (
+            'resident.cu', 'resident.hpp', 'seal_adapter.cpp'))
+    if args.token_gpu:
+        inputs.update(ROOT / 'experiments/keyswitch_full_gpu' / name for name in (
+            'switch.cu', 'switch.hpp', 'seal_adapter.cpp'))
+    if args.matrix_gpu:
+        inputs.update(ROOT / 'experiments/matrix_gpu' / name for name in (
+            'matrix.cu', 'matrix.hpp', 'adapter.cpp'))
     if args.development:
-        for folder in ('experiments/hybrid112', 'experiments/batch110_baseline'):
+        for folder in ('experiments/hybrid112', 'experiments/batch110_baseline', 'experiments/full_private_query',
+                       'experiments/token_batch'):
             inputs.update(p for p in (ROOT / folder).rglob('*') if p.is_file()
                           and p.suffix in ('.hpp', '.cpp', '.inc', '.cu', '.txt'))
     for dependency, folder in [('SEAL', 'native/src'), ('EzPC', 'SCI/src')]:
@@ -65,12 +80,18 @@ def main():
     before = {str(path.relative_to(ROOT)): sha(path) for path in sorted(inputs)}
     record['source_and_dependency_sha256'] = before
     configure = ['cmake', '-S', str(ROOT / 'compute'), '-B', str(build),
-                 '-DCMAKE_BUILD_TYPE=Release', '-DPRAG_BUILD_ISOLATED_DEVELOPMENT=OFF',
+                 '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_EXPORT_COMPILE_COMMANDS=ON',
+                 '-DPRAG_BUILD_ISOLATED_DEVELOPMENT=OFF',
                  '-DPRAG_BUILD_MODEL_DEV=OFF',
+                 '-DPRAG_EXPERIMENTAL_TOKEN_GPU=' + ('ON' if args.token_gpu else 'OFF'),
+                 '-DPRAG_EXPERIMENTAL_MATRIX_GPU=' + ('ON' if args.matrix_gpu else 'OFF'),
                  '-DPRAG_BUILD_HYBRID_DEV=' + ('ON' if args.development else 'OFF')]
-    host_compiler = Path('/usr/lib/nvidia-cuda-toolkit/bin/g++')
-    if host_compiler.is_file():
-        configure.append('-DCMAKE_CUDA_HOST_COMPILER=' + str(host_compiler))
+    # Bind the actual compiler driver, not the toolkit's PATH-selecting wrapper.
+    host_path = shutil.which('g++-13')
+    if host_path is None:
+        raise RuntimeError('CUDA_HOST_GXX13_MISSING')
+    host_compiler = Path(host_path).resolve(strict=True)
+    configure.append('-DCMAKE_CUDA_HOST_COMPILER=' + str(host_compiler))
     # CMake checks pinned dependency commits and clean tracked dependency files.
     try:
         with (build / 'configure.log').open('w') as log:
@@ -78,6 +99,41 @@ def main():
         with (build / 'build.log').open('w') as log:
             subprocess.run(['cmake', '--build', str(build), '-j' + str(args.jobs)],
                            cwd=ROOT, check=True, stdout=log, stderr=subprocess.STDOUT)
+        # Record effective generated flags and link recipes, not only requested
+        # switches. These files belong to this fresh build and stay immutable.
+        cache = (build / 'CMakeCache.txt').read_text()
+        expected_gpu = 'PRAG_EXPERIMENTAL_TOKEN_GPU:BOOL=' + ('ON' if args.token_gpu else 'OFF')
+        if expected_gpu not in cache.splitlines():
+            raise RuntimeError('TOKEN_GPU_EFFECTIVE_OPTION_MISMATCH')
+        expected_matrix = 'PRAG_EXPERIMENTAL_MATRIX_GPU:BOOL=' + ('ON' if args.matrix_gpu else 'OFF')
+        if expected_matrix not in cache.splitlines():
+            raise RuntimeError('MATRIX_GPU_EFFECTIVE_OPTION_MISMATCH')
+        generated = [build / 'CMakeCache.txt', build / 'compile_commands.json']
+        generated.extend(build.rglob('flags.make'))
+        generated.extend(build.rglob('link.txt'))
+        generated.extend(build.rglob('*.rsp'))
+        record['generated_build_metadata_sha256'] = {
+            str(path.relative_to(ROOT)): sha(path) for path in sorted(set(generated))}
+        record['toolchain'] = {}
+        for key in ('CMAKE_CXX_COMPILER', 'CMAKE_CUDA_COMPILER', 'CMAKE_CUDA_HOST_COMPILER'):
+            found = re.search(r'^' + key + r':(?:FILEPATH|STRING|UNINITIALIZED)=(.+)$', cache, re.MULTILINE)
+            if found:
+                compiler = Path(found.group(1)).resolve(strict=True)
+                version = subprocess.run([str(compiler), '--version'], capture_output=True,
+                                         text=True, check=True, timeout=10)
+                record['toolchain'][key] = {'path': str(compiler), 'sha256': sha(compiler),
+                                            'version': version.stdout.strip()}
+        if args.token_gpu:
+            commands = (build / 'compile_commands.json').read_text()
+            if not ('compute_75' in commands and 'sm_75' in commands and
+                    'PRAG_EXPERIMENTAL_TOKEN_GPU=1' in commands):
+                raise RuntimeError('TOKEN_GPU_EFFECTIVE_FLAGS_MISMATCH')
+        if args.matrix_gpu:
+            commands = (build / 'compile_commands.json').read_text()
+            if not ('compute_75' in commands and 'sm_75' in commands and
+                    'PRAG_EXPERIMENTAL_MATRIX_GPU=1' in commands and
+                    'experiments/matrix_gpu/matrix.cu' in commands):
+                raise RuntimeError('MATRIX_GPU_EFFECTIVE_FLAGS_MISMATCH')
         context = build / 'actual_bfv_context.json'
         subprocess.run([str(build / 'native/prag_bfv_context'), str(context)], check=True,
                        capture_output=True, text=True)
@@ -102,9 +158,15 @@ def main():
             raise RuntimeError('SOURCE_CHANGED_DURING_BUILD')
         outputs = [build / 'prag_worker', crypto, build / 'libprag_local_cuda.a',
                    build / 'native/prag_bfv_context', context]
+        if args.token_gpu:
+            outputs.append(build / 'native/libprag_token_gpu.a')
+        if args.matrix_gpu:
+            outputs.append(build / 'native/libprag_matrix_gpu.a')
         if args.development:
             outputs.extend(build / name for name in ('prag_hybrid_local', 'prag_hybrid_layer',
-                           'prag_hybrid_decode', 'prag_hybrid_postprocess', 'prag_hybrid_m3'))
+                           'prag_hybrid_decode', 'prag_hybrid_postprocess', 'prag_hybrid_m3',
+                           'prag_full_private_session', 'prag_token_batch_probe',
+                           'prag_dev_heartbeat_finish_probe'))
         record.update(result='compiled_context_matched_gate_closed',
                       actual_context_matches_locked=True, rejects_before_input=True,
                       production_library_excludes_development_decode=True,

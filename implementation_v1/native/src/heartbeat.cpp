@@ -1,5 +1,6 @@
 #include "prag/heartbeat.hpp"
 #include <array>
+#include <limits>
 #include <stdexcept>
 namespace prag {
 Heartbeat::Heartbeat(Channel &out, Channel &in, Channel &compute,
@@ -28,6 +29,33 @@ Heartbeat::Heartbeat(Channel &out, Channel &in, Channel &compute,
   }
 }
 Heartbeat::~Heartbeat() { close(); }
+void Heartbeat::finish() {
+  try {
+    {
+      std::lock_guard<std::mutex> lock(mutex_);
+      if(finish_requested_||stopped_.load())
+        throw std::runtime_error("E_HEARTBEAT_FINISH_STATE");
+      finish_requested_=true;
+    }
+    changed_.notify_all();
+    {
+      std::unique_lock<std::mutex> lock(mutex_);
+      changed_.wait(lock,[this]{return stopped_.load()||(terminal_sent_&&terminal_received_);});
+      if(stopped_.load())throw std::runtime_error("E_HEARTBEAT_ABORT");
+    }
+    // The receiver has consumed an authenticated terminal frame; it has not
+    // merely observed EOF. The watchdog remains active through this barrier.
+    compute_.set_stage(0x4843);compute_.set_operation(0);
+    const std::array<unsigned char,8> terminal={'P','R','A','G','E','N','D','1'};
+    std::array<unsigned char,8> peer{};
+    compute_.send_data(terminal.data(),terminal.size());
+    compute_.recv_data(peer.data(),peer.size());
+    if(peer!=terminal)throw std::runtime_error("E_HEARTBEAT_FINISH_FRAME");
+    check();
+    close(); // All peers have consumed their terminal frame before any close.
+    check(); // Also catch a watchdog failure racing the preceding check.
+  } catch(...) {fail();close();throw;}
+}
 void Heartbeat::fail() noexcept {
   if (stopped_.exchange(true))
     return;
@@ -60,16 +88,24 @@ void Heartbeat::send_loop() noexcept {
     uint64_t counter = 0;
     auto next = std::chrono::steady_clock::now();
     while (!stopped_.load()) {
+      bool terminal=false;
+      {std::lock_guard<std::mutex> lock(mutex_);terminal=finish_requested_;}
       std::array<unsigned char, 8> payload{};
-      uint64_t v = counter++;
+      if(counter==std::numeric_limits<uint64_t>::max())
+        throw std::runtime_error("E_HEARTBEAT_SEQUENCE");
+      uint64_t v = terminal?std::numeric_limits<uint64_t>::max():counter++;
       for (int j = 7; j >= 0; --j) {
         payload[j] = v & 255;
         v >>= 8;
       }
       out_.send_data(payload.data(), payload.size());
+      if(terminal){
+        {std::lock_guard<std::mutex> lock(mutex_);terminal_sent_=true;}
+        changed_.notify_all();return;
+      }
       next += std::chrono::seconds(interval_seconds);
       std::unique_lock<std::mutex> lock(mutex_);
-      changed_.wait_until(lock, next, [this] { return stopped_.load(); });
+      changed_.wait_until(lock, next, [this] { return stopped_.load()||finish_requested_; });
     }
   } catch (...) {
     fail();
@@ -84,6 +120,11 @@ void Heartbeat::receive_loop() noexcept {
       uint64_t v = 0;
       for (auto b : payload)
         v = (v << 8) | b;
+      if(v==std::numeric_limits<uint64_t>::max()){
+        {std::lock_guard<std::mutex> lock(mutex_);
+          terminal_received_=true;last_=std::chrono::steady_clock::now();}
+        changed_.notify_all();return;
+      }
       if (v != expected++)
         throw std::runtime_error("E_HEARTBEAT_SEQUENCE");
       {

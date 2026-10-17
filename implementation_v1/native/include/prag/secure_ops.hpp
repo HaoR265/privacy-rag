@@ -13,17 +13,60 @@ using Bit = bool;
 using Bits = std::array<Bit, 59>;
 using PrivateWeightBlock = std::function<std::vector<std::vector<Word>>(
     size_t input_begin, size_t actual_columns, size_t first_row, size_t group_rows)>;
+// Explicit opt-in: owner promises one helper may invoke this callback, with
+// no concurrent calls or external mutation; all referenced owners outlive join.
+struct WorkerSafePrivateWeightReader {
+  PrivateWeightBlock callback;
+  std::vector<std::vector<Word>> operator()(size_t a,size_t b,size_t c,size_t d)const{return callback(a,b,c,d);}
+};
+inline PrivateWeightBlock worker_safe_private_reader(PrivateWeightBlock callback){
+ return WorkerSafePrivateWeightReader{std::move(callback)};
+}
+inline bool private_reader_worker_safe(const PrivateWeightBlock& reader){
+ return reader.target<WorkerSafePrivateWeightReader>()!=nullptr;
+}
 // Public descriptors are validated at the typed tensor boundary. All scalar
 // Word and Bit arguments below are this party's shares, never plaintext.
 struct TokenLookupStats {
+  bool coordinate_pipeline_used=false;
+  double pipeline_prepare_seconds=0,pipeline_tiles_wall_seconds=0;
   uint64_t onehot_bytes=0,initial_key_bytes=0,switch_key_bytes=0,online_bfv_gc_bytes=0;
   double onehot_seconds=0;
+  // Opt-in, party-local wall times. Communication/waiting is included; these
+  // are not CPU times and must not be added across C and S. Sequential raw
+  // includes read; pipeline raw is consume-only, with helper preparation and
+  // overlapped tile wall reported separately.
+  // Only public schedule counts are reported, never indices or secret values.
+  double initial_key_seconds=0,switch_key_seconds=0,input_seconds=0;
+  double server_raw_seconds=0,server_weight_read_seconds=0,server_packing_seconds=0;
+  // Nested inside raw: centered lifting + forward weight NTT, and ciphertext
+  // dyadic multiply/add respectively. Neither includes the other or read.
+  double server_weight_lift_ntt_seconds=0,server_dyadic_seconds=0;
+  // Optional local CUDA dyadic backend. Counts/times contain no secret values.
+  bool gpu_dyadic_used=false,gpu_cleanup_closed=false;
+  double gpu_constructor_seconds=0,gpu_input_upload_seconds=0,gpu_weight_upload_seconds=0;
+  double gpu_packing_constructor_seconds=0;
+  size_t gpu_packing_device_bytes=0;
+  double gpu_weight_lift_seconds=0,gpu_weight_ntt_seconds=0,gpu_dyadic_seconds=0;
+  double gpu_kernel_seconds=0,gpu_output_download_seconds=0,gpu_cleanup_seconds=0;
+  uint64_t gpu_device_bytes=0,gpu_wipe_synchronized_bytes=0,gpu_freed_bytes=0;
+  int gpu_cleanup_error=0;
+  double return_phase_seconds=0,gc_seconds=0,total_seconds=0;
+  uint64_t server_weight_blocks=0,server_weight_values=0,server_weight_ntts=0;
+  uint64_t server_pack_merges=0,input_ciphertexts=0,returned_tiles=0;
 };
 class BfvEngine;
 class SecureOps {
   struct Impl;
   std::unique_ptr<Impl> p_;
   std::shared_ptr<BfvEngine> bfv_;
+  friend class BatchOps;
+  // Only the typed shared QK wrapper may enter this dedicated reverse layout.
+  std::vector<std::vector<Word>> private_qk_reverse64(
+      const std::vector<std::vector<Word>>&,const PrivateWeightBlock&);
+  std::vector<std::vector<Word>> private_matrix_impl(
+      const std::vector<std::vector<Word>>&,size_t,unsigned,unsigned,
+      const PrivateWeightBlock&,bool qk_reverse64);
 
 public:
   SecureOps(Role, Channel &, const std::string &fresh_ledger_path,
@@ -74,6 +117,12 @@ public:
   // inside this SecureOps session. Does not apply model validity/failure policy.
   std::vector<Word> private_token_lookup(Word shared_index, size_t vocabulary,
       size_t hidden, const PrivateWeightBlock&, TokenLookupStats* stats=nullptr);
+  // Public B in [1,4]. Each slot still scans 155648 entries, has 19 fresh input
+  // ciphertexts and independent protected returns. Only S weight transforms
+  // are shared inside this call. Model validity policy remains the caller's.
+  std::vector<std::vector<Word>> private_token_lookup_many(
+      const std::vector<Word>& shared_indices,size_t vocabulary,size_t hidden,
+      const PrivateWeightBlock&,TokenLookupStats* stats=nullptr);
   Channel &channel();
   bool isolated_development() const;
   void reserve_material(const char *, size_t);

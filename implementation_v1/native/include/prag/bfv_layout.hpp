@@ -6,6 +6,11 @@
 #include <stdexcept>
 namespace prag {
 struct MatrixPacking {std::size_t reduction, columns, returns, inputs;};
+inline MatrixPacking matrix_packing_qk_reverse64(std::size_t b) {
+  if(!b||b>64)throw std::invalid_argument("E_QK_REVERSE64_SHAPE");
+  // Dedicated K=128,O=1: one full reduction, one return, no wrap.
+  return {128,1,1,1};
+}
 inline MatrixPacking matrix_packing(std::size_t b,std::size_t k,std::size_t o) {
   if(!b||b>16||!k||k>8192||!o||o>155648)throw std::invalid_argument("E_MATRIX_SHAPE");
   MatrixPacking best{};uint64_t cost=std::numeric_limits<uint64_t>::max();

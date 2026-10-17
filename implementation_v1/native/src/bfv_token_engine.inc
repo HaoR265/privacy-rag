@@ -31,21 +31,29 @@ void setup_token_keys(SecureOps& op) {
   token_enc.reset(new seal::Encryptor(context,final_pk));
 }
 seal::Ciphertext token_raw(const std::vector<seal::Ciphertext>& inputs,
-    const std::vector<Word>& x,size_t output,const PrivateWeightBlock& reader) {
+    const std::vector<Word>& x,size_t output,const PrivateWeightBlock& reader,
+    TokenLookupStats* stats) {
   constexpr size_t n=16384,d=8192,k=6;
   const auto cd=context.first_context_data();const auto& primes=cd->parms().coeff_modulus();
   seal::Ciphertext sum(context);sum.resize(context,context.first_parms_id(),2);
   std::fill_n(sum.data(),2*n*k,0);Word local=0;
   std::vector<uint64_t> lifted(n),product(n);
   for(size_t block=0;block<19;++block) {
+    const auto read_start=stats?std::chrono::steady_clock::now():std::chrono::steady_clock::time_point{};
     auto w=reader(block*d,d,output,1);
+    if(stats){stats->server_weight_read_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-read_start).count();
+      ++stats->server_weight_blocks;stats->server_weight_values+=d;}
     if(w.size()!=1||w[0].size()!=d)throw std::runtime_error("E_BFV_WEIGHT_BLOCK_SHAPE");
     for(size_t j=0;j<d;++j){Word v=w[0][j]&MASK;if(v>(Word(1)<<20)&&v<((Word(1)<<59)-(Word(1)<<20)))throw std::runtime_error("E_TOKEN_WEIGHT_BOUND");local=(local+x[block*d+j]*v)&MASK;}
     for(size_t p=0;p<k;++p) {
+      const auto weight_start=stats?std::chrono::steady_clock::now():std::chrono::steady_clock::time_point{};
       std::fill(lifted.begin(),lifted.end(),0);const Word q=primes[p].value();
       for(size_t j=0;j<d;++j){const Word v=w[0][j]&MASK;lifted[d-1-j]=v+((q-(Word(1)<<59))&(Word(0)-(v>>58)));}
       seal::util::ntt_negacyclic_harvey(lifted.data(),cd->small_ntt_tables()[p]);
+      if(stats){++stats->server_weight_ntts;stats->server_weight_lift_ntt_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-weight_start).count();}
+      const auto dyadic_start=stats?std::chrono::steady_clock::now():std::chrono::steady_clock::time_point{};
       for(size_t c=0;c<2;++c){auto*dst=sum.data(c)+p*n;seal::util::dyadic_product_coeffmod(inputs[block].data(c)+p*n,lifted.data(),n,primes[p],product.data());seal::util::add_poly_coeffmod(dst,product.data(),n,primes[p],dst);}
+      if(stats)stats->server_dyadic_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-dyadic_start).count();
     }
   }
   for(size_t c=0;c<2;++c)for(size_t p=0;p<k;++p)seal::util::inverse_ntt_negacyclic_harvey(sum.data(c)+p*n,cd->small_ntt_tables()[p]);
@@ -53,17 +61,32 @@ seal::Ciphertext token_raw(const std::vector<seal::Ciphertext>& inputs,
   monomial_shift(sum,2*n-(d-1),context);return sum;
 }
 std::vector<Word> token_packed(SecureOps& op,const std::vector<Word>& onehot,
-    size_t hidden,const PrivateWeightBlock& reader) {
+    size_t hidden,const PrivateWeightBlock& reader,TokenLookupStats* stats) {
+#if defined(PRAG_EXPERIMENTAL_TOKEN_GPU) && defined(PRAG_TOKEN_SINGLE_GPU_ROUTE)
+  // Preserve the public single-slot descriptor and caller's material schedule.
+  // The batch engine with B=1 has identical tile/slot ordering.
+  if(onehot.size()!=155648||(hidden!=1024&&hidden!=2048))throw std::runtime_error("E_TOKEN_SHAPE");
+  std::vector<std::vector<Word>> rows(1);
+  struct RowsWiper {std::vector<std::vector<Word>>& rows;~RowsWiper(){for(auto& row:rows)OPENSSL_cleanse(row.data(),row.size()*sizeof(Word));}}wipe_rows{rows};
+  rows[0]=onehot;
+  auto result=token_packed_many(op,rows,hidden,reader,stats);
+  RowsWiper wipe_result{result};
+  if(result.size()!=1||result[0].size()!=hidden)throw std::runtime_error("E_TOKEN_SINGLE_RESULT");
+  return std::move(result[0]);
+#else
   constexpr size_t n=16384,k=6,limbs=n*k;
   if(onehot.size()!=155648||(hidden!=1024&&hidden!=2048))throw std::runtime_error("E_TOKEN_SHAPE");
   setup_token_keys(op);
   const auto cd=context.first_context_data();const auto& primes=cd->parms().coeff_modulus();
+  const auto input_start=stats?std::chrono::steady_clock::now():std::chrono::steady_clock::time_point{};
   std::vector<seal::Ciphertext> inputs;inputs.reserve(19);
   for(size_t block=0;block<19;++block){op.reserve_material("token_fixed_input",1);
     auto ct=input_block(std::vector<Word>(onehot.begin()+block*8192,onehot.begin()+(block+1)*8192));
     if(role==Role::Server)for(size_t c=0;c<2;++c)for(size_t p=0;p<k;++p)seal::util::ntt_negacyclic_harvey(ct.data(c)+p*n,cd->small_ntt_tables()[p]);
     inputs.push_back(std::move(ct));
+    if(stats)++stats->input_ciphertexts;
   }
+  if(stats)stats->input_seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-input_start).count();
   std::vector<Word> result(hidden);seal::Evaluator eval(context);
   for(size_t tile=0;tile<hidden;tile+=512) {
     op.reserve_material("token_return_tile_mask_Enc0",n);
@@ -71,24 +94,36 @@ std::vector<Word> token_packed(SecureOps& op,const std::vector<Word>& onehot,
     if(role==Role::Server) {
       std::vector<seal::Ciphertext> stack(10);std::array<bool,10> used{};
       for(size_t coordinate=0;coordinate<512;++coordinate) {
-        auto current=token_raw(inputs,onehot,tile+coordinate,reader);unsigned level=0;
-        while(used[level]){current=pack_pair(std::move(stack[level]),std::move(current),level,token_keys[level],context);used[level]=false;++level;}
+        const auto raw_start=stats?std::chrono::steady_clock::now():std::chrono::steady_clock::time_point{};
+        auto current=token_raw(inputs,onehot,tile+coordinate,reader,stats);unsigned level=0;
+        if(stats)stats->server_raw_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-raw_start).count();
+        while(used[level]){
+          const auto pack_start=stats?std::chrono::steady_clock::now():std::chrono::steady_clock::time_point{};
+          current=pack_pair(std::move(stack[level]),std::move(current),level,token_keys[level],context);used[level]=false;++level;
+          if(stats){stats->server_packing_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-pack_start).count();++stats->server_pack_merges;}}
         stack[level]=std::move(current);used[level]=true;
       }
+      const auto return_start=stats?std::chrono::steady_clock::now():std::chrono::steady_clock::time_point{};
       auto& ct=stack[9];seal::Plaintext mask(n);
       if(RAND_priv_bytes(reinterpret_cast<unsigned char*>(mask.data()),n*8)!=1)throw std::runtime_error("E_RNG");for(size_t j=0;j<n;++j)mask[j]&=MASK;
       eval.sub_plain_inplace(ct,mask);seal::Ciphertext zero;token_enc->encrypt_zero(zero);eval.add_inplace(ct,zero);
       io.send_data(ct.data(1),limbs*8);
       for(size_t i=0;i<512;++i){const auto target=packed_target(i);phases[i]=rns_coefficient(ct.data(0),n,target,primes);masks[i]=mask[target];}
+      if(stats)stats->return_phase_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-return_start).count();
     }else{
+      const auto return_start=stats?std::chrono::steady_clock::now():std::chrono::steady_clock::time_point{};
       std::vector<uint64_t> component(limbs);io.recv_data(component.data(),limbs*8);
       for(size_t p=0;p<k;++p){auto*a=component.data()+p*n;for(size_t j=0;j<n;++j)if(a[j]>=primes[p].value())throw std::runtime_error("E_BFV_COMPONENT");seal::util::ntt_negacyclic_harvey(a,cd->small_ntt_tables()[p]);seal::util::dyadic_product_coeffmod(a,token_final_sk.data().data()+p*n,n,primes[p],a);seal::util::inverse_ntt_negacyclic_harvey(a,cd->small_ntt_tables()[p]);}
       for(size_t i=0;i<512;++i)phases[i]=rns_coefficient(component.data(),n,packed_target(i),primes);
+      if(stats)stats->return_phase_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-return_start).count();
     }
+    const auto gc_start=stats?std::chrono::steady_clock::now():std::chrono::steady_clock::time_point{};
     op.reserve_material("token_exact_tile_GC",512);
     const auto shares=decoder.decode_token_tile(phases,masks,modulus_product(primes));
+    if(stats){stats->gc_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-gc_start).count();++stats->returned_tiles;}
     std::copy(shares.begin(),shares.end(),result.begin()+tile);
     OPENSSL_cleanse(masks.data(),masks.size()*8);
   }
   return result;
+#endif
 }

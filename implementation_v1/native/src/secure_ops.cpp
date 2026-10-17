@@ -15,6 +15,31 @@ static Word random_word() {
     throw std::runtime_error("E_RNG");
   return v & MASK;
 }
+// One-use private DRBG output, bounded independently of input size. No cached
+// words survive the operation and the last batch draws only requested words.
+class RandomWords {
+  std::array<Word, 1024> buffer_{};
+  size_t remaining_, position_ = 0, available_ = 0;
+public:
+  explicit RandomWords(size_t count) : remaining_(count) {}
+  RandomWords(const RandomWords &) = delete;
+  RandomWords &operator=(const RandomWords &) = delete;
+  ~RandomWords() { OPENSSL_cleanse(buffer_.data(), sizeof(buffer_)); }
+  Word next() {
+    if (position_ == available_) {
+      if (!remaining_) throw std::runtime_error("E_RNG_COUNT");
+      available_ = std::min(remaining_, buffer_.size());
+      position_ = 0;
+      if (RAND_priv_bytes(reinterpret_cast<unsigned char *>(buffer_.data()),
+                          int(available_ * sizeof(Word))) != 1)
+        throw std::runtime_error("E_RNG");
+      remaining_ -= available_;
+    }
+    const Word value = buffer_[position_] & MASK;
+    buffer_[position_++] = 0;
+    return value;
+  }
+};
 struct SecureOps::Impl {
   Role role;
   Channel &io;
@@ -88,6 +113,34 @@ struct SecureOps::Impl {
         fsync(ledger) != 0)
       throw std::runtime_error("E_LEDGER");
   }
+  // Project-local compatible receiver: same IKNP/59-bit GOT; larger public
+  // pre-extension tile, sender-compatible 1024-choice post frames.
+  void receive_cross_tile(sci::SplitIKNP<Channel>& ot, Word* data,
+                          uint8_t* choices, int count) {
+    constexpr int post = sci::AES_BATCH_SIZE / 2;
+    ot.l = 59; ot.tT = nullptr;
+    const size_t padded = ((size_t(count) + 255) / 256) * 256;
+    std::array<Word, (2 * post * 59 + 63) / 64> encoded{};
+    try {
+      ot.recv_pre(reinterpret_cast<bool*>(choices), count);
+      for (int first=0; first<count; first+=post) {
+        const int actual=std::min(post,count-first);
+        const size_t words=(size_t(2)*actual*59+63)/64;
+        io.recv_data(encoded.data(),int(words*sizeof(Word)));
+        if(actual==post) ot.crh.H<post>(ot.tT+first,ot.tT+first);
+        else ot.crh.Hn(ot.tT+first,ot.tT+first,actual);
+        sci::unpack_ot_messages<Word>(data+first, choices+first,
+                                    encoded.data(),ot.tT+first,actual,59,2);
+      }
+    } catch (...) {
+      OPENSSL_cleanse(encoded.data(),encoded.size()*sizeof(Word));
+      if(ot.tT) {OPENSSL_cleanse(ot.tT,padded*sizeof(sci::block128));delete[] ot.tT;ot.tT=nullptr;}
+      throw;
+    }
+    OPENSSL_cleanse(encoded.data(),encoded.size()*sizeof(Word));
+    OPENSSL_cleanse(ot.tT,padded*sizeof(sci::block128));
+    delete[] ot.tT;ot.tT=nullptr;
+  }
   std::vector<Word> cross(const std::vector<Word> &a, Role sender,
                           unsigned bits = 59) {
     if (a.size() > size_t(std::numeric_limits<int>::max() / bits))
@@ -100,19 +153,18 @@ struct SecureOps::Impl {
     if (role == sender) {
       std::vector<std::array<Word, 2>> m(n);
       std::vector<Word *> p(n);
+      RandomWords masks(bits == 59 ? n : 0);
       for (size_t i = 0; i < a.size(); ++i)
         for (unsigned j = 0; j < bits; ++j) {
           size_t k = i * bits + j;
-          Word r = random_word();
+          Word r = bits == 59 ? masks.next() : random_word();
           m[k] = {(-r) & MASK, ((a[i] << j) - r) & MASK};
           p[k] = m[k].data();
           out[i] = (out[i] + r) & MASK;
         }
-      // The locked SCI sender emits at most AES_BATCH_SIZE/2 messages per
-      // post frame, while its receiver otherwise requests AES_BATCH_SIZE.
-      // Bound each invocation so the strict Channel frame shapes coincide.
-      for (size_t first = 0; first < n; first += 1024)
-        ot.send(p.data() + first, int(std::min(size_t(1024), n - first)), 59);
+      const size_t pre_tile = bits == 59 ? 16384 : 1024;
+      for (size_t first = 0; first < n; first += pre_tile)
+        ot.send(p.data() + first, int(std::min(pre_tile, n - first)), 59);
       OPENSSL_cleanse(m.data(), m.size() * sizeof(m[0]));
     } else {
       std::vector<uint8_t> choices(n);
@@ -120,9 +172,12 @@ struct SecureOps::Impl {
       for (size_t i = 0; i < a.size(); ++i)
         for (unsigned j = 0; j < bits; ++j)
           choices[i * bits + j] = (a[i] >> j) & 1;
-      for (size_t first = 0; first < n; first += 1024)
-        ot.recv(received.data() + first, choices.data() + first,
-                int(std::min(size_t(1024), n - first)), 59);
+      const size_t pre_tile = bits == 59 ? 16384 : 1024;
+      for (size_t first = 0; first < n; first += pre_tile) {
+        const int count=int(std::min(pre_tile,n-first));
+        if(bits==59) receive_cross_tile(ot,received.data()+first,choices.data()+first,count);
+        else ot.recv(received.data()+first,choices.data()+first,count,59);
+      }
       for (size_t i = 0; i < a.size(); ++i)
         for (unsigned j = 0; j < bits; ++j)
           out[i] = (out[i] + received[i * bits + j]) & MASK;
@@ -215,9 +270,10 @@ std::vector<Word> SecureOps::mul_many(const std::vector<Word> &x,
   p_->reserve("beaver", n);
   std::vector<Word> a(n), b(n), t(n), dx(n), dy(n), other(2 * n), wire(2 * n),
       out(n);
+  RandomWords masks(2 * n);
   for (size_t i = 0; i < n; ++i) {
-    a[i] = random_word();
-    b[i] = random_word();
+    a[i] = masks.next();
+    b[i] = masks.next();
   }
   auto pc = p_->cross(role() == Role::Client ? a : b, Role::Client);
   auto ps = p_->cross(role() == Role::Server ? a : b, Role::Server);

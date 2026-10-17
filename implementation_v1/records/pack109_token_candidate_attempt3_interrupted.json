@@ -1,7 +1,0 @@
-{
-  "kind": "development_launch_interrupted",
-  "reason": "Build4 failed on missing sci namespace; stale previous executable was accidentally launched and was promptly stopped. No result accepted.",
-  "run_prefix": "pack109_token_candidate_H1024_id0_95beb39de0414f408c9411cb0435dac7",
-  "materials": "All existing reserved ledger paths remain permanently nonreusable; SIGTERM may omit final marker.",
-  "next_action": "Require successful build completion before new invocation"
-}

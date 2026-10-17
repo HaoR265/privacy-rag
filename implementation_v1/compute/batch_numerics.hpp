@@ -5,14 +5,31 @@
 #include "local_shares.hpp"
 #include <algorithm>
 #include <exception>
+#include <openssl/crypto.h>
 namespace prag::model {
 // Public stage callback contains no data-dependent metadata. Production may
 // leave it empty; diagnostic callers measure authenticated transcript counters.
+// Only new logical-attention staging uses this owner. Move replacement erases
+// the previous allocation before releasing it; failed stages erase on unwind.
+template<class T> class LogicalBuffer : public std::vector<T> {
+  using Base=std::vector<T>;
+  void wipe() noexcept { if(!this->empty())OPENSSL_cleanse(this->data(),this->size()*sizeof(T)); }
+ public:
+  using Base::Base;
+  LogicalBuffer()=default;
+  LogicalBuffer(Base&& x):Base(std::move(x)){}
+  LogicalBuffer(const LogicalBuffer&)=delete;
+  LogicalBuffer& operator=(const LogicalBuffer&)=delete;
+  LogicalBuffer& operator=(Base&& x){wipe();Base::operator=(std::move(x));return *this;}
+  ~LogicalBuffer(){wipe();}
+  Base release(){return std::move(static_cast<Base&>(*this));}
+};
 using NumericPhase = std::function<void(const char *, bool)>;
 class BatchNumerics {
   SecureOps &s;
   BatchOps batch;
   NumericPhase phase;
+  Word logical_matrix_sequence = 0;
   LocalShares* local;
   std::vector<uint8_t> pending_failures;
   struct Stage {
@@ -42,6 +59,36 @@ class BatchNumerics {
     return r;
   }
 
+  // Only called by silu after exp_negative: not a general reciprocal API.
+  // For every canonical input share, silu checks X before forming |X|.
+  // The guarded input and bounded public tables prove D in [1,2] at f24.
+  std::vector<Word> reciprocal_silu(const std::vector<Word>& input) {
+    auto prepared=batch.run({BatchCode::ReciprocalSiLUPrepare,1,input.size(),{}},input);
+    note(prepared.bits);
+    const size_t count=input.size();
+    std::vector<Word> m(prepared.words.begin(),prepared.words.begin()+count),
+        k(prepared.words.begin()+count,prepared.words.end()),
+        r(count,constant(one24/2));
+    for(unsigned round=0;round<6;++round) {
+      r=state(r); // Keep every original pre-multiplication state guard.
+      if(round==0) {
+        // R0=2^23 is public. These are exactly the two original Tr24 nodes:
+        // Tr24(M*2^23)=floor(M/2), Tr24(2^23*(2*one24-V))=floor((2*one24-V)/2).
+        auto v=floor(m,1);
+        for(auto& x:v)x=s.sub(constant(2*one24),x);
+        r=floor(v,1);
+      } else {
+        auto v=product24(m,r);
+        for(auto& x:v)x=s.sub(constant(2*one24),x);
+        r=product24(r,v);
+      }
+    }
+    r.insert(r.end(),k.begin(),k.end());
+    auto restored=batch.run({BatchCode::ReciprocalSiLURestore,1,count,{}},r);
+    note(restored.bits); // Original final state and exact scale-restoration guard.
+    return restored.words;
+  }
+
 public:
   explicit BatchNumerics(SecureOps &ops, NumericPhase callback = {}, LocalShares* gpu=nullptr)
       : s(ops), batch(ops), phase(std::move(callback)),local(gpu) {}
@@ -64,6 +111,14 @@ public:
         x);
     note(out.bits);
     return out.words;
+  }
+  // Exact signed ring59 floor12 followed by the original range guard.
+  // One input conversion and one fresh output mask; failure remains secret.
+  std::vector<Word> floor12_range(const std::vector<Word>& x, Word lower,
+                                  Word upper, Word dummy=0) {
+    auto out=batch.run({BatchCode::Floor12Range,1,x.size(),
+                       {lower & MASK,upper,dummy & MASK}},x);
+    note(out.bits); return out.words;
   }
   std::vector<Word> floor(const std::vector<Word> &x, unsigned shift) {
     return batch.run({BatchCode::Floor, 1, x.size(), {shift, 0, 0}}, x).words;
@@ -152,15 +207,13 @@ public:
         if (v > one24)
           throw std::runtime_error("E_EXP_TABLE_RANGE");
     }
-    auto prep = batch.run({BatchCode::ExpPrepare, 1, x.size(), {}}, x);
+    auto prep = batch.exp_lookup(x,tables);
     const size_t count = x.size();
     note(std::vector<uint8_t>(prep.bits.begin() + count, prep.bits.end()));
     std::array<std::vector<Word>, 3> values;
     for (size_t digit = 0; digit < 3; ++digit)
-      values[digit] = batch.lookup(
-          std::vector<Word>(prep.words.begin() + digit * count,
-                            prep.words.begin() + (digit + 1) * count),
-          tables[digit]);
+      values[digit] = std::vector<Word>(prep.words.begin() + digit * count,
+                                      prep.words.begin() + (digit + 1) * count);
     auto out = product24(product24(values[0], values[1]), values[2]);
     return select(
         std::vector<uint8_t>(prep.bits.begin(), prep.bits.begin() + count),
@@ -169,16 +222,10 @@ public:
   std::vector<Word> silu(const std::vector<Word>& input,
                          const std::array<std::vector<Word>,3>& tables) {
     Stage stage(phase,"SiLU");
-    auto x=checked(input,(-numeric_profile::main_abs_f12)&MASK,numeric_profile::main_abs_f12);
-    std::vector<Word> zero(x.size(),constant(0)),both=zero;
-    both.insert(both.end(),x.begin(),x.end());
-    auto negative=batch.run({BatchCode::Compare,1,x.size(),{1,0,0}},both).bits;
-    auto minus=x;for(auto&v:minus)v=s.sub(constant(0),v);
-    auto e=exp_negative(select(negative,minus,x),tables),denom=e;
-    for(auto&v:denom)v=s.add(v,constant(one24));
-    auto r=reciprocal(denom),sigmoid=select(negative,product24(e,r),r);
-    return checked(floor(batch.multiply(x,sigmoid),24),(-numeric_profile::main_abs_f12)&MASK,numeric_profile::main_abs_f12);
+    static_assert(numeric_profile::main_abs_f12==8388608);
+    auto result=batch.silu_composite(input,tables);note(result.bits);return result.words;
   }
+
   std::vector<Word> rope_coefficients(const std::vector<Word>& positions,
                                       const std::vector<Word>& table) {
     Stage stage(phase,"RoPE_shared_public_coefficients");
@@ -284,6 +331,76 @@ public:
                       numeric_profile::main_abs_f12);
       }
       return out;
+    } catch (...) {
+      s.abort_session();
+      throw;
+    }
+  }
+  std::vector<Word> attention_logical(const std::vector<Word> &q,
+                              const std::vector<Word> &k,
+                              const std::vector<Word> &v, size_t rows,
+                              size_t keys, const std::vector<uint8_t> &allowed,
+                              const std::vector<uint8_t> &valid,
+                              numeric_profile::QKBounds bounds,
+                              Word attention_scale,
+                              const std::array<std::vector<Word>, 3> &tables,
+                              Word layer, Word head, Word step) {
+    try {
+      if(rows==1)return attention(q,k,v,rows,keys,allowed,valid,bounds,attention_scale,tables);
+      if (!rows || rows > 1024 || !keys || keys > 1280 ||
+          q.size() != rows * 128 || k.size() != keys * 128 ||
+          v.size() != keys * 128 || valid.size() != rows ||
+          allowed.size() != rows * keys)
+        throw std::runtime_error("E_ATTENTION_SHAPE");
+      if (bounds.q_rope > 1548293 || bounds.k_rope > 12648476 ||
+          attention_scale != 92681)
+        throw std::runtime_error("E_ATTENTION_PROFILE");
+      LogicalBuffer<Word> kt(128 * keys);
+      if(local){std::vector<size_t> map(kt.size());for(size_t c=0;c<128;++c)for(size_t j=0;j<keys;++j)map[c*keys+j]=j*128+c;kt=local->layout(k,map);}
+      else for(size_t j=0;j<keys;++j)for(size_t c=0;c<128;++c)kt[c*keys+j]=k[j*128+c];
+      LogicalBuffer<Word> scores;
+      {
+        Stage p(phase, "shared_QK");
+        scores = batch.logical_matrix(q, kt, rows, 128, keys, 12, 12,
+                              128 * bounds.q_rope * bounds.k_rope,
+                              {++logical_matrix_sequence,layer,head,step,1},phase);
+      }
+      LogicalBuffer<Word> probabilities; probabilities.reserve(rows*keys);
+      // Numerical circuit bounds are unchanged: at most 16 rows per call.
+      for(size_t first=0;first<rows;first+=16) {
+        const size_t count=std::min(size_t(16),rows-first);
+        LogicalBuffer<Word> block(scores.begin()+first*keys,scores.begin()+(first+count)*keys);
+        {
+          Stage p(phase,"QK_floor12_scale_floor20");
+          block=floor(block,12);
+          if(local)block=local->scale(block,attention_scale);
+          else for(auto& x:block)x=s.mul_public(x,attention_scale);
+          block=floor(block,20);
+        }
+        LogicalBuffer<uint8_t> block_allowed(allowed.begin()+first*keys,allowed.begin()+(first+count)*keys);
+        LogicalBuffer<uint8_t> block_valid(valid.begin()+first,valid.begin()+first+count);
+        LogicalBuffer<Word> prob=softmax(block,count,keys,block_allowed,block_valid,tables);
+        probabilities.insert(probabilities.end(),prob.begin(),prob.end());
+      }
+      LogicalBuffer<Word> out;
+      {
+        Stage p(phase, "shared_PV");
+        out = batch.logical_matrix(probabilities, v, rows, keys, 128, 24, 12,
+                           4 * one24 * numeric_profile::main_abs_f12,
+                           {++logical_matrix_sequence,layer,head,step,2},phase);
+      }
+      for(size_t first=0;first<rows;first+=16) {
+        const size_t count=std::min(size_t(16),rows-first);
+        Stage p(phase,"PV_floor24_query_mask_range");
+        LogicalBuffer<Word> block(out.begin()+first*128,out.begin()+(first+count)*128);
+        block=floor(block,24);
+        LogicalBuffer<uint8_t> row_valid;row_valid.reserve(count*128);
+        for(size_t r=first;r<first+count;++r)row_valid.insert(row_valid.end(),128,valid[r]);
+        block=select(row_valid,block,std::vector<Word>(block.size(),constant(0)));
+        block=checked(block,(-numeric_profile::main_abs_f12)&MASK,numeric_profile::main_abs_f12);
+        std::copy(block.begin(),block.end(),out.begin()+first*128);
+      }
+      return out.release();
     } catch (...) {
       s.abort_session();
       throw;

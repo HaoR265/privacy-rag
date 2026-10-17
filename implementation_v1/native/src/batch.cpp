@@ -1,3 +1,5 @@
+#include "prag/silu_graph.hpp"
+#include "topology_count_cache.hpp"
 #include "prag/batch.hpp"
 #include "GC/halfgate_eva.h"
 #include "GC/halfgate_gen.h"
@@ -10,10 +12,20 @@
 #include <openssl/rand.h>
 #include <openssl/sha.h>
 #include <stdexcept>
+#include <type_traits>
 namespace prag {
 namespace {
 using Label = sci::block128;
 using Wires = std::vector<Label>;
+// Public metadata exists only in the Exponent instantiation. Other circuits
+// retain the original 16-byte raw labels and do not convert their input arrays.
+struct PublicWire {
+  Label label = _mm_setzero_si128();
+  int8_t public_value = -1;
+  PublicWire() = default;
+  explicit PublicWire(Label v) : label(v) {}
+  PublicWire(Label v, int8_t bit) : label(v), public_value(bit) {}
+};
 constexpr size_t max_words = 32768;
 struct Layout {
   size_t iw, ib, ow, ob;
@@ -33,6 +45,14 @@ Layout layout(const BatchSpec &d) {
     if (x > MASK)
       throw std::runtime_error("E_BATCH_FORMAT");
   switch (d.code) {
+  case BatchCode::ReciprocalSiLUPrepare:
+    if (p != std::array<Word,3>{}) throw std::runtime_error("E_BATCH_FORMAT");
+    return {n, 0, 2*n, n};
+  case BatchCode::ReciprocalSiLURestore:
+    if (p != std::array<Word,3>{}) throw std::runtime_error("E_BATCH_FORMAT");
+    return {2*n, 0, n, n};
+  case BatchCode::Floor12Range:
+  case BatchCode::Floor24Range:
   case BatchCode::Range:
     if (signed_word(p[0]) > signed_word(p[1]) ||
         signed_word(p[2]) < signed_word(p[0]) ||
@@ -89,6 +109,14 @@ Layout layout(const BatchSpec &d) {
     if (d.rows > 16 || d.cols > 1280 || p != std::array<Word, 3>{})
       throw std::runtime_error("E_BATCH_FORMAT");
     return {n, n + d.rows, n, n + d.rows};
+  case BatchCode::SiLUComposite:
+    if(p!=std::array<Word,3>{8388608,65536,1}) throw std::runtime_error("E_BATCH_FORMAT");
+    return {n,0,n,n};
+  case BatchCode::SiLUInput:
+    if (!p[0] || p[0] >= (Word{1}<<58) || p[1] || p[2])
+      throw std::runtime_error("E_BATCH_FORMAT");
+    return {n, 0, 4*n, 4*n};
+  case BatchCode::ExpLookup:
   case BatchCode::ExpPrepare:
     if (p != std::array<Word, 3>{})
       throw std::runtime_error("E_BATCH_FORMAT");
@@ -96,19 +124,55 @@ Layout layout(const BatchSpec &d) {
   }
   throw std::runtime_error("E_BATCH_OPCODE");
 }
-struct Circuit {
+template<bool Fold> struct Circuit {
+  using Wire = std::conditional_t<Fold, PublicWire, Label>;
+  using Wires = std::vector<Wire>;
+  static Wire secret(Label value) {
+    if constexpr (Fold) return PublicWire(value);
+    else return value;
+  }
+  static Label label(Wire value) {
+    if constexpr (Fold) return value.label;
+    else return value;
+  }
   sci::CircuitExecution *c = nullptr;
   uint64_t gates = 0;
-  Label zero() { return c ? c->public_label(false) : _mm_setzero_si128(); }
-  Label one() { return c ? c->public_label(true) : _mm_setzero_si128(); }
-  Label X(Label a, Label b) { return c ? c->xor_gate(a, b) : zero(); }
-  Label N(Label a) { return c ? c->not_gate(a) : zero(); }
-  Label A(Label a, Label b) {
-    ++gates;
-    return c ? c->and_gate(a, b) : zero();
+  Wire zero() {
+    Label v = c ? c->public_label(false) : _mm_setzero_si128();
+    if constexpr (Fold) return {v, 0}; else return v;
   }
-  Label O(Label a, Label b) { return X(X(a, b), A(a, b)); }
-  Label M(Label s, Label x, Label y) { return X(y, A(s, X(x, y))); }
+  Wire one() {
+    Label v = c ? c->public_label(true) : _mm_setzero_si128();
+    if constexpr (Fold) return {v, 1}; else return v;
+  }
+  Wire X(Wire a, Wire b) {
+    if constexpr (Fold) {
+      if (a.public_value >= 0) return a.public_value ? N(b) : b;
+      if (b.public_value >= 0) return b.public_value ? N(a) : a;
+    }
+    return secret(c ? c->xor_gate(label(a), label(b)) : _mm_setzero_si128());
+  }
+  Wire N(Wire a) {
+    if constexpr (Fold) {
+      if (a.public_value >= 0) return a.public_value ? zero() : one();
+    }
+    return secret(c ? c->not_gate(label(a)) : _mm_setzero_si128());
+  }
+  Wire A(Wire a, Wire b) {
+    if constexpr (Fold) {
+      if (a.public_value >= 0) return a.public_value ? b : zero();
+      if (b.public_value >= 0) return b.public_value ? a : zero();
+    }
+    ++gates;
+    return secret(c ? c->and_gate(label(a), label(b)) : _mm_setzero_si128());
+  }
+  Wire O(Wire a, Wire b) { return X(X(a, b), A(a, b)); }
+  Wire M(Wire s, Wire x, Wire y) {
+    if constexpr (Fold) {
+      if (s.public_value >= 0) return s.public_value ? x : y;
+    }
+    return X(y, A(s, X(x, y)));
+  }
   Wires constant(Word x) {
     Wires r(59);
     for (size_t j = 0; j < 59; ++j)
@@ -121,7 +185,9 @@ struct Circuit {
     for (size_t j = 0; j < 59; ++j) {
       auto q = X(a[j], b[j]);
       out[j] = X(q, carry);
-      carry = X(A(a[j], b[j]), A(q, carry));
+      // The final carry is discarded in the 59-bit ring. Majority uses one AND.
+      if (j + 1 < 59)
+        carry = X(a[j], A(q, X(a[j], carry)));
     }
     return out;
   }
@@ -131,12 +197,14 @@ struct Circuit {
     for (size_t j = 0; j < 59; ++j) {
       auto q = X(a[j], N(b[j]));
       out[j] = X(q, carry);
-      carry = X(A(a[j], N(b[j])), A(q, carry));
+      // a + ~b + 1, with the same one-AND majority and discarded final carry.
+      if (j + 1 < 59)
+        carry = X(a[j], A(q, X(a[j], carry)));
     }
     return out;
   }
   // Carry-only a-b-1: final carry means a>b. One AND/bit via majority.
-  Label gt(const Wires &a, const Wires &b, bool sign = true) {
+  Wire gt(const Wires &a, const Wires &b, bool sign = true) {
     auto carry = zero();
     for (size_t j = 0; j < 59; ++j) {
       auto x = a[j], y = N(b[j]);
@@ -148,7 +216,7 @@ struct Circuit {
     }
     return carry;
   }
-  Wires mux(Label s, const Wires &x, const Wires &y) {
+  Wires mux(Wire s, const Wires &x, const Wires &y) {
     Wires r(59);
     for (size_t j = 0; j < 59; ++j)
       r[j] = M(s, x[j], y[j]);
@@ -174,6 +242,82 @@ struct Circuit {
       bits[i] = X(ci[59 * l.iw + i], si[59 * l.iw + i]);
     auto p = d.parameters;
     switch (d.code) {
+    case BatchCode::ReciprocalSiLUPrepare: {
+      // Private SiLU-only contract: E is derived from bounded exp tables and
+      // the two specified floors, so D=1+E lies in [1,2] at f24.
+      // Keep the original denominator guard; guard the narrower contract too.
+      const auto one24 = Word{1} << 24;
+      std::vector<Wires> exponents;
+      for (auto &x : words) {
+        auto original_bad = O(gt(constant(one24), x),
+                              gt(x, constant(1280*one24)));
+        auto a = mux(original_bad, constant(one24), x);
+        auto domain_bad = gt(a, constant(2*one24));
+        a = mux(domain_bad, constant(one24), a);
+        // At D=2 exactly, k=1 and M=D>>1=1; all smaller valid D use k=0.
+        auto kbit = a[25];
+        auto k = constant(0); k[0] = kbit;
+        out.push_back(mux(kbit, floor(a,1), a));
+        exponents.push_back(std::move(k));
+        flags.push_back(O(original_bad, domain_bad));
+      }
+      out.insert(out.end(), exponents.begin(), exponents.end());
+      break;
+    }
+    case BatchCode::ReciprocalSiLURestore: {
+      const auto one24 = Word{1} << 24;
+      for(size_t i=0;i<n;++i) {
+        auto bad_state=O(gt(constant(0),words[i]),gt(words[i],constant(2*one24)));
+        auto r=mux(bad_state,constant(one24/2),words[i]);
+        auto bad_k=zero();
+        for(size_t j=1;j<59;++j)bad_k=O(bad_k,words[n+i][j]);
+        auto kbit=A(N(bad_k),words[n+i][0]);
+        out.push_back(mux(kbit,floor(r,1),r));
+        flags.push_back(O(bad_state,bad_k));
+      }
+      break;
+    }
+    case BatchCode::SiLUComposite: {
+      const auto bound=Word{1}<<23;
+      for(const auto& raw:words) {
+        auto invalid=O(gt(constant((-bound)&MASK),raw),gt(raw,constant(bound)));
+        auto x=mux(invalid,constant(0),raw),neg=x[58];
+        auto m=mux(neg,sub(constant(0),x),x);
+        Wires values;values.reserve(silu_graph::nodes.size()+1);values.push_back(zero());
+        auto ref=[&](uint32_t r){auto w=values[r>>1];return (r&1)?N(w):w;};
+        for(const auto& node:silu_graph::nodes) {
+          // Node opcodes and references are public, frozen graph topology.
+          // Secret bits remain circuit wires; no host index or reconstruction.
+          if(node[0]==0)values.push_back(m[node[1]]);
+          else if(node[0]==1)values.push_back(A(ref(node[1]),ref(node[2])));
+          else if(node[0]==2)values.push_back(X(ref(node[1]),ref(node[2])));
+          else throw std::runtime_error("E_SILU_GRAPH_OPCODE");
+        }
+        auto correction=constant(0),delta=constant(0);
+        for(size_t bit=0;bit<11;++bit)correction[bit]=ref(silu_graph::roots[bit]);
+        delta[0]=ref(silu_graph::roots[11]);
+        auto negative=sub(constant(0),sub(correction,delta));
+        auto positive=sub(m,correction);
+        auto tail=gt(m,constant(65535));
+        positive=mux(tail,sub(m,constant(1)),positive);
+        negative=mux(tail,constant(0),negative);
+        auto result=mux(neg,negative,positive);
+        auto out_bad=O(gt(constant((-bound)&MASK),result),gt(result,constant(bound)));
+        out.push_back(mux(out_bad,constant(0),result));flags.push_back(O(invalid,out_bad));
+      }
+      break;
+    }
+    case BatchCode::Floor12Range:
+    case BatchCode::Floor24Range: {
+      auto low=constant(p[0]),high=constant(p[1]),dummy=constant(p[2]);
+      for(auto& raw:words) {
+        auto x=floor(raw,d.code==BatchCode::Floor12Range?12:24);
+        auto bad=O(gt(low,x),gt(x,high));
+        out.push_back(mux(bad,dummy,x));
+        flags.push_back(bad);
+      }
+      break;
+    }
     case BatchCode::Range: {
       auto low = constant(p[0]), high = constant(p[1]), dummy = constant(p[2]);
       for (auto &x : words) {
@@ -387,6 +531,61 @@ struct Circuit {
       flags.insert(flags.end(), bad_rows.begin(), bad_rows.end());
       break;
     }
+    case BatchCode::SiLUInput:
+    case BatchCode::ExpLookup: {
+      // The original guard makes safe a value in [0, 2^17]. Thus its
+      // high byte is exactly 0, 1, or 2; no assumption about input shares.
+      std::vector<Wires> second, third;
+      Wires negatives, signs, range_bad;
+      std::vector<Wires> safe_inputs;
+      for (auto &input : words) {
+        auto x=input;
+        if(d.code==BatchCode::SiLUInput) {
+          auto bad=O(gt(constant((Word(0)-p[0])&MASK),x),gt(x,constant(p[0])));
+          x=mux(bad,constant(0),x);
+          safe_inputs.push_back(x);range_bad.push_back(bad);
+          auto sign=gt(constant(0),x,true);signs.push_back(sign);
+          x=mux(sign,sub(constant(0),x),x);
+        }
+        auto negative=x[58], off=O(negative,gt(x,constant(32 << 12)));
+        auto safe=mux(off,constant(0),x);
+        std::array<Wires,3> selected;
+        for (size_t digit=0;digit<3;++digit) {
+          Wires nodes;
+          if (digit<2) {
+            nodes={one()};
+            for (int j=7;j>=0;--j) {
+              Wires next;next.reserve(nodes.size()*2);
+              for (auto v:nodes) {
+                auto right=A(v,safe[8*digit+j]);
+                next.push_back(X(v,right));next.push_back(right);
+              }
+              nodes=std::move(next);
+            }
+          } else {
+            nodes={N(O(safe[16],safe[17])),safe[16],safe[17]};
+          }
+          selected[digit]=Wires(59,zero());
+          for(size_t j=0;j<nodes.size();++j)
+            for(size_t bit=0;bit<59;++bit)
+              if((table[256*digit+j]>>bit)&1)
+                selected[digit][bit]=X(selected[digit][bit],nodes[j]);
+        }
+        out.push_back(std::move(selected[0]));
+        second.push_back(std::move(selected[1]));
+        third.push_back(std::move(selected[2]));
+        flags.push_back(off);negatives.push_back(negative);
+      }
+      out.insert(out.end(),second.begin(),second.end());
+      out.insert(out.end(),third.begin(),third.end());
+      flags.insert(flags.end(),negatives.begin(),negatives.end());
+      if(d.code==BatchCode::SiLUInput) {
+        out.insert(out.end(),safe_inputs.begin(),safe_inputs.end());
+        flags.insert(flags.end(),signs.begin(),signs.end());
+        flags.insert(flags.end(),range_bad.begin(),range_bad.end());
+      }
+      break;
+    }
     case BatchCode::ExpPrepare: {
       std::vector<Wires> second, third;
       Wires negatives;
@@ -425,6 +624,33 @@ struct Circuit {
     return output;
   }
 };
+struct CircuitResult { Wires output; uint64_t gates; };
+template<bool Fold>
+CircuitResult execute_circuit(sci::CircuitExecution *backend, const BatchSpec &d,
+    const Layout &l, const Wires &ci, const Wires &si,
+    const std::vector<Word> &table) {
+  Circuit<Fold> circuit{backend};
+  if constexpr (Fold) {
+    typename Circuit<Fold>::Wires cinput, sinput;
+    cinput.reserve(ci.size()); sinput.reserve(si.size());
+    for (auto value : ci) cinput.emplace_back(value);
+    for (auto value : si) sinput.emplace_back(value);
+    auto internal = circuit.program(d, l, cinput, sinput, table);
+    Wires output; output.reserve(internal.size());
+    for (auto value : internal) output.push_back(value.label);
+    return {std::move(output), circuit.gates};
+  } else {
+    auto output = circuit.program(d, l, ci, si, table);
+    return {std::move(output), circuit.gates};
+  }
+}
+CircuitResult execute_circuit(sci::CircuitExecution *backend, const BatchSpec &d,
+    const Layout &l, const Wires &ci, const Wires &si,
+    const std::vector<Word> &table) {
+  if (d.code == BatchCode::Exponent)
+    return execute_circuit<true>(backend, d, l, ci, si, table);
+  return execute_circuit<false>(backend, d, l, ci, si, table);
+}
 void append(std::vector<uint8_t> &bits, const std::vector<Word> &words) {
   for (auto v : words)
     for (size_t j = 0; j < 59; ++j)
@@ -438,6 +664,8 @@ struct BatchOps::Impl {
   sci::IKNP<Channel> ot;
   GcBatchChannel tables;
   BatchStats counters;
+  TopologyCountCache topology_counts;
+  Word last_logical_matrix_sequence=0;
   std::unique_ptr<sci::CircuitExecution> circuit;
   sci::HalfGateGen<GcBatchChannel> *generator = nullptr;
   explicit Impl(SecureOps &o)
@@ -523,13 +751,26 @@ struct BatchOps::Impl {
       if (b > 1)
         throw std::runtime_error("E_BATCH_BIT");
     const size_t expected_table = d.code == BatchCode::PublicLookup ? 256 :
-        d.code == BatchCode::PublicLookupRows ? 1280*d.cols : 0;
+        d.code == BatchCode::PublicLookupRows ? 1280*d.cols :
+        (d.code == BatchCode::ExpLookup || d.code == BatchCode::SiLUInput || d.code == BatchCode::SiLUComposite) ? 768 : 0;
     if (table.size() != expected_table)
       throw std::runtime_error("E_BATCH_LOOKUP_TABLE");
     for (auto x : table)
       if (x > MASK)
         throw std::runtime_error("E_BATCH_LOOKUP_TABLE");
+    if(d.code==BatchCode::ExpLookup || d.code==BatchCode::SiLUInput)
+      for(auto x:table) if(x>(Word{1}<<24))
+        throw std::runtime_error("E_EXP_TABLE_RANGE");
+    if(d.code==BatchCode::SiLUComposite && !std::equal(table.begin(),table.end(),silu_graph::tables.begin()))
+      throw std::runtime_error("E_SILU_COMPOSITE_TABLE_BINDING");
     descriptor(uint64_t(d.code), d.rows, d.cols, d.parameters);
+    if(d.code==BatchCode::SiLUComposite) {
+      std::array<unsigned char,32> peer{};
+      if(role==Role::Client){io.send_data(silu_graph::sha256.data(),32);io.recv_data(peer.data(),32);}
+      else {io.recv_data(peer.data(),32);io.send_data(silu_graph::sha256.data(),32);}
+      if(peer!=silu_graph::sha256)throw std::runtime_error("E_SILU_COMPOSITE_GRAPH_BINDING");
+    }
+
     if (!table.empty()) {
       std::vector<unsigned char> encoded(table.size()*8);
       for (size_t i = 0; i < table.size(); ++i)
@@ -550,9 +791,15 @@ struct BatchOps::Impl {
     const size_t inbits = 59 * l.iw + l.ib, outbits = 59 * l.ow + l.ob;
     // Topology counting only: no operand values, cryptography, or diagnostic
     // outputs. Both parties run the same public program before material use.
-    Circuit count;
-    count.program(d, l, Wires(inbits), Wires(inbits + outbits), table);
-    op.reserve_material("batch_GC_AND", count.gates);
+    uint64_t count = 0;
+    if (topology_counts.find(d, table, count)) {
+      ++counters.topology_cache_hits;
+    } else {
+      ++counters.topology_cache_misses;
+      count = execute_circuit(nullptr, d, l, Wires(inbits), Wires(inbits + outbits), table).gates;
+      topology_counts.insert(d, table, count);
+    }
+    op.reserve_material("batch_GC_AND", count);
     op.reserve_material("batch_input_OT", inbits);
     op.reserve_material("batch_mask_words", l.ow);
     op.reserve_material("batch_mask_bits", l.ob);
@@ -584,11 +831,11 @@ struct BatchOps::Impl {
     append(own, result.words);
     own.insert(own.end(), result.bits.begin(), result.bits.end());
     auto sinput = input(own, Role::Server);
-    tables.begin(count.gates);
-    Circuit real{circuit.get()};
-    auto output = real.program(d, l, cinput, sinput, table);
+    tables.begin(count);
+    auto real = execute_circuit(circuit.get(), d, l, cinput, sinput, table);
+    auto &output = real.output;
     tables.end();
-    if (real.gates != count.gates)
+    if (real.gates != count)
       throw std::runtime_error("E_BATCH_GATES");
     std::vector<uint8_t> permutation(outbits);
     if (role == Role::Server) {
@@ -609,7 +856,7 @@ struct BatchOps::Impl {
     }
     OPENSSL_cleanse(own.data(), own.size());
     counters.calls++;
-    counters.and_gates += count.gates;
+    counters.and_gates += count;
     counters.input_ot_choices += inbits;
     counters.masked_words += l.ow;
     counters.masked_bits += l.ob;
@@ -656,11 +903,42 @@ std::vector<Word> BatchOps::lookup(const std::vector<Word> &x,
     throw;
   }
 }
+BatchResult BatchOps::exp_lookup(const std::vector<Word>& x,
+                                  const std::array<std::vector<Word>,3>& tables) {
+  try {
+    std::vector<Word> flat;flat.reserve(768);
+    for(const auto& table:tables) {
+      if(table.size()!=256)throw std::runtime_error("E_EXP_TABLE_SHAPE");
+      flat.insert(flat.end(),table.begin(),table.end());
+    }
+    return p_->run({BatchCode::ExpLookup,1,x.size(),{}},x,{},flat);
+  } catch (...) {p_->op.abort_session();throw;}
+}
+BatchResult BatchOps::silu_composite(const std::vector<Word>& x,
+    const std::array<std::vector<Word>,3>& tables) {
+  try {
+    std::vector<Word> flat;flat.reserve(768);
+    for(const auto&t:tables){if(t.size()!=256)throw std::runtime_error("E_EXP_TABLE_SHAPE");flat.insert(flat.end(),t.begin(),t.end());}
+    return p_->run({BatchCode::SiLUComposite,1,x.size(),{8388608,65536,1}},x,{},flat);
+  }catch(...){p_->op.abort_session();throw;}
+}
+BatchResult BatchOps::silu_input(const std::vector<Word>& x,
+    const std::array<std::vector<Word>,3>& tables, Word bound) {
+  try {
+    std::vector<Word> flat;flat.reserve(768);
+    for(const auto& table:tables) {
+      if(table.size()!=256)throw std::runtime_error("E_EXP_TABLE_SHAPE");
+      flat.insert(flat.end(),table.begin(),table.end());
+    }
+    return p_->run({BatchCode::SiLUInput,1,x.size(),{bound,0,0}},x,{},flat);
+  } catch(...) {p_->op.abort_session();throw;}
+}
 BatchResult BatchOps::lookup_rows(const std::vector<Word>& x,
                                    const std::vector<Word>& table, size_t columns) {
   try { return p_->run({BatchCode::PublicLookupRows,x.size(),columns,{1280,0,0}},x,{},table); }
   catch (...) {p_->op.abort_session();throw;}
 }
 #include "batch_matrix.inc"
+#include "logical_matrix.inc"
 BatchStats BatchOps::stats() const { return p_->counters; }
 } // namespace prag

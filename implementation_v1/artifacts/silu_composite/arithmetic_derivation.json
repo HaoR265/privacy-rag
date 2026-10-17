@@ -1,0 +1,38 @@
+{
+  "F": 16777216,
+  "six_round_tail_sequence": [
+    8388608,
+    12582912,
+    15728640,
+    16711680,
+    16776960,
+    16777215,
+    16777215
+  ],
+  "source_sha256": {
+    "compute/batch_numerics.hpp": "e740a9b77470fa73de4e9b4dde053ab2eb51a6c451f69b7de1287868531e9395",
+    "native/src/batch.cpp": "f65c6f6e03d4347383caf4020bc64819723a84bf75f8e7d80ef3fb77e4694c6e",
+    "compute/numeric_profile.hpp": "4645b0df127689565c7e1a61f4871bd5e07ec6cd4f384eb78707c334c73fa3fe"
+  },
+  "scope": "Exact public arithmetic derivation only; no secure protocol executed.",
+  "table_tail_proof": {
+    "constants_sha256": "1582764ed3503b73e8d42fc61d99d6a1f18159c6c77865a2437e919645fa9a40",
+    "table2_first_three": [
+      16777216,
+      1,
+      0
+    ],
+    "table2_remaining_all_zero": true,
+    "table0_nonzero_index_max": 16773120,
+    "table1_nonzero_index_max": 15760735,
+    "m65536_E1_six_states": [
+      12582912,
+      15728640,
+      16711680,
+      16776960,
+      16777215,
+      16777215
+    ],
+    "tail_output_formula_valid_from_magnitude": 65536
+  }
+}

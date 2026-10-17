@@ -102,9 +102,10 @@ class SessionRunner {
   std::unique_ptr<LocalShares> local=make_rtx2060_shares();
   Numerics numbers;
  public:
-  SessionRunner(SecureOps& ops,const std::filesystem::path& models,const std::filesystem::path& constants_path)
+  SessionRunner(SecureOps& ops,const std::filesystem::path& models,const std::filesystem::path& constants_path,NumericPhase public_phase={})
    :s(ops),constants(constants_path),embedding_weights(models/"embedding/quantized_f12",ModelShape::embedding(),ops.role()),
-    generation_weights(models/"generation/quantized_f12",ModelShape::generation(),ops.role()),numbers(ops,constants.exp,{},local.get()){}
+    generation_weights(models/"generation/quantized_f12",ModelShape::generation(),ops.role()),numbers(ops,constants.exp,std::move(public_phase),local.get()){}
+  LocalShareStats gpu_stats()const{return local->stats();}
   PreparedLocal prepare(const LocalSlots* owner_document,const std::function<void()>& before_release={}){
     s.channel().set_stage(10);
     auto input=share_owned_slots(s,owner_document,257,151668);

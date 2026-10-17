@@ -9,9 +9,11 @@ import selectors
 import math
 import socket
 import time
+import sys
 from dataclasses import dataclass
+from contextlib import contextmanager
 from uuid import uuid4
-from typing import Callable
+from typing import Callable, Iterator
 import psycopg
 from .activation import require_private_backend
 from .compute_input import WorkerBinding
@@ -21,6 +23,28 @@ from .database import Repository, LOCK_ID
 from .delivery import PreparationShare
 from .errors import ErrorCode, PublicError
 from .lifecycle import Lifecycle
+from .worker_cleanup import defer_cancellation_signals
+
+
+def _close_local_resources(resources):
+    """Finite local closes only; never wrap DB queries or HTTP in this mask.
+
+    Try every close even if one fails. Preserve an exception already in flight;
+    on a normal path a close failure remains a failure, never success.
+    """
+    original_failure = sys.exc_info()[0] is not None
+    first_error = None
+    with defer_cancellation_signals():
+        for resource in resources:
+            if resource is None:
+                continue
+            try:
+                resource.close()
+            except Exception as error:
+                if first_error is None:
+                    first_error = error
+        if first_error is not None and not original_failure:
+            raise first_error
 
 
 @dataclass(frozen=True)
@@ -36,22 +60,23 @@ class ComputePorts:
         return ports
 
 
-def connect_worker_sockets(host: str,ports: ComputePorts,*,public_timeout: float=30) -> ConnectedWorkerSockets:
-    """C opens fixed physical lanes. run_worker subsequently owns these fds."""
+@contextmanager
+def connect_worker_sockets(host: str,ports: ComputePorts,*,public_timeout: float=30) -> Iterator[ConnectedWorkerSockets]:
+    """C retains socket objects across the with-block, including cancellation."""
     require_private_backend()
-    opened=[]
+    opened=[]; channel=None
     try:
-        if type(public_timeout) not in (int,float) or not math.isfinite(public_timeout) or public_timeout<=0:
-            raise PublicError(ErrorCode.BAD_FORMAT)
-        for port in ports.values():
-            channel=socket.create_connection((host,port),timeout=public_timeout)
-            channel.settimeout(None); opened.append(channel)
-        fds=[channel.detach() for channel in opened]
-        return ConnectedWorkerSockets(*fds)  # C: compute,C_out,S_out
-    except (OSError,ValueError,TypeError):
-        raise PublicError(ErrorCode.DISCONNECTED) from None
+        try:
+            if type(public_timeout) not in (int,float) or not math.isfinite(public_timeout) or public_timeout<=0:
+                raise PublicError(ErrorCode.BAD_FORMAT)
+            for port in ports.values():
+                channel=socket.create_connection((host,port),timeout=public_timeout)
+                opened.append(channel); channel.settimeout(None)
+        except (OSError,ValueError,TypeError):
+            raise PublicError(ErrorCode.DISCONNECTED) from None
+        yield ConnectedWorkerSockets(*opened)  # C: compute,C_out,S_out
     finally:
-        for channel in opened: channel.close()
+        _close_local_resources((*opened,channel))
 
 
 class SchedulerLifecycleEvents:
@@ -81,6 +106,7 @@ class ComputeScheduler:
         """
         require_private_backend()
         listeners=[]; channels={}; selector=None; session=None
+        pending_channel=None; pending_listener=None
         worker_owner=str(uuid4()); claim_attempted=False
         life=Lifecycle(self.repository)
         lock=None
@@ -89,14 +115,15 @@ class ComputeScheduler:
             # run_worker already reaped any child before raising. During
             # admission, close every accepted/listening lane before releasing
             # the global active slot in the database.
-            for channel in channels.values(): channel.close()
-            for listener in listeners: listener.close()
+            _close_local_resources((*channels.values(),*listeners,pending_channel,pending_listener))
             try:
                 if session is None and claim_attempted:
                     session=self.repository.claimed_session(worker_owner)
                 if session is not None:
                     life.finish(session,acknowledged=False,public_fault=fault)
-            except Exception:
+            except BaseException:
+                # Already handling an original failure. DB work stays
+                # interruptible; another cancellation cannot replace it.
                 pass  # DB outage retains active state; no unsafe resume
         try:
             if type(admission_timeout) not in (int,float) or not math.isfinite(admission_timeout) or admission_timeout<=0:
@@ -107,7 +134,8 @@ class ComputeScheduler:
                 raise PublicError(ErrorCode.BUSY)
             selector=selectors.DefaultSelector()
             for lane,port in enumerate(ports):
-                listener=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+                pending_listener=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+                listener=pending_listener
                 listeners.append(listener)
                 listener.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
                 listener.bind((self.host,port)); listener.listen(1); listener.setblocking(False)
@@ -139,15 +167,17 @@ class ComputeScheduler:
                 if remaining<=0: raise PublicError(ErrorCode.DISCONNECTED)
                 for event,_ in selector.select(min(remaining,0.25)):
                     listener=event.fileobj; lane=event.data
-                    channel,_=listener.accept(); channel.setblocking(True)
-                    channels[lane]=channel
+                    pending_channel,_=listener.accept()
+                    pending_channel.setblocking(True)
+                    channels[lane]=pending_channel
                     selector.unregister(listener);listener.close()
             lifecycle_event=SchedulerLifecycleEvents(self.repository,session)
-            fds={lane:channel.detach() for lane,channel in channels.items()}
-            # S sends its own heartbeat on S_out and reads C_out.
-            result=run_worker(binding,settings,ConnectedWorkerSockets(fds[0],fds[2],fds[1]),
-                              snapshot=admission['snapshot'],on_event=lifecycle_event,
-                              server_records=records,check_cancelled=check_cancelled)
+            # S sends its own heartbeat on S_out and reads C_out. Socket
+            # objects retain ownership until run_worker acquires its own fds.
+            with ConnectedWorkerSockets(channels[0],channels[2],channels[1]) as worker_sockets:
+                result=run_worker(binding,settings,worker_sockets,
+                                  snapshot=admission['snapshot'],on_event=lifecycle_event,
+                                  server_records=records,check_cancelled=check_cancelled)
             if binding.mode=='prepare':
                 if not isinstance(result,LocalPreparationResult) or result.party!='S' or result.client_failed is not None:
                     raise PublicError(ErrorCode.BAD_STATE)
@@ -170,7 +200,4 @@ class ComputeScheduler:
             abort_after_resources_closed(ErrorCode.DISCONNECTED.value)
             raise
         finally:
-            if selector is not None: selector.close()
-            for channel in channels.values(): channel.close()
-            for listener in listeners: listener.close()
-            if lock is not None: lock.close()
+            _close_local_resources((selector,*channels.values(),*listeners,pending_channel,pending_listener,lock))

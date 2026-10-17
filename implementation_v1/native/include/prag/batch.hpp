@@ -17,7 +17,14 @@ enum class BatchCode : uint64_t {
   PublicLookup,
   SoftmaxPrepare,
   ExpPrepare,
-  PublicLookupRows
+  PublicLookupRows,
+  ReciprocalSiLUPrepare,
+  ReciprocalSiLURestore,
+  ExpLookup,
+  SiLUInput = 18,
+  SiLUComposite = 20,
+  Floor24Range = 19,
+  Floor12Range = 21
 };
 struct BatchSpec {
   BatchCode code;
@@ -34,6 +41,7 @@ struct BatchResult {
 struct BatchStats {
   uint64_t calls = 0, and_gates = 0, input_ot_choices = 0, masked_words = 0,
            masked_bits = 0;
+  uint64_t topology_cache_hits = 0, topology_cache_misses = 0;
 };
 class BatchOps {
   struct Impl;
@@ -58,8 +66,23 @@ public:
                            size_t inner, size_t columns, unsigned fx,
                            unsigned fy, Word partial_abs_bound,
                            const std::function<void(const char *, bool)> &phase = {});
+  // One complete logical multiplication. identity = unique sequence, layer,
+  // head, forward/decode step, kind(1=QK,2=PV). Physical BFV rows remain <=16.
+  // Every call owns fresh A/B/T and opens its D/E once; no resumable handle.
+  std::vector<Word> logical_matrix(const std::vector<Word>& x,
+      const std::vector<Word>& y, size_t rows, size_t inner, size_t columns,
+      unsigned fx, unsigned fy, Word partial_abs_bound,
+      const std::array<Word,5>& identity,
+      const std::function<void(const char*,bool)>& phase = {});
   BatchResult lookup_rows(const std::vector<Word>& indices,
                           const std::vector<Word>& public_table, size_t columns);
+  // Fused original ExpPrepare and three public exp-table selections.
+  // words: three digit-major table values; bits: off followed by negative.
+  BatchResult exp_lookup(const std::vector<Word>&,
+                         const std::array<std::vector<Word>,3>&);
+  BatchResult silu_composite(const std::vector<Word>& x, const std::array<std::vector<Word>,3>& tables);
+  BatchResult silu_input(const std::vector<Word>&,
+                         const std::array<std::vector<Word>,3>&, Word abs_bound);
   BatchStats stats() const;
 };
 } // namespace prag

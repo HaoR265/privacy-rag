@@ -1,6 +1,0 @@
-{
-  "kind": "candidate_evidence_collection_issue",
-  "case": "16x2048x6144",
-  "issue": "Prototype runner hashed every neighboring candidate source, including unlinked Token work which changed during matrix execution. Guard refused to publish final record. No success claimed from this incomplete record.",
-  "remediation": "Use exact linked matrix source/include list; preserve previous successful records; repeat only incomplete/missing two shapes."
-}

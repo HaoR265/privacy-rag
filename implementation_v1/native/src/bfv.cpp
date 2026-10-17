@@ -1,4 +1,15 @@
+#if defined(PRAG_EXPERIMENTAL_TOKEN_GPU) && defined(PRAG_TOKEN_COORDINATE_PIPELINE)
+#include "token_coordinate_queue.hpp"
+#endif
+#include "bfv_label_generation.hpp"
 #include "prag/bfv.hpp"
+#ifdef PRAG_EXPERIMENTAL_MATRIX_GPU
+#include "matrix.hpp"
+#endif
+#ifdef PRAG_EXPERIMENTAL_TOKEN_GPU
+#include "resident.hpp"
+#include "bfv_gpu_packing.hpp"
+#endif
 #include "prag/bfv_layout.hpp"
 #include "GC/halfgate_eva.h"
 #include "GC/halfgate_gen.h"
@@ -158,8 +169,12 @@ class Decoder {
     Wires w(width);
     if (role == Role::Server) {
       Wires alternate(width), selected(width);
+      // Scope guards are installed before generation; only owned storage wiped.
+      label_batch::Wipe alternate_wipe(alternate.data(),alternate.size()*sizeof(Label));
+      label_batch::Wipe selected_wipe(selected.data(),selected.size()*sizeof(Label));
+      struct WGuard {Wires& w;bool keep=false;~WGuard()noexcept{if(!keep)OPENSSL_cleanse(w.data(),w.size()*sizeof(Label));}} w_guard{w};
+      label_batch::generate(w.data(),width);
       for (size_t j = 0; j < width; ++j) {
-        sci::PRG128().random_block(&w[j], 1);
         alternate[j] = w[j] ^ generator->delta;
         selected[j] = mpz_tstbit(v.get_mpz_t(), j) ? alternate[j] : w[j];
       }
@@ -167,6 +182,7 @@ class Decoder {
         io.send_block(selected.data(), int(width));
       else
         ot.send(w.data(), alternate.data(), int(width));
+      w_guard.keep=true; // returned labels remain live for the consuming circuit
     } else if (owner == Role::Server)
       io.recv_block(w.data(), int(width));
     else {
@@ -378,6 +394,7 @@ public:
   }
   #include "bfv_matrix.inc"
 #include "bfv_token_engine.inc"
+#include "bfv_token_batch.inc"
   std::vector<Word> decode_output_tile(SecureOps &op,
                                      const std::vector<mpz_class>& values) {
     op.reserve_material("bfv_linear_tile_GC", values.size());
@@ -589,9 +606,19 @@ SecureOps::private_linear_streamed(const std::vector<Word> &x, size_t rows,
 std::vector<std::vector<Word>> SecureOps::private_matrix(
     const std::vector<std::vector<Word>>& x, size_t outputs,
     unsigned fx, unsigned fw, const PrivateWeightBlock& reader) {
+  return private_matrix_impl(x,outputs,fx,fw,reader,false);
+}
+std::vector<std::vector<Word>> SecureOps::private_qk_reverse64(
+    const std::vector<std::vector<Word>>& x,const PrivateWeightBlock& reader) {
+  return private_matrix_impl(x,1,0,0,reader,true);
+}
+std::vector<std::vector<Word>> SecureOps::private_matrix_impl(
+    const std::vector<std::vector<Word>>& x,size_t outputs,
+    unsigned fx,unsigned fw,const PrivateWeightBlock& reader,bool qk_reverse64) {
   if(!isolated_development() && !channel().authenticated())throw std::runtime_error("E_MTLS_REQUIRED");
   if(!session_active())throw std::runtime_error("E_SESSION_CLOSED");
-  if(x.empty() || x.size()>MATRIX_BATCH_MAX || x[0].empty() ||
+  if(qk_reverse64 && (x.empty()||x.size()>DECODE_QK_REVERSE_BATCH_MAX||x[0].size()!=128||outputs!=1||fx||fw))throw std::runtime_error("E_QK_REVERSE64_SHAPE");
+  if(x.empty() || x.size()>(qk_reverse64?DECODE_QK_REVERSE_BATCH_MAX:MATRIX_BATCH_MAX) || x[0].empty() ||
       x[0].size()>MATRIX_INNER_MAX || !outputs || outputs>MATRIX_COLUMNS_MAX ||
       fx>58 || fw>58 || fx+fw>58 || (role()==Role::Server && !reader))
     throw std::runtime_error("E_SHAPE");
@@ -601,13 +628,13 @@ std::vector<std::vector<Word>> SecureOps::private_matrix(
     // PRGCF001 session/configuration/stage/operation/sequence and mTLS.
     // Matrix BFV uses no HPKE; there is no new unbound AAD/info string.
     std::array<unsigned char,80> descriptor{},received{};
-    const auto packing=matrix_packing(x.size(),x[0].size(),outputs);
-    const uint64_t fields[]={0x505241474d415431ULL,3,x.size(),x[0].size(),outputs,
+    const auto packing=qk_reverse64?matrix_packing_qk_reverse64(x.size()):matrix_packing(x.size(),x[0].size(),outputs);
+    const uint64_t fields[]={qk_reverse64?0x50524147514b3634ULL:0x505241474d415431ULL,qk_reverse64?4ULL:3ULL,x.size(),x[0].size(),outputs,
                              fx,fw,packing.reduction,
                              packing.columns,512};
     for(size_t f=0;f<10;++f)for(size_t b=0;b<8;++b)
       descriptor[f*8+b]=static_cast<unsigned char>(fields[f]>>(56-8*b));
-    reserve_material("bfv_matrix_descriptor",1);
+    reserve_material(qk_reverse64?"bfv_qk_reverse64_descriptor":"bfv_matrix_descriptor",1);
     if(role()==Role::Client) {
       channel().send_data(descriptor.data(),descriptor.size());
       channel().recv_data(received.data(),received.size());
@@ -621,7 +648,7 @@ std::vector<std::vector<Word>> SecureOps::private_matrix(
       reserve_material("bfv_key_and_GC_independent_OT",1);
       bfv_=std::make_shared<BfvEngine>(role(),channel());
     }
-    return bfv_->matrix(*this,x,outputs,reader);
+    return bfv_->matrix(*this,x,outputs,reader,qk_reverse64);
   } catch(...) {abort_session();throw;}
 }
 #include "bfv_token_api.inc"

@@ -1,1 +1,0 @@
-{"entry":"isolated_public_lookup_probe","library":"prag_crypto","two_processes":true,"native_TLS13_mTLS":true,"empty_E_SHAPE":true,"public_lengths":[1,3,256,1280],"public_cases_per_length":[4,7,5,5],"lookup_cases_matched":21,"cross_1024_OT_mul_many_cases_matched":18,"public_length_group_bytes":[16530746,29188320,21856870,22738930],"client_bytes":90437882,"full_model":false}

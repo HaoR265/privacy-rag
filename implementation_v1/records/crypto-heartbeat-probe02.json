@@ -1,1 +1,0 @@
-{"entry":"isolated_native_heartbeat_probe","TLS13_mTLS_connections":3,"initial_heartbeats":"received_both_directions","disconnect_burn":"matched","reuse_after_abort":"rejected","threads_joined":true,"interval_seconds":30,"inactivity_seconds":180,"elapsed_inactivity_branch_run":false,"full_system":false}

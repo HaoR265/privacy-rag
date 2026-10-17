@@ -48,7 +48,8 @@ std::vector<Word> BatchOps::matrix(
     for (auto v : x) if (v > MASK) throw std::runtime_error("E_BATCH_WORD");
     for (auto v : y) if (v > MASK) throw std::runtime_error("E_BATCH_WORD");
     // 102 identifies matrix-triple preparation, distinct from v110 scalar OT.
-    p_->descriptor(102, rows, columns, {inner, Word(fx * 64 + fy), bound});
+    const bool qk_reverse64=(rows==1 && inner==128);
+    p_->descriptor(qk_reverse64?103:102, rows, columns, {inner, Word(fx * 64 + fy), bound});
     auto &s = p_->op;
     auto &io = s.channel();
     MatrixWords a(x.size()), b(y.size()), t(rows * columns),
@@ -85,22 +86,24 @@ std::vector<Word> BatchOps::matrix(
     {
       MatrixPhase meter(phase, "matrix_cross_A_S_B_C");
       // C encrypts B_C^T; S supplies A_S. C remains the BFV key owner.
-      for (size_t first = 0; first < columns; first += 16) {
-        size_t count = std::min(size_t(16), columns - first);
+      const size_t reverse_rows=qk_reverse64?64:16;
+      for (size_t first = 0; first < columns; first += reverse_rows) {
+        size_t count = std::min(reverse_rows, columns - first);
         MatrixRows bc(count, inner), cross;
         if (s.role() == Role::Client)
           for (size_t c = 0; c < count; ++c)
             for (size_t k = 0; k < inner; ++k)
               bc.values[c][k] = b.values[k * columns + first + c];
-        cross.values = s.private_matrix(bc.values, rows, 0, 0,
+        PrivateWeightBlock reverse_reader=
             [&](size_t kb, size_t width, size_t r0, size_t nr) {
               std::vector<std::vector<Word>> weights(nr, std::vector<Word>(width));
               for (size_t r = 0; r < nr; ++r)
                 for (size_t k = 0; k < width; ++k)
                   weights[r][k] = a.values[(r0 + r) * inner + kb + k];
               return weights;
-            });
-        for (size_t c = 0; c < count; ++c)
+            };
+      cross.values=qk_reverse64?s.private_qk_reverse64(bc.values,reverse_reader):s.private_matrix(bc.values,rows,0,0,reverse_reader);
+      for (size_t c = 0; c < count; ++c)
           for (size_t r = 0; r < rows; ++r)
             t.values[r * columns + first + c] =
                 (t.values[r * columns + first + c] + cross.values[c][r]) & MASK;

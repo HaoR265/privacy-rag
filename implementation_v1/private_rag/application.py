@@ -59,7 +59,15 @@ def _accepted_public_phase(client,session: str):
     except BaseException:
         # The worker wrapper has already reaped C and closed all its lanes.
         # One bounded public cancellation request; never retry this session.
-        client.cancel_after_public_failure(session)
+        try:
+            # Keep HTTP interruptible: its five-second phase timeout is not a
+            # total deadline. No signal mask may cover this network request.
+            client.cancel_after_public_failure(session)
+        except BaseException:
+            # Preserve the original public failure, including when a repeated
+            # cancellation interrupts this single best-effort notification.
+            # This does not assert that S received the cancellation.
+            pass
         raise
 
 
@@ -124,9 +132,9 @@ class UserApplication:
         with _accepted_public_phase(self.client,snapshot['session_id']):
             binding=WorkerBinding(snapshot['session_id'],self.client.configuration,
                                   digest(canonical_json(snapshot)),'C','query')
-            channels=connect_worker_sockets(self.host,self.ports)
-            result=run_worker(binding,self.settings,channels,snapshot=snapshot,on_event=_LocalEvents(),
-                              collection=collection,question=question)
+            with connect_worker_sockets(self.host,self.ports) as channels:
+                result=run_worker(binding,self.settings,channels,snapshot=snapshot,on_event=_LocalEvents(),
+                                  collection=collection,question=question)
             if not isinstance(result,LocalAnswer): raise PublicError(ErrorCode.BAD_STATE)
         return _decode_answer(preparer,result)
 
@@ -170,8 +178,8 @@ class ProviderApplication:
             if accepted['snapshot']['model_numeric_version']!=self.configuration:
                 raise PublicError(ErrorCode.VERSION_MISMATCH)
             binding=WorkerBinding(accepted['session_id'],self.configuration,accepted['snapshot_sha256'],'C','prepare')
-            channels=connect_worker_sockets(self.host,self.ports)
-            result=run_worker(binding,self.settings,channels,snapshot=accepted['snapshot'],on_event=_LocalEvents(),document=chunk.embedding)
+            with connect_worker_sockets(self.host,self.ports) as channels:
+                result=run_worker(binding,self.settings,channels,snapshot=accepted['snapshot'],on_event=_LocalEvents(),document=chunk.embedding)
             if not isinstance(result,LocalPreparationResult) or result.party!='C' or type(result.client_failed) is not bool:
                 raise PublicError(ErrorCode.BAD_STATE)
             # Both private outcomes perform the identical public completion wait.

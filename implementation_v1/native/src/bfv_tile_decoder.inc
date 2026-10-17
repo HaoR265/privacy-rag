@@ -32,7 +32,7 @@ std::vector<Word> decode_tile(const std::vector<mpz_class>& local,
   const auto u=input(client_bits,2*count,Role::Client);
   const auto v=input(server_bits,61*count,Role::Server);
   std::vector<Wires> output;output.reserve(count);
-  gate_io.begin(122*count); // 4 AND carry kernel + 59-bit subtraction (118).
+  gate_io.begin(63*count); // 4 AND correction + 59 AND exact sparse subtraction.
   for(size_t i=0;i<count;++i) {
     const Label a0=u[2*i],a1=u[2*i+1],b0=v[61*i],b1=v[61*i+1];
     const auto carry1=A(a0,b0),p1=X(a1,b1);
@@ -41,8 +41,19 @@ std::vector<Word> decode_tile(const std::vector<mpz_class>& local,
     // floor((quarter_C+quarter_S+2)/4) in {0,1,2}.
     correction[0]=X(sum1,sum2);correction[1]=A(sum1,sum2);
     for(size_t j=0;j<59;++j)mask[j]=v[61*i+2+j];
-    Label unused;
-    output.push_back(sub(correction,mask,unused)); // no correction bit opened
+    // Only correction[0:2] can be nonzero. All scheduling remains public.
+    Wires difference(59);
+    difference[0]=X(correction[0],mask[0]);
+    auto borrow=A(N(correction[0]),mask[0]);
+    auto p=X(correction[1],mask[1]);
+    difference[1]=X(p,borrow);
+    borrow=X(A(N(correction[1]),mask[1]),A(N(p),borrow));
+    for(size_t j=2;j<59;++j) {
+      difference[j]=X(mask[j],borrow);
+      // OR = XOR XOR AND; final borrow is discarded in the 59-bit ring.
+      if(j+1<59)borrow=X(X(mask[j],borrow),A(mask[j],borrow));
+    }
+    output.push_back(std::move(difference)); // no correction bit opened
   }
   gate_io.end();
   std::vector<unsigned char> permutation(59*count);

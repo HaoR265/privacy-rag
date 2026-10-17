@@ -5,6 +5,7 @@
 #include "local_shares.hpp"
 #include <array>
 #include <algorithm>
+#include <openssl/crypto.h>
 
 namespace prag::model {
 // All data-dependent choices are calls to SecureOps, never host-language branches.
@@ -23,6 +24,7 @@ class Numerics {
   SecureOps& ops(){return s;}
   BatchNumerics& batches(){if(!batch_)batch_=std::make_unique<BatchNumerics>(s,phase_,local_);return *batch_;}
   std::vector<Word> attention(const std::vector<Word>&q,const std::vector<Word>&k,const std::vector<Word>&v,size_t rows,size_t keys,const std::vector<uint8_t>&allowed,const std::vector<uint8_t>&valid,numeric_profile::QKBounds bounds,Word attention_scale){auto out=batches().attention(q,k,v,rows,keys,allowed,valid,bounds,attention_scale,exponent_tables);fail(batches().take_failure());return out;}
+  std::vector<Word> attention_logical(const std::vector<Word>&q,const std::vector<Word>&k,const std::vector<Word>&v,size_t rows,size_t keys,const std::vector<uint8_t>&allowed,const std::vector<uint8_t>&valid,numeric_profile::QKBounds bounds,Word attention_scale,Word layer,Word head,Word step){auto out=batches().attention_logical(q,k,v,rows,keys,allowed,valid,bounds,attention_scale,exponent_tables,layer,head,step);fail(batches().take_failure());return out;}
   LocalShares& local(){if(!local_)throw std::runtime_error("E_HYBRID_GPU_REQUIRED");return *local_;}
   void stage(const char* name,bool start){if(phase_)phase_(name,start);}
   template<class F> std::vector<Word> chunks(const std::vector<Word>& x,F f){
@@ -56,7 +58,41 @@ class Numerics {
   }
   std::vector<Word> swiglu_many(const std::vector<Word>&gate,const std::vector<Word>&up){
     if(gate.size()!=up.size())throw std::invalid_argument("BAD_SHAPE");
-    return chunks(gate,[&](auto block,size_t first){auto silu=batches().silu(block,exponent_tables);auto y=batches().floor(batches().ops().multiply(silu,std::vector<Word>(up.begin()+first,up.begin()+first+block.size())),12);return batches().checked(y,(-numeric_profile::swiglu_joint_abs_f12)&mask,numeric_profile::swiglu_joint_abs_f12);});
+    return chunks(gate,[&](auto block,size_t first){auto silu=batches().silu(block,exponent_tables);auto raw=batches().ops().multiply(silu,std::vector<Word>(up.begin()+first,up.begin()+first+block.size()));return batches().floor12_range(raw,(-numeric_profile::swiglu_joint_abs_f12)&mask,numeric_profile::swiglu_joint_abs_f12);});
+  }
+  // Public row windows, never across layers or Decode forward calls.
+  // Upstream projection supplies guarded gate/up values; retain SiLU guard.
+  std::vector<std::vector<Word>> swiglu_rows(
+      const std::vector<std::vector<Word>>& gate,
+      const std::vector<std::vector<Word>>& up) {
+    if(gate.empty()||gate.size()>1024||gate.size()!=up.size())
+      throw std::invalid_argument("BAD_SHAPE");
+    const size_t width=gate.front().size();
+    if(width!=3072&&width!=6144)throw std::invalid_argument("BAD_SHAPE");
+    for(size_t row=0;row<gate.size();++row)
+      if(gate[row].size()!=width||up[row].size()!=width)
+        throw std::invalid_argument("BAD_SHAPE");
+    std::vector<std::vector<Word>> out;
+    struct OutputGuard {
+      std::vector<std::vector<Word>>& rows;SecureOps& op;bool success=false;
+      ~OutputGuard(){if(!success){for(auto& row:rows)if(!row.empty())OPENSSL_cleanse(row.data(),row.size()*sizeof(Word));op.abort_session();}}
+    } guard{out,s};
+    out.reserve(gate.size());
+    for(size_t first=0;first<gate.size();first+=16) {
+      size_t rows=std::min(size_t(16),gate.size()-first);
+      std::vector<Word> g,u,joint;
+      // All host staging holds this party's shares only. Clear on success/failure.
+      struct Clear { std::vector<Word>&v;~Clear(){if(!v.empty())OPENSSL_cleanse(v.data(),v.size()*sizeof(Word));} } cg{g},cu{u},cj{joint};
+      g.reserve(rows*width);u.reserve(rows*width);
+      for(size_t row=first;row<first+rows;++row){
+        g.insert(g.end(),gate[row].begin(),gate[row].end());
+        u.insert(u.end(),up[row].begin(),up[row].end());
+      }
+      joint=swiglu_many(g,u); // <=4096 physical blocks and one secret OR per window.
+      for(size_t row=0;row<rows;++row)
+        out.emplace_back(joint.begin()+row*width,joint.begin()+(row+1)*width);
+    }
+    guard.success=true;return out;
   }
   std::vector<Word> rope_coefficients(const std::vector<Word>&positions,const std::vector<Word>&table){
     std::vector<Word> result;

@@ -13,6 +13,7 @@ import socket
 import stat
 import struct
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from uuid import UUID
@@ -24,23 +25,57 @@ from .activation import require_private_backend
 from .client import SynchronizedCollection
 from .compute_input import WorkerBinding, sealed_input
 from .configuration import check_configuration
+from .deployment import verify_deployment
 from .delivery import DeliveryBinding, ShareRecord, MASK, canonical_json, digest
 from .delivery import PreparationShare
 from .errors import ErrorCode, PublicError
 from .model_input import LocalTokenSlots, QuestionInput
+from .native_ledger import verify_closed_ledger
+from .worker_cleanup import cleanup_worker, close_owned, duplicate_lanes, defer_cancellation_signals
 from .tls_server import tls_context
 from .vault import ProviderVault
 
 
 @dataclass(frozen=True)
 class ConnectedWorkerSockets:
-    """Ownership of these three distinct fds transfers to run_worker on call."""
-    compute: int
-    heartbeat_send: int
-    heartbeat_receive: int
+    """Own socket objects until run_worker copies fds into its private owner.
 
-    def descriptors(self) -> tuple[int,int,int]:
+    No bare descriptor transfer: closing the outer objects remains idempotent
+    even after their numeric descriptors have been reused elsewhere.
+    """
+    compute: socket.socket
+    heartbeat_send: socket.socket
+    heartbeat_receive: socket.socket
+
+    def channels(self):
         return self.compute,self.heartbeat_send,self.heartbeat_receive
+
+    def acquire(self, owned: set[int]) -> tuple[int,int,int]:
+        with defer_cancellation_signals():
+            channels=self.channels()
+            if any(not isinstance(channel,socket.socket) for channel in channels):
+                raise PublicError(ErrorCode.BAD_FORMAT)
+            descriptors=tuple(channel.fileno() for channel in channels)
+            if any(fd<3 for fd in descriptors) or len(set(descriptors))!=3:
+                raise PublicError(ErrorCode.BAD_FORMAT)
+            copies=duplicate_lanes(descriptors,owned)
+            self.close()
+            return copies
+
+    def close(self):
+        original_failure=sys.exc_info()[0] is not None
+        first_error=None
+        with defer_cancellation_signals():
+            for channel in self.channels():
+                if isinstance(channel,socket.socket):
+                    try: channel.close()
+                    except OSError as error:
+                        if first_error is None: first_error=error
+            if first_error is not None and not original_failure:
+                raise first_error
+
+    def __enter__(self): return self
+    def __exit__(self,*unused): self.close()
 
 
 @dataclass(frozen=True)
@@ -195,12 +230,13 @@ def _validate_sockets(descriptors: tuple[int,int,int]):
     if any(type(fd) is not int or fd<3 for fd in descriptors) or len(set(descriptors))!=3:
         raise PublicError(ErrorCode.BAD_FORMAT)
     for fd in descriptors:
-        channel=socket.socket(fileno=fd)
-        try:
-            if channel.family not in (socket.AF_INET,socket.AF_INET6) or channel.getsockopt(socket.SOL_SOCKET,socket.SO_TYPE)!=socket.SOCK_STREAM:
-                raise PublicError(ErrorCode.BAD_FORMAT)
-            channel.getpeername()
-        finally: channel.detach()
+        with defer_cancellation_signals():
+            channel=socket.socket(fileno=fd)
+            try:
+                if channel.family not in (socket.AF_INET,socket.AF_INET6) or channel.getsockopt(socket.SOL_SOCKET,socket.SO_TYPE)!=socket.SOCK_STREAM:
+                    raise PublicError(ErrorCode.BAD_FORMAT)
+                channel.getpeername()
+            finally: channel.detach()
 
 
 def _close(fd):
@@ -277,61 +313,53 @@ def run_worker(binding: WorkerBinding, settings: WorkerSettings, sockets: Connec
     No two-party orchestration, reconstruction, retry, reference mode or caller
     supplied executable is available. stdout/stderr cannot escape to a log.
     """
-    descriptors=sockets.descriptors(); owned=set(fd for fd in descriptors if type(fd) is int and fd>=3)
-    process=None
+    owned=set(); process=None; cancellation_lanes=()
     try:
         require_private_backend()  # MUST precede all secret/memfd/process work.
+        descriptors=sockets.acquire(owned)
         if not callable(on_event): raise PublicError(ErrorCode.BAD_STATE)
         if check_cancelled is not None and not callable(check_cancelled): raise PublicError(ErrorCode.BAD_STATE)
         if check_cancelled is not None: check_cancelled()
         records=_validate_snapshot(binding,snapshot,collection,server_records)
         validate_public_configuration(binding,settings)
         _validate_sockets(descriptors)
-        root=Path(settings.root).resolve(); worker=root/'build/compute/prag_worker'
-        if not worker.is_file() or worker.is_symlink() or not os.access(worker,os.X_OK):
-            raise PublicError(ErrorCode.BACKEND_NOT_READY)
+        cancellation_lanes=duplicate_lanes(descriptors,owned)
+        root=Path(settings.root).resolve()
+        deployment=verify_deployment(root,binding.configuration)
+        worker=deployment.worker
         ledger=Path(settings.ledger_directory).resolve()
         ledger.mkdir(mode=0o700,parents=True,exist_ok=True)
         if stat.S_IMODE(ledger.stat().st_mode)&0o077: raise PublicError(ErrorCode.BAD_STATE)
         ledger_path=ledger/(binding.session_id+'.'+binding.party+'.ledger')
         if ledger_path.exists(): raise PublicError(ErrorCode.REPLAY_OR_ORDER)
-        input_fd=sealed_input(binding,records,question=question,document=document); owned.add(input_fd)
-        read_fd,write_fd=os.pipe2(os.O_CLOEXEC); owned.update((read_fd,write_fd))
-        event_read,event_write=os.pipe2(os.O_CLOEXEC); owned.update((event_read,event_write))
-        ack_read,ack_write=os.pipe2(os.O_CLOEXEC); owned.update((ack_read,ack_write))
+        with defer_cancellation_signals():
+            input_fd=sealed_input(binding,records,question=question,document=document); owned.add(input_fd)
+            read_fd,write_fd=os.pipe2(os.O_CLOEXEC); owned.update((read_fd,write_fd))
+            event_read,event_write=os.pipe2(os.O_CLOEXEC); owned.update((event_read,event_write))
+            ack_read,ack_write=os.pipe2(os.O_CLOEXEC); owned.update((ack_read,ack_write))
         argv=[str(worker),binding.party,binding.mode,*(str(fd) for fd in descriptors),str(input_fd),str(write_fd),
               UUID(binding.session_id).hex,binding.configuration,binding.snapshot_sha256,settings.peer_certificate_sha256,
               str(Path(settings.ca_certificate).resolve()),str(Path(settings.certificate).resolve()),str(Path(settings.private_key).resolve()),settings.peer_name,
               str(root/'artifacts/models'),str(root/'artifacts/constants/constants_v1.bin'),str(root/'artifacts/template/template_v1.bin'),str(ledger_path),
               str(event_write),str(ack_read)]
         if len(argv)!=22: raise PublicError(ErrorCode.BAD_STATE)
-        process=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,
-                                 close_fds=True,pass_fds=(*descriptors,input_fd,write_fd,event_write,ack_read),cwd=root,start_new_session=True)
+        with defer_cancellation_signals():
+            process=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,
+                                     close_fds=True,pass_fds=(*descriptors,input_fd,write_fd,event_write,ack_read),cwd=root,start_new_session=True)
         # Only the child retains its inherited channels and writer; the parent
         # drains the pipe while running (8201 bytes can exceed pipe capacity).
-        for fd in (*descriptors,input_fd,write_fd,event_write,ack_read): _close(fd); owned.discard(fd)
+        for fd in (*descriptors,input_fd,write_fd,event_write,ack_read): close_owned(owned,fd)
         expected=(8201 if binding.party=='C' else 8200) if binding.mode=='prepare' else (2312 if binding.party=='C' else 0)
         result=_collect_worker_output(process,expected,read_fd,event_read,ack_write,on_event,check_cancelled)
+        verify_closed_ledger(ledger_path,binding.session_id,binding.configuration)
         return _decode_result(binding,result)
     except PublicError: raise
     except Exception:
         raise PublicError(ErrorCode.BAD_STATE) from None
     finally:
+        # A live child sees transport/ACK failure before any forced signal.
+        # Normal collector completion has already reaped the child: only close.
         try:
-            if process is not None and process.poll() is None:
-                try: process.terminate()
-                except ProcessLookupError: pass  # exit raced the public stop
-                try: process.wait(timeout=5)
-                except (subprocess.TimeoutExpired,KeyboardInterrupt):
-                    # This is local cleanup after cancellation/fault, not a
-                    # computation deadline. Repeated Ctrl-C must not orphan
-                    # the child and release its global slot prematurely.
-                    try: process.kill()
-                    except ProcessLookupError: pass
-                    while True:
-                        try:
-                            process.wait(); break
-                        except KeyboardInterrupt:
-                            continue
+            cleanup_worker(process,owned,cancellation_lanes)
         finally:
-            for fd in owned: _close(fd)
+            sockets.close()

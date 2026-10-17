@@ -14,6 +14,31 @@ bool private_model_gpu_backend_available() noexcept;
 namespace {
 using namespace prag;
 using namespace prag::model;
+// Keep serialized output and returned local shares covered on every exit,
+// including a broken local output pipe or a failed completion handshake.
+struct OutputBytesGuard {
+  void* data;std::size_t bytes;
+  OutputBytesGuard(void* p,std::size_t n):data(p),bytes(n){}
+  OutputBytesGuard(const OutputBytesGuard&)=delete;
+  ~OutputBytesGuard(){if(bytes)OPENSSL_cleanse(data,bytes);}
+};
+void clear_words(Row& words){if(!words.empty())OPENSSL_cleanse(words.data(),words.size()*sizeof(Word));}
+template<class T>void clear_optional(std::optional<T>& value){
+  if(value){OPENSSL_cleanse(&*value,sizeof(T));value.reset();}
+}
+struct PreparedOutputGuard {
+  PreparedLocal& value;
+  ~PreparedOutputGuard(){clear_words(value.embedding.values);clear_words(value.eligible.values);clear_optional(value.client_failed);}
+};
+struct AnswerOutputGuard {
+  ClientAnswer& value;
+  ~AnswerOutputGuard(){
+    clear_words(value.tokens);clear_optional(value.status);
+    // vector<bool> exposes no contiguous writable storage. Clear its logical
+    // contents without claiming secure erasure of its implementation storage.
+    std::fill(value.validity.begin(),value.validity.end(),false);
+  }
+};
 // NUM-004: changing this requires the corresponding R1/R2/range version and a
 // complete scheduler integration. No CLI/environment escape hatch exists.
 template<std::size_t N>std::array<unsigned char,N> hex(const std::string& text){
@@ -85,22 +110,38 @@ void run(int argc,char** argv){
     auto before_release=[&]{heartbeat.check();lifecycle(2);};
     SessionRunner runner(ops,argv[16],argv[17]);
     if(prepare){
-      auto result=runner.prepare(role==Role::Client?&input.embedding:nullptr,before_release);heartbeat.check();
+      auto result=runner.prepare(role==Role::Client?&input.embedding:nullptr,before_release);
+      PreparedOutputGuard result_guard{result};heartbeat.check();
       std::vector<unsigned char> encoded(8*(1024+1)+(role==Role::Client?1:0));
+      OutputBytesGuard encoded_guard(encoded.data(),encoded.size());
       for(std::size_t i=0;i<1024;++i)put_word(encoded.data()+8*i,result.embedding.values[i]);put_word(encoded.data()+8192,result.eligible.values[0]);
       if(role==Role::Client)encoded[8200]=result.client_failed.value();
-      write_exact(output_fd,encoded.data(),encoded.size());OPENSSL_cleanse(encoded.data(),encoded.size());
+      write_exact(output_fd,encoded.data(),encoded.size());
     }else{
-      auto result=runner.query(role==Role::Client?&input.embedding:nullptr,role==Role::Client?&input.body:nullptr,input.records,load_prompt_layout(argv[18]),before_release);heartbeat.check();
+      auto result=runner.query(role==Role::Client?&input.embedding:nullptr,role==Role::Client?&input.body:nullptr,input.records,load_prompt_layout(argv[18]),before_release);
+      AnswerOutputGuard result_guard{result};heartbeat.check();
       if(role==Role::Client){
-        std::array<unsigned char,2312> encoded{};for(std::size_t i=0;i<256;++i){put_word(encoded.data()+8*i,result.tokens[i]);encoded[2048+i]=result.validity[i];}put_word(encoded.data()+2304,result.status.value());write_exact(output_fd,encoded.data(),encoded.size());OPENSSL_cleanse(encoded.data(),encoded.size());
+        std::array<unsigned char,2312> encoded{};
+        OutputBytesGuard encoded_guard(encoded.data(),encoded.size());
+        for(std::size_t i=0;i<256;++i){put_word(encoded.data()+8*i,result.tokens[i]);encoded[2048+i]=result.validity[i];}
+        put_word(encoded.data()+2304,result.status.value());write_exact(output_fd,encoded.data(),encoded.size());
       }
     }
-    ops.close_session();heartbeat.close();close(output_fd);close(event_fd);close(ack_fd);
+    // Both fixed outputs have been written to the respective local pipes.
+    // finish() authenticates peer completion before either heartbeat stream
+    // closes; EOF alone must never turn an unfinished peer into success.
+    heartbeat.finish();
+    ops.close_session();close(output_fd);close(event_fd);close(ack_fd);
   }catch(...){ops.abort_session();heartbeat.close();throw;}
 }
 }
 int main(int argc,char** argv){
+  // The scheduler masks cancellation while creating/registering this child.
+  // exec preserves that mask; restore cancellation before any gate or input.
+  sigset_t cancellation;
+  if(sigemptyset(&cancellation)||sigaddset(&cancellation,SIGINT)||sigaddset(&cancellation,SIGTERM)||sigprocmask(SIG_UNBLOCK,&cancellation,nullptr)){
+    std::cerr<<"COMPUTE_ABORTED\n";return 2;
+  }
   std::signal(SIGPIPE,SIG_IGN);struct rlimit no_core{0,0};setrlimit(RLIMIT_CORE,&no_core);prctl(PR_SET_DUMPABLE,0);
   try{run(argc,argv);return 0;}catch(const std::exception& e){
     // Fixed public codes only; never stream exception text or secret positions.

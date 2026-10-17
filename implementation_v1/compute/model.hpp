@@ -128,16 +128,19 @@ class Transformer {
               Word input_cap=numeric_profile::main_abs_f12,Word output_cap=numeric_profile::main_abs_f12){
     return project_many(Rows{x},w,rescale,input_cap,output_cap).at(0);
   }
-  Row token(Word token_id){
+  Rows tokens(Row token_ids){
+    if(token_ids.empty()||token_ids.size()>4)throw std::invalid_argument("BAD_SHAPE");
     const auto& table=weights.token_table();
     require_matrix(table,shape.vocabulary,shape.hidden);
-    Bit valid=s.bnot(s.gt(token_id,n.constant(shape.vocabulary-1),false));n.fail(s.bnot(valid));
-    token_id=s.select(valid,token_id,n.constant(0));
+    for(auto& token_id:token_ids){
+      Bit valid=s.bnot(s.gt(token_id,n.constant(shape.vocabulary-1),false));n.fail(s.bnot(valid));
+      token_id=s.select(valid,token_id,n.constant(0));
+    }
     // Native lookup builds a fixed shared one-hot vector, scans all 155648
     // entries and returns 512 distinct targets per ciphertext under fresh masks.
     // Only S invokes this reader. Public row/block coordinates never select a
     // secret Token; no H-by-vocabulary transposed matrix is materialized.
-    auto reader=[&](std::size_t begin,std::size_t columns,
+    PrivateWeightBlock reader=[&](std::size_t begin,std::size_t columns,
                     std::size_t first,std::size_t rows){
       if(!table.owned()||begin>155648||columns>155648-begin||
          first>shape.hidden||rows>shape.hidden-first)
@@ -147,10 +150,17 @@ class Transformer {
         for(std::size_t r=0;r<rows;++r)w[r][j]=table.at(begin+j,first+r);
       return w;
     };
-    auto result=s.private_token_lookup(token_id,shape.vocabulary,shape.hidden,reader);
-    if(result.size()!=shape.hidden)throw std::invalid_argument("BAD_SHAPE");
+    if(table.server_reader_worker_safe)reader=worker_safe_private_reader(std::move(reader));
+    Rows result;
+    if(token_ids.size()==1)result.push_back(s.private_token_lookup(token_ids[0],shape.vocabulary,shape.hidden,reader));
+    else result=s.private_token_lookup_many(token_ids,shape.vocabulary,shape.hidden,reader);
+    if(result.size()!=token_ids.size())throw std::invalid_argument("BAD_SHAPE");
     // f0 one-hot times f12 weights already yields raw f12: no floor12 here.
-    return n.checked_many(result,numeric_profile::main_abs_f12);
+    for(auto& row:result){
+      if(row.size()!=shape.hidden)throw std::invalid_argument("BAD_SHAPE");
+      row=n.checked_many(row,numeric_profile::main_abs_f12);
+    }
+    return result;
   }
  public:
   Transformer(Numerics& num,ModelShape dims,Weights& w,std::vector<Row> cosine,std::vector<Row> sine,Word attn)
@@ -202,19 +212,19 @@ class Transformer {
       if(cache)for(size_t h=0;h<8;++h){auto keys=cache->read(false,layer,h,prefix),values=cache->read(true,layer,h,prefix);for(size_t j=0;j<prefix;++j){k[h][j]=Row(keys.begin()+j*128,keys.begin()+(j+1)*128);v[h][j]=Row(values.begin()+j*128,values.begin()+(j+1)*128);}}
       Rows concatenated(L,Row(2048));
       for(size_t h=0;h<16;++h){
-        Row shared_keys,shared_values;
+        LogicalBuffer<Word> shared_keys,shared_values;
         shared_keys.reserve(prefix*128);shared_values.reserve(prefix*128);
         for(size_t j=0;j<prefix;++j){shared_keys.insert(shared_keys.end(),k[h/2][j].begin(),k[h/2][j].end());shared_values.insert(shared_values.end(),v[h/2][j].begin(),v[h/2][j].end());}
-        for(size_t first=0;first<L;first+=16){
-          const size_t count=std::min(size_t(16),L-first);Row shared_queries;
-          std::vector<uint8_t> allowed(count*prefix),query_valid(count);
-          for(size_t i=0;i<count;++i){
-            size_t row=first+i;shared_queries.insert(shared_queries.end(),q[h][row].begin(),q[h][row].end());query_valid[i]=valid[row];
-            for(size_t j=0;j<prefix;++j)allowed[i*prefix+j]=j<=write_start+row?uint8_t(cache?cache->valid[j]:valid[j]):uint8_t(s.public_bit(false));
-          }
-          auto values=n.attention(shared_queries,shared_keys,shared_values,count,prefix,allowed,query_valid,bounds,attention_scale);
-          for(size_t i=0;i<count;++i)std::copy(values.begin()+i*128,values.begin()+(i+1)*128,concatenated[first+i].begin()+h*128);
+        LogicalBuffer<Word> shared_queries;shared_queries.reserve(L*128);
+        LogicalBuffer<uint8_t> allowed(L*prefix),query_valid(L);
+        for(size_t row=0;row<L;++row){
+          shared_queries.insert(shared_queries.end(),q[h][row].begin(),q[h][row].end());query_valid[row]=valid[row];
+          for(size_t j=0;j<prefix;++j)allowed[row*prefix+j]=j<=write_start+row?uint8_t(cache?cache->valid[j]:valid[j]):uint8_t(s.public_bit(false));
         }
+        // Production prefill/Embedding step 0; Decode write slots 1024..1278 give 1..255.
+        const Word step=cache&&write_start>=1024?write_start-1023:0;
+        LogicalBuffer<Word> values=n.attention_logical(shared_queries,shared_keys,shared_values,L,prefix,allowed,query_valid,bounds,attention_scale,layer,h,step);
+        for(size_t row=0;row<L;++row)std::copy(values.begin()+row*128,values.begin()+(row+1)*128,concatenated[row].begin()+h*128);
       }
       auto attention=project_many(concatenated,w.o);
       Rows next(L,Row(shape.hidden)),mlp_inputs;mlp_inputs.reserve(L);
@@ -224,7 +234,7 @@ class Transformer {
       mlp_inputs=n.rms_many(next,w.ffn_norm);
       auto gate_up=project_joint_many(mlp_inputs,{w.gate,w.up});
       auto& gate=gate_up[0];auto& up=gate_up[1];
-      for(size_t row=0;row<L;++row)gate[row]=n.swiglu_many(gate[row],up[row]);
+      gate=n.swiglu_rows(gate,up);
       auto down=project_many(gate,w.down,true,numeric_profile::swiglu_joint_abs_f12,shape.residual_abs_f12());
       for(size_t row=0;row<L;++row)next[row]=n.checked_many(n.local().add(next[row],down[row]),shape.residual_abs_f12());
       n.stage("Transformer_layer",false);
@@ -245,7 +255,19 @@ class Transformer {
     else if(shape.hidden!=1024||(L!=160&&L!=257)||write_start!=0)throw std::invalid_argument("BAD_SHAPE");
     try {
       n.local();
-      Rows x;for(auto id:ids){n.stage("Token_lookup",true);x.push_back(token(id));n.stage("Token_lookup",false);}
+      Rows x;x.reserve(L);
+      // Public fixed budgets yield four-slot batches and, for 257-slot
+      // preparation / single Decode, one single-slot tail. Only S's
+      // deterministic weight transforms are reused within a batch.
+      for(size_t first=0;first<L;first+=4){
+        const size_t count=std::min<size_t>(4,L-first);
+        if(count!=1&&count!=4)throw std::invalid_argument("BAD_SHAPE");
+        const char* phase=count==4?"Token_lookup_batch_4":"Token_lookup";
+        n.stage(phase,true);
+        auto block=tokens(Row(ids.begin()+first,ids.begin()+first+count));
+        for(auto& row:block)x.push_back(std::move(row));
+        n.stage(phase,false);
+      }
       if(cache)for(std::size_t i=0;i<L;++i)cache->valid[write_start+i]=valid[i];
       const std::size_t prefix=cache?write_start+L:L;
       for(size_t layer=0;layer<28;++layer)x=layer_from_shares(x,valid,positions,layer,cache,write_start);

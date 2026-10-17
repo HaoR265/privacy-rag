@@ -117,6 +117,7 @@ class CheckpointWeights final:public Weights {
         found=mappings.emplace(name,std::move(mapped)).first;
       }
       auto mapped=found->second;
+      out.server_reader_worker_safe=true;
       out.server_reader=[mapped](std::size_t r,std::size_t c){return mapped->at(r,c);};
     }return out;
   }

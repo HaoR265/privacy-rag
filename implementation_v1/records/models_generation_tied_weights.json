@@ -1,8 +1,0 @@
-{
-  "shape": [
-    151936,
-    2048
-  ],
-  "dtype": "BF16",
-  "lm_head_identical_bytes": true
-}

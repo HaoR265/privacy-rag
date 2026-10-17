@@ -32,6 +32,7 @@ struct PrivateMatrix {
   std::function<Word(std::size_t,std::size_t)> server_reader;
   Word maximum_row_l1=0; // public bound pinned by the numeric profile
   Word input_abs_f12=0; // precondition for ordinary/down full raw dot products
+  bool server_reader_worker_safe=false; // explicit immutable-mapping capability
   bool owned()const{return bool(server_reader)||!server_values.empty();}
   Word at(std::size_t r,std::size_t c)const{return server_reader?server_reader(r,c):server_values.at(r).at(c);}
 };
