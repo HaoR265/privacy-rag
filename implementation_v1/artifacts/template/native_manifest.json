@@ -1,0 +1,8 @@
+{
+  "format_version": "PRTMPL01",
+  "path": "template_v1.bin",
+  "bytes": 9256,
+  "sha256": "b38c30bc14cd97bb9a1805e105f0f695509cd98ccad2508595b5cc31c4cbdfc6",
+  "layout": "magic8, LEu64 question/evidence1/evidence2 offsets and dummy, LEu64 public_tokens[1024], u8 public_validity[1024]",
+  "source_template_sha256": "a1c11e25323e5203205504ac4edc2a664ba6e7947ab1309da4e060e182397c50"
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "current-implementation-v1",
+  "selection": "integrated_operator_combination",
+  "selection_scope": "Selected from measured candidates on RTX2060; not a global optimality claim",
+  "implementation_directory": "implementation_v1",
+  "build_options": [
+    "--token-gpu",
+    "--matrix-gpu",
+    "--silu-gpu",
+    "--enc0-gpu",
+    "--client-phase-gpu"
+  ],
+  "numeric_profile": "v1-f12-coordinated-20261013",
+  "operator_integration_complete": true,
+  "full_private_rag_verified": false,
+  "production_enabled": false,
+  "full_workflow_estimated_hours": null,
+  "timing_scope": "No complete cost aggregation for this combination; historical estimates are not current estimates",
+  "source_manifest": "SOURCE_MANIFEST.json",
+  "current_explanation": "docs/CURRENT.md",
+  "optimization_decisions": "docs/OPTIMIZATIONS.md",
+  "verification": "docs/VERIFICATION_SUMMARY.json",
+  "implementation_source_identity": "798b57fe2e5b007cbe537136954f75bd94d70c131c6d1810155f3b51c2bda185"
+}

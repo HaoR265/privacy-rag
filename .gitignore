@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+**/build/
+**/build-*/
+**/third_party/
+**/runtime/
+**/records/
+**/PLAN.md
+**/WORK_PAUSED.md
+*.pem
+*.key
+*.safetensors
+*.npy
+*.log

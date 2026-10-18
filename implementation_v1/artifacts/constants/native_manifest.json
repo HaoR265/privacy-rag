@@ -1,0 +1,54 @@
+{
+  "format_version": "PRCONST1",
+  "path": "constants_v1.bin",
+  "bytes": 1316880,
+  "sha256": "25e102e96ff83ed40620793af5cd80b3e37b46ff5d64009c2440a32c7bfec04f",
+  "source_json_sha256": "1582764ed3503b73e8d42fc61d99d6a1f18159c6c77865a2437e919645fa9a40",
+  "endianness": "little",
+  "word_type": "uint64",
+  "ring_bits": 59,
+  "layout": [
+    {
+      "name": "magic",
+      "offset": 0,
+      "bytes": 8,
+      "value": "PRCONST1"
+    },
+    {
+      "name": "attention_scale_f20",
+      "offset": 8,
+      "count": 1,
+      "fractional_bits": 20
+    },
+    {
+      "name": "exp_f24",
+      "offset": 16,
+      "shape": [
+        3,
+        256
+      ],
+      "fractional_bits": 24
+    },
+    {
+      "name": "rope_cos_f20",
+      "offset": 6160,
+      "shape": [
+        64,
+        1280
+      ],
+      "fractional_bits": 20
+    },
+    {
+      "name": "rope_sin_f20",
+      "offset": 661520,
+      "shape": [
+        64,
+        1280
+      ],
+      "fractional_bits": 20
+    }
+  ],
+  "rope_order": "coordinate outer, position inner; transpose of JSON [position][coordinate]",
+  "negative_encoding": "integer modulo 2^59",
+  "roundtrip_all_words_checked": true
+}
