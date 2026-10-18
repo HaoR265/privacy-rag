@@ -41,6 +41,8 @@ struct BatchResult {
 struct BatchStats {
   uint64_t calls = 0, and_gates = 0, input_ot_choices = 0, masked_words = 0,
            masked_bits = 0;
+  // Public shape routing counts; contain no operand data.
+  uint64_t gpu_silu_calls = 0, gpu_silu_elements = 0;
   uint64_t topology_cache_hits = 0, topology_cache_misses = 0;
 };
 class BatchOps {

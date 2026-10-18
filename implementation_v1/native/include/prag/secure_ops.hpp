@@ -60,6 +60,9 @@ class SecureOps {
   struct Impl;
   std::unique_ptr<Impl> p_;
   std::shared_ptr<BfvEngine> bfv_;
+  bool matrix_gpu_scope_ = false;
+  bool matrix_input_gpu_enabled_ = false;
+  bool matrix_phase_gpu_enabled_ = false;
   friend class BatchOps;
   // Only the typed shared QK wrapper may enter this dedicated reverse layout.
   std::vector<std::vector<Word>> private_qk_reverse64(
@@ -123,6 +126,8 @@ public:
   std::vector<std::vector<Word>> private_token_lookup_many(
       const std::vector<Word>& shared_indices,size_t vocabulary,size_t hidden,
       const PrivateWeightBlock&,TokenLookupStats* stats=nullptr);
+  void begin_matrix_gpu_scope(bool input_enabled,bool phase_enabled);
+  void end_matrix_gpu_scope();
   Channel &channel();
   bool isolated_development() const;
   void reserve_material(const char *, size_t);

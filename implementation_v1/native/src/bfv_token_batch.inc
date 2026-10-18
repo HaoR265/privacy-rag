@@ -1,3 +1,6 @@
+#if defined(PRAG_TOKEN_LOCAL_RING_GPU) && !defined(PRAG_TOKEN_FULL_DEVICE_RESIDENCY)
+#error "Local ring GPU requires full device residency"
+#endif
 // Inside BfvEngine. Fixed public B<=4; only S's deterministic weight
 // transforms are shared. No input ciphertext or material survives this call.
 struct TokenWordsWiper {
@@ -83,7 +86,7 @@ std::vector<seal::Ciphertext> token_raw_many(
 
 #if defined(PRAG_EXPERIMENTAL_TOKEN_GPU) && defined(PRAG_TOKEN_COORDINATE_PIPELINE)
 void token_prepare_coordinate(candidate_token_pipeline::Coordinate& prepared,
- const std::vector<std::vector<Word>>& onehots,const PrivateWeightBlock& reader){
+ const std::vector<std::vector<Word>>& onehots,const PrivateWeightBlock& reader,bool local_gpu=false){
  const auto prepare_begin=std::chrono::steady_clock::now();
  constexpr size_t d=8192;prepared.local.fill(0);prepared.read_seconds=0;prepared.blocks=prepared.values=0;
  for(size_t block=0;block<19;++block){
@@ -94,7 +97,7 @@ void token_prepare_coordinate(candidate_token_pipeline::Coordinate& prepared,
   for(size_t j=0;j<d;++j){const Word value=weights[0][j]&MASK;
    if(value>(Word(1)<<20)&&value<((Word(1)<<59)-(Word(1)<<20)))throw std::runtime_error("E_TOKEN_WEIGHT_BOUND");
    prepared.weights[block*d+j]=value;
-   for(size_t slot=0;slot<prepared.slots;++slot)prepared.local[slot]=(prepared.local[slot]+onehots[slot][block*d+j]*value)&MASK;
+   if(!local_gpu)for(size_t slot=0;slot<prepared.slots;++slot)prepared.local[slot]=(prepared.local[slot]+onehots[slot][block*d+j]*value)&MASK;
   }
  }
  prepared.prepare_seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-prepare_begin).count();
@@ -163,11 +166,57 @@ std::vector<std::vector<Word>> token_packed_many(SecureOps& op,
 #endif
   if(stats)stats->input_seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-input_start).count();
   std::vector<std::vector<Word>> result(slots,std::vector<Word>(hidden));
+  bool local_ring_selected=false;
+#ifdef PRAG_TOKEN_LOCAL_RING_GPU
+  local_ring_selected=(slots==1&&hidden==1024)||(slots==4&&hidden==2048);
+#endif
   try {
+#ifdef PRAG_TOKEN_LOCAL_RING_GPU
+    if(role==Role::Server&&local_ring_selected){gpu->bind_local_shares(onehots);
+      if(stats)stats->gpu_device_bytes=gpu->timing().device_bytes;
+    }
+#endif
     seal::Evaluator eval(context);
     for(size_t tile=0;tile<hidden;tile+=512){
       std::vector<std::vector<seal::Ciphertext>> stacks(slots,std::vector<seal::Ciphertext>(10));
       std::vector<std::array<bool,10>> used(slots,std::array<bool,10>{});
+#ifdef PRAG_TOKEN_FULL_DEVICE_RESIDENCY
+      if(role==Role::Server){
+        auto consume_device=[&](const candidate_token_pipeline::Coordinate& prepared){
+          auto begin=std::chrono::steady_clock::now();
+          std::vector<Word> local(prepared.local.begin(),prepared.local.begin()+slots);TokenWordsWiper wipe_local{local};
+          #ifdef PRAG_TOKEN_LOCAL_RING_GPU
+          auto batch=local_ring_selected?gpu->evaluate_local_finished(prepared.weights):gpu->evaluate_finished(prepared.weights,local);
+#else
+          auto batch=gpu->evaluate_finished(prepared.weights,local);
+#endif
+          if(stats){stats->server_raw_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-begin).count();stats->pipeline_prepare_seconds+=prepared.prepare_seconds;stats->server_weight_read_seconds+=prepared.read_seconds;stats->server_weight_blocks+=prepared.blocks;stats->server_weight_values+=prepared.values;stats->server_weight_ntts+=19*k;
+            const auto t=gpu->timing();stats->gpu_weight_upload_seconds+=t.weight_upload_ms/1000;stats->gpu_weight_lift_seconds+=t.lift_ms/1000;stats->gpu_weight_ntt_seconds+=t.ntt_ms/1000;stats->gpu_dyadic_seconds+=t.dyadic_ms/1000;stats->gpu_kernel_seconds+=(t.lift_ms+t.ntt_ms+t.dyadic_ms+t.finish_ms)/1000;}
+          constexpr size_t ct_words=2*k*n;
+          for(size_t slot=0;slot<slots;++slot){
+            experimental::resident::DeviceCipherBatch current{batch.data+slot*ct_words,ct_words,batch.device,batch.ready,batch.owner};
+            unsigned level=0;
+            while(used[slot][level]){
+              const auto t=std::chrono::steady_clock::now();
+              current=gpu_packing->pair_device(gpu->stack_view(slot,level),current,level);
+              used[slot][level]=false;++level;
+              if(stats){++stats->server_pack_merges;stats->server_packing_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-t).count();}
+            }
+            gpu->stack_store(slot,level,current);used[slot][level]=true;
+          }
+        };
+        const auto pipeline_begin=std::chrono::steady_clock::now();
+        candidate_token_pipeline::TwoCoordinates pipeline;
+        bool parallel=private_reader_worker_safe(reader);if(stats)stats->coordinate_pipeline_used=parallel;
+        if(parallel)pipeline.run(tile,512,slots,[&](candidate_token_pipeline::Coordinate& p){token_prepare_coordinate(p,onehots,reader,local_ring_selected);},consume_device,true);
+        else{candidate_token_pipeline::Coordinate prepared;prepared.slots=slots;
+          for(size_t coordinate=0;coordinate<512;++coordinate){prepared.index=tile+coordinate;token_prepare_coordinate(prepared,onehots,reader,local_ring_selected);consume_device(prepared);prepared.erase();}}
+        if(stats)stats->pipeline_tiles_wall_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-pipeline_begin).count();
+        for(size_t slot=0;slot<slots;++slot){const auto download_begin=std::chrono::steady_clock::now();auto flat=gpu->download(gpu->stack_view(slot,9));TokenWordsWiper wipe{flat};
+          if(stats)stats->gpu_output_download_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-download_begin).count();
+          stacks[slot][9].resize(context,context.first_parms_id(),2);std::copy(flat.begin(),flat.end(),stacks[slot][9].data());}
+      }
+#else
       auto pack_current=[&](std::vector<seal::Ciphertext> current){
         for(size_t slot=0;slot<slots;++slot){
           unsigned level=0;
@@ -209,6 +258,7 @@ std::vector<std::vector<Word>> token_packed_many(SecureOps& op,
         if(stats)stats->server_raw_seconds+=std::chrono::duration<double>(std::chrono::steady_clock::now()-raw_start).count();
         pack_current(std::move(current));
       }
+#endif
       // The descriptor binds tile-major, then slot-major protected returns.
       for(size_t slot=0;slot<slots;++slot){
         op.reserve_material("token_return_tile_mask_Enc0",n);

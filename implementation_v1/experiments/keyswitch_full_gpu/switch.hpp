@@ -1,5 +1,6 @@
 #pragma once
 #include <cstddef>
+#include "resident.hpp"
 #include <cstdint>
 #include <memory>
 #include <vector>
@@ -16,6 +17,7 @@ class Switch {
  seal::Ciphertext apply(const seal::Ciphertext&);
  // Candidate internal API: one pair, same two independent key transitions.
  seal::Ciphertext packing_pair(const seal::Ciphertext&,const seal::Ciphertext&,Switch& difference,unsigned level);
+ experimental::resident::DeviceCipherBatch packing_device(const experimental::resident::DeviceCipherBatch&,const experimental::resident::DeviceCipherBatch&,Switch&,unsigned);
  Timing timing() const;Cleanup close()noexcept;
  private:
  struct State;std::shared_ptr<State> state_;std::shared_ptr<seal::SEALContext> context_;uint32_t element_=0;

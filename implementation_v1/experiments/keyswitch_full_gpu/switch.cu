@@ -154,6 +154,36 @@ std::vector<uint64_t> Switch::packing_evaluate(const uint64_t* left,const uint64
  }
 }
 
+experimental::resident::DeviceCipherBatch Switch::packing_device(const experimental::resident::DeviceCipherBatch& left,const experimental::resident::DeviceCipherBatch& right,Switch& other,unsigned level){
+ auto& a=*state_;auto& b=*other.state_;
+ if(&a==&b||a.closing||b.closing||a.device!=b.device||level>=9||element_!=1||other.element_!=((1u<<(level+1))+1))throw std::invalid_argument("E_PACK_PAIR_STATE");
+ check(cudaSetDevice(a.device));constexpr size_t words=2*6*degree;
+ for(const auto* v:{&left,&right})if(v->words!=words||v->device!=a.device||!v->data||!v->owner||!v->ready)throw std::invalid_argument("E_PACK_DEVICE_VIEW");
+ try{
+ // Single-threaded session caller only. Prior apply/initialize completed their
+ // streams; explicitly fence b before borrowing its buffers on a's stream.
+ check(cudaStreamSynchronize(b.stream));
+ check(cudaStreamWaitEvent(a.stream,static_cast<cudaEvent_t>(left.ready),0));
+ check(cudaStreamWaitEvent(a.stream,static_cast<cudaEvent_t>(right.ready),0));
+ packing_prepare<<<(words+255)/256,256,0,a.stream>>>(left.data,right.data,a.input,b.input,a.q,level);check(cudaGetLastError());
+ auto run=[&](State& s){
+  decompose<<<(6*7*degree+255)/256,256,0,a.stream>>>(s.input,s.expanded,s.q);check(cudaGetLastError());
+  for(size_t l=0;l<14;++l){stage<<<(6*7*degree/2+255)/256,256,0,a.stream>>>(s.expanded,s.q,s.forward,s.invn,7,6*7*degree/2,degree>>(l+1),size_t(1)<<l,false,false);check(cudaGetLastError());}
+  product<<<(2*7*degree+255)/256,256,0,a.stream>>>(s.expanded,s.keys,s.prod,s.mods);check(cudaGetLastError());
+  for(size_t l=0;l<14;++l){stage<<<(2*7*degree/2+255)/256,256,0,a.stream>>>(s.prod,s.q,s.inverse,s.invn,7,2*7*degree/2,size_t(1)<<l,degree-(degree>>l)+1,true,l==13);check(cudaGetLastError());}
+  moddown<<<(words+255)/256,256,0,a.stream>>>(s.prod,s.input,s.output,s.q,s.invp);check(cudaGetLastError());
+ };
+ run(a);run(b);
+ packing_finish<<<(words+255)/256,256,0,a.stream>>>(a.output,b.output,a.q);check(cudaGetLastError());
+ check(cudaEventRecord(a.events[7],a.stream));check(cudaEventSynchronize(a.events[7]));
+ return {a.output,words,a.device,a.events[7],state_};
+ }catch(...){
+ // b buffers were borrowed by a.stream: fence it BEFORE b.release's wipe/free.
+ // On CUDA context failure this is best effort; caller must abort the session.
+ cudaStreamSynchronize(a.stream);a.release();b.release();throw;
+ }
+}
+
 Timing Switch::timing()const{return state_->stats;}
 Cleanup Switch::close()noexcept{return state_->release();}
 }

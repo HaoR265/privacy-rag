@@ -33,6 +33,9 @@ def main():
                         help='compile the optional exact RTX2060 Token backend; does not enable production')
     parser.add_argument('--matrix-gpu', action='store_true',
                         help='compile the optional exact RTX2060 full-ring matrix backend; no runtime CPU fallback')
+    parser.add_argument('--silu-gpu', action='store_true', help='compile the bound exact streamed SiLU GPU backend')
+    parser.add_argument('--enc0-gpu', action='store_true', help='exact GPU Enc0 arithmetic for matrix protected returns and measured shared-matrix inputs')
+    parser.add_argument('--client-phase-gpu', action='store_true', help='exact client-local NTT/secret-product/INTT for measured QK matrix shape')
     parser.add_argument('--jobs', type=int, choices=(1, 2), default=2)
     args = parser.parse_args()
     name = args.name or 'hybrid-' + datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S-') + uuid.uuid4().hex[:8]
@@ -49,12 +52,12 @@ def main():
     build.mkdir(parents=False, exist_ok=False)
     record = {'build_directory': str(build.relative_to(ROOT)), 'development': args.development,
               'model_executed': False, 'production_enabled': False, 'jobs': args.jobs,
-              'token_gpu': args.token_gpu, 'matrix_gpu': args.matrix_gpu,
+              'token_gpu': args.token_gpu, 'matrix_gpu': args.matrix_gpu, 'silu_gpu': args.silu_gpu, 'enc0_gpu': args.enc0_gpu, 'client_phase_gpu': args.client_phase_gpu,
               'started_utc': datetime.now(timezone.utc).isoformat(), 'result': 'incomplete'}
     inputs = {Path(__file__).resolve()}
-    for folder in ('compute', 'native/src', 'native/include/prag'):
+    for folder in ('compute', 'native/src', 'native/include', 'native/gpu'):
         inputs.update(p for p in (ROOT / folder).rglob('*') if p.is_file()
-                      and p.suffix in ('.hpp', '.cpp', '.inc', '.cu', '.txt'))
+                      and p.suffix in ('.h', '.hpp', '.cpp', '.inc', '.cu', '.txt'))
     inputs.add(ROOT / 'native/CMakeLists.txt')
     if args.token_gpu:
         inputs.update(ROOT / 'experiments/resident_token_gpu' / name for name in (
@@ -69,7 +72,7 @@ def main():
         for folder in ('experiments/hybrid112', 'experiments/batch110_baseline', 'experiments/full_private_query',
                        'experiments/token_batch'):
             inputs.update(p for p in (ROOT / folder).rglob('*') if p.is_file()
-                          and p.suffix in ('.hpp', '.cpp', '.inc', '.cu', '.txt'))
+                          and p.suffix in ('.h', '.hpp', '.cpp', '.inc', '.cu', '.txt'))
     for dependency, folder in [('SEAL', 'native/src'), ('EzPC', 'SCI/src')]:
         repo = ROOT / 'third_party' / dependency
         tracked = subprocess.run(['git', '-C', str(repo), 'ls-files', '-z', folder],
@@ -85,6 +88,9 @@ def main():
                  '-DPRAG_BUILD_MODEL_DEV=OFF',
                  '-DPRAG_EXPERIMENTAL_TOKEN_GPU=' + ('ON' if args.token_gpu else 'OFF'),
                  '-DPRAG_EXPERIMENTAL_MATRIX_GPU=' + ('ON' if args.matrix_gpu else 'OFF'),
+                 '-DPRAG_EXPERIMENTAL_SILU_GPU=' + ('ON' if args.silu_gpu else 'OFF'),
+                 '-DPRAG_EXPERIMENTAL_ENC0_GPU=' + ('ON' if args.enc0_gpu else 'OFF'),
+                 '-DPRAG_CLIENT_PHASE_GPU=' + ('ON' if args.client_phase_gpu else 'OFF'),
                  '-DPRAG_BUILD_HYBRID_DEV=' + ('ON' if args.development else 'OFF')]
     # Bind the actual compiler driver, not the toolkit's PATH-selecting wrapper.
     host_path = shutil.which('g++-13')
@@ -108,6 +114,13 @@ def main():
         expected_matrix = 'PRAG_EXPERIMENTAL_MATRIX_GPU:BOOL=' + ('ON' if args.matrix_gpu else 'OFF')
         if expected_matrix not in cache.splitlines():
             raise RuntimeError('MATRIX_GPU_EFFECTIVE_OPTION_MISMATCH')
+        if ('PRAG_EXPERIMENTAL_ENC0_GPU:BOOL=' + ('ON' if args.enc0_gpu else 'OFF')) not in cache.splitlines():
+            raise RuntimeError('ENC0_GPU_EFFECTIVE_OPTION_MISMATCH')
+        if ('PRAG_CLIENT_PHASE_GPU:BOOL=' + ('ON' if args.client_phase_gpu else 'OFF')) not in cache.splitlines():
+            raise RuntimeError('CLIENT_PHASE_GPU_EFFECTIVE_OPTION_MISMATCH')
+        expected_silu = 'PRAG_EXPERIMENTAL_SILU_GPU:BOOL=' + ('ON' if args.silu_gpu else 'OFF')
+        if expected_silu not in cache.splitlines():
+            raise RuntimeError('SILU_GPU_EFFECTIVE_OPTION_MISMATCH')
         generated = [build / 'CMakeCache.txt', build / 'compile_commands.json']
         generated.extend(build.rglob('flags.make'))
         generated.extend(build.rglob('link.txt'))
@@ -126,14 +139,26 @@ def main():
         if args.token_gpu:
             commands = (build / 'compile_commands.json').read_text()
             if not ('compute_75' in commands and 'sm_75' in commands and
-                    'PRAG_EXPERIMENTAL_TOKEN_GPU=1' in commands):
+                    'PRAG_EXPERIMENTAL_TOKEN_GPU=1' in commands and 'PRAG_TOKEN_FULL_DEVICE_RESIDENCY=1' in commands and 'PRAG_TOKEN_LOCAL_RING_GPU=1' in commands):
                 raise RuntimeError('TOKEN_GPU_EFFECTIVE_FLAGS_MISMATCH')
         if args.matrix_gpu:
             commands = (build / 'compile_commands.json').read_text()
             if not ('compute_75' in commands and 'sm_75' in commands and
-                    'PRAG_EXPERIMENTAL_MATRIX_GPU=1' in commands and
+                    'PRAG_EXPERIMENTAL_MATRIX_GPU=1' in commands and 'PRAG_MATRIX_PENDING_EVALUATE=1' in commands and
                     'experiments/matrix_gpu/matrix.cu' in commands):
                 raise RuntimeError('MATRIX_GPU_EFFECTIVE_FLAGS_MISMATCH')
+        if args.enc0_gpu:
+            commands = (build / 'compile_commands.json').read_text()
+            if not ('compute_75' in commands and 'sm_75' in commands and 'PRAG_ENC0_GPU=1' in commands and 'PRAG_MATRIX_INPUT_ENC_GPU=1' in commands and 'native/gpu/enc0/enc0.cu' in commands):
+                raise RuntimeError('ENC0_GPU_EFFECTIVE_FLAGS_MISMATCH')
+        if args.client_phase_gpu:
+            commands = (build / 'compile_commands.json').read_text()
+            if not ('compute_75' in commands and 'sm_75' in commands and 'PRAG_CLIENT_PHASE_GPU=1' in commands and 'native/gpu/client_phase/ntt.cu' in commands):
+                raise RuntimeError('CLIENT_PHASE_GPU_EFFECTIVE_FLAGS_MISMATCH')
+        if args.silu_gpu:
+            commands = (build / 'compile_commands.json').read_text()
+            if not ('compute_75' in commands and 'sm_75' in commands and 'PRAG_EXPERIMENTAL_SILU_GPU=1' in commands and 'gpu/silu_stream/stream.cu' in commands):
+                raise RuntimeError('SILU_GPU_EFFECTIVE_FLAGS_MISMATCH')
         context = build / 'actual_bfv_context.json'
         subprocess.run([str(build / 'native/prag_bfv_context'), str(context)], check=True,
                        capture_output=True, text=True)
@@ -162,6 +187,12 @@ def main():
             outputs.append(build / 'native/libprag_token_gpu.a')
         if args.matrix_gpu:
             outputs.append(build / 'native/libprag_matrix_gpu.a')
+        if args.enc0_gpu:
+            outputs.append(build / 'native/libprag_enc0_gpu.a')
+        if args.client_phase_gpu:
+            outputs.append(build / 'native/libprag_client_phase_gpu.a')
+        if args.silu_gpu:
+            outputs.append(build / 'native/libprag_silu_gpu.a')
         if args.development:
             outputs.extend(build / name for name in ('prag_hybrid_local', 'prag_hybrid_layer',
                            'prag_hybrid_decode', 'prag_hybrid_postprocess', 'prag_hybrid_m3',

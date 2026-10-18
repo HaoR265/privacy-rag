@@ -1,0 +1,63 @@
+{
+  "schema": "public-operator-verification-summary-v1",
+  "full_private_rag_verified": false,
+  "production_enabled": false,
+  "model_executed_during_publication_preparation": false,
+  "source_build_record_sha256": "3fa605e75b9396daf151f3a8468668b6e352ea9129702a85b7b5665ac8401a6b",
+  "publication_build_record_sha256": "c2df3a7106f537a1a46282b37976dc40596910d1accb1d4a91f19c7c4da90593",
+  "source_token_protocol_cases": [
+    {
+      "slots": 4,
+      "hidden": 1024,
+      "local_ring_GPU": false,
+      "matched_independent_CUDA_reference": true,
+      "reservations_per_party": 6824,
+      "original_result_sha256": "318d54eb779c2dbdbf3afd00c3970fca607476289a65f38ba36bee513c00188b"
+    },
+    {
+      "slots": 4,
+      "hidden": 2048,
+      "local_ring_GPU": true,
+      "matched_independent_CUDA_reference": true,
+      "reservations_per_party": 6840,
+      "original_result_sha256": "2524ea9e7686861d4b2f7abc23c40eeda4da9086496f804f78e689d5b525f885"
+    },
+    {
+      "slots": 1,
+      "hidden": 1024,
+      "local_ring_GPU": true,
+      "matched_independent_CUDA_reference": true,
+      "reservations_per_party": 1709,
+      "original_result_sha256": "fd7f9e065b490fc80a9c80ea00c27ba4751445780a9821da7e429f77f7e92e40"
+    },
+    {
+      "slots": 1,
+      "hidden": 2048,
+      "local_ring_GPU": false,
+      "matched_independent_CUDA_reference": true,
+      "reservations_per_party": 1713,
+      "original_result_sha256": "92d8506837d69d80746200f2670ac15280039b8c2dc37ea54287a3896f22d4e4"
+    }
+  ],
+  "source_token_failure": {
+    "matched_expected_exception": true,
+    "wiped_and_freed_bytes": 453120816,
+    "all_reserved_burned": true,
+    "result_sha256": "b4577ab95294681383983ddab0927fbce169908b829dd01772a06454148c4f6b"
+  },
+  "source_prior_combination": {
+    "matrix_cases": 3,
+    "SiLU_calls": 7,
+    "not_rerun_on_final_source_build": true,
+    "matrix_review_sha256": "06864de985e88149af4e2ebcfac3c2bb69db193c9064f782c6275fddd1089a15",
+    "silu_review_sha256": "54e6bda85b4138b9e308fccbc2ce517634fa1d8f25cc2806dd404d29b9e89410"
+  },
+  "publication_copy_checks": {
+    "compiled_all_selected_backends_and_development_workers": true,
+    "BFV_context_matches_locked": true,
+    "production_gate_rejects_both_roles_both_operations": true,
+    "model_or_protocol_started": false,
+    "dependencies": "Reused locally pinned, clean SEAL/SCI sources and existing SEAL static library; not a network-clean install"
+  },
+  "scope": "Hashes identify retained local evidence; raw sessions and ledgers are not distributed and hashes are not correctness proofs."
+}

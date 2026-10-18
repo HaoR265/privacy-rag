@@ -1,9 +1,12 @@
+#ifdef PRAG_EXPERIMENTAL_SILU_GPU
+#include "prag/silu_gpu_bridge.hpp"
+#endif
 #include "prag/silu_graph.hpp"
 #include "topology_count_cache.hpp"
 #include "prag/batch.hpp"
 #include "GC/halfgate_eva.h"
 #include "GC/halfgate_gen.h"
-#include "OT/iknp.h"
+#include "OT/silu_iknp.h"
 #include "prag/gc_batch_channel.hpp"
 #include <algorithm>
 #include <cstring>
@@ -661,7 +664,7 @@ struct BatchOps::Impl {
   SecureOps &op;
   Channel &io;
   Role role;
-  sci::IKNP<Channel> ot;
+  sci::ScopedInputIKNP<Channel> ot;
   GcBatchChannel tables;
   BatchStats counters;
   TopologyCountCache topology_counts;
@@ -697,13 +700,17 @@ struct BatchOps::Impl {
     if (own != other)
       throw std::runtime_error("E_BATCH_DESCRIPTOR_MISMATCH");
   }
+  template<class T>struct VectorWipe {
+    std::vector<T>&v;bool keep=false;
+    ~VectorWipe(){if(!keep&&!v.empty())OPENSSL_cleanse(v.data(),v.size()*sizeof(T));}
+  };
   Wires input(const std::vector<uint8_t> &values, Role owner) {
     size_t n = values.size();
-    Wires w(n);
-    if (!n)
-      return w;
+    Wires w(n);VectorWipe<Label> wipe_w{w};
+    if (!n) {wipe_w.keep=true;return w;}
     if (role == Role::Server) {
       Wires alternate(n), selected(n);
+      VectorWipe<Label> wipe_alt{alternate},wipe_sel{selected};
       sci::PRG128 rng;
       rng.random_block(w.data(), int(n));
       for (size_t j = 0; j < n; ++j) {
@@ -718,11 +725,13 @@ struct BatchOps::Impl {
       io.recv_block(w.data(), int(n));
     else {
       std::unique_ptr<bool[]> choices(new bool[n]);
+      struct ChoicesWipe{bool*p;size_t n;~ChoicesWipe(){OPENSSL_cleanse(p,n*sizeof(bool));}} choices_wipe{choices.get(),n};
+      struct OtWipe{sci::ScopedInputIKNP<Channel>&ot;size_t n;~OtWipe(){ot.clear_tT();}} ot_wipe{ot,size_t(ot.padded_length(int(n)))};
       for (size_t j = 0; j < n; ++j)
         choices[j] = values[j];
       ot.recv_pre(choices.get(), int(n));
       constexpr size_t post = sci::AES_BATCH_SIZE / 2;
-      std::vector<Label> encoded(2 * post);
+      std::vector<Label> encoded(2 * post);VectorWipe<Label> encoded_wipe{encoded};
       for (size_t first = 0; first < n; first += post) {
         size_t count = std::min(post, n - first);
         io.recv_data(encoded.data(), int(2 * count * sizeof(Label)));
@@ -733,12 +742,24 @@ struct BatchOps::Impl {
         for (size_t j = 0; j < count; ++j)
           w[first + j] = encoded[2 * j + choices[first + j]] ^ ot.tT[first + j];
       }
-      delete[] ot.tT;
-      ot.tT = nullptr;
+
     }
-    return w;
+    wipe_w.keep=true;return w;
   }
-  BatchResult run(const BatchSpec &d, const std::vector<Word> &words,
+  // Erase only concrete backend secret fields; never cleanse its vtable.
+  void discard_gpu_backend() noexcept {
+    if(generator) {
+      OPENSSL_cleanse(&generator->delta,sizeof(generator->delta));
+      OPENSSL_cleanse(generator->constant,sizeof(generator->constant));
+      OPENSSL_cleanse(&generator->mitccrh,sizeof(generator->mitccrh));
+    } else if(circuit) {
+      auto* e=static_cast<sci::HalfGateEva<GcBatchChannel>*>(circuit.get());
+      OPENSSL_cleanse(e->constant,sizeof(e->constant));
+      OPENSSL_cleanse(&e->mitccrh,sizeof(e->mitccrh));
+    }
+    circuit.reset(); generator=nullptr;
+  }
+  BatchResult run_inner(const BatchSpec &d, const std::vector<Word> &words,
                   const std::vector<uint8_t> &bits,
                   const std::vector<Word> &table = {}) {
     const auto l = layout(d);
@@ -788,6 +809,23 @@ struct BatchOps::Impl {
       if (digest != other)
         throw std::runtime_error("E_BATCH_PUBLIC_TABLE_MISMATCH");
     }
+    if(d.code==BatchCode::SiLUComposite) {
+      std::array<unsigned char,32> implementation{};
+#ifdef PRAG_EXPERIMENTAL_SILU_GPU
+      if(l.iw>=2048 && l.iw<=6144) implementation=silu_gpu_bridge::prepare().digest;
+      else {
+        const char identity[]="exact-silu-cpu-baseline-v1";
+        SHA256(reinterpret_cast<const unsigned char*>(identity),sizeof(identity)-1,implementation.data());
+      }
+#else
+      const char identity[]="exact-silu-cpu-baseline-v1";
+      SHA256(reinterpret_cast<const unsigned char*>(identity),sizeof(identity)-1,implementation.data());
+#endif
+      std::array<unsigned char,32> other{};
+      if(role==Role::Client){io.send_data(implementation.data(),32);io.recv_data(other.data(),32);}
+      else{io.recv_data(other.data(),32);io.send_data(implementation.data(),32);}
+      if(other!=implementation)throw std::runtime_error("E_SILU_GPU_IMPLEMENTATION_BINDING");
+    }
     const size_t inbits = 59 * l.iw + l.ib, outbits = 59 * l.ow + l.ob;
     // Topology counting only: no operand values, cryptography, or diagnostic
     // outputs. Both parties run the same public program before material use.
@@ -804,6 +842,7 @@ struct BatchOps::Impl {
     op.reserve_material("batch_mask_words", l.ow);
     op.reserve_material("batch_mask_bits", l.ob);
     BatchResult result{std::vector<Word>(l.ow), std::vector<uint8_t>(l.ob)};
+    VectorWipe<Word> result_word_wipe{result.words};VectorWipe<uint8_t> result_bit_wipe{result.bits};
     if (role == Role::Server) {
       if (l.ow && RAND_priv_bytes(
                       reinterpret_cast<unsigned char *>(result.words.data()),
@@ -827,13 +866,48 @@ struct BatchOps::Impl {
     own.reserve(inbits + outbits);
     append(own, words);
     own.insert(own.end(), bits.begin(), bits.end());
+    struct ByteWipe {void* p;size_t n;~ByteWipe(){if(n)OPENSSL_cleanse(p,n);}};
+    // own reserved its final capacity above, so append cannot invalidate pointer.
+    ByteWipe own_wipe{own.data(),own.capacity()};
     auto cinput = input(own, Role::Client);
+    ByteWipe ci_wipe{cinput.data(),cinput.size()*sizeof(Label)};
     append(own, result.words);
     own.insert(own.end(), result.bits.begin(), result.bits.end());
     auto sinput = input(own, Role::Server);
+    ByteWipe si_wipe{sinput.data(),sinput.size()*sizeof(Label)};
     tables.begin(count);
-    auto real = execute_circuit(circuit.get(), d, l, cinput, sinput, table);
+    CircuitResult real;
+#ifdef PRAG_EXPERIMENTAL_SILU_GPU
+    if(d.code==BatchCode::SiLUComposite && l.iw>=2048 && l.iw<=6144) {
+      // OT and constructor have consumed no GC keys. Discard this backend
+      // after the whole replacement; later OR operations use new instances.
+      try {
+        if(l.ow!=l.iw||l.ob!=l.iw||l.ib!=0||count!=3590*l.iw)throw std::runtime_error("E_SILU_GPU_GATE_COUNT");
+        silu_gpu_bridge::Configuration cfg;
+        if(generator) {
+          if(generator->mitccrh.gid!=0 || generator->mitccrh.key_used!=8)
+            throw std::runtime_error("E_SILU_GPU_NONPRISTINE_CONTEXT");
+          cfg.seed=generator->mitccrh.start_point;cfg.delta=generator->delta;
+        } else {
+          auto* e=static_cast<sci::HalfGateEva<GcBatchChannel>*>(circuit.get());
+          if(e->mitccrh.gid!=0 || e->mitccrh.key_used!=8)
+            throw std::runtime_error("E_SILU_GPU_NONPRISTINE_CONTEXT");
+          cfg.seed=e->mitccrh.start_point;
+        }
+        cfg.zero=circuit->public_label(false);cfg.one=circuit->public_label(true);
+        real.output=silu_gpu_bridge::execute(role==Role::Server,l.iw,cinput,sinput,cfg,tables);
+        if(real.output.size()!=outbits)throw std::runtime_error("E_SILU_GPU_OUTPUT_COUNT");
+        real.gates=count;
+        ++counters.gpu_silu_calls; counters.gpu_silu_elements+=l.iw;
+        discard_gpu_backend();
+      } catch(...) {
+        discard_gpu_backend();op.abort_session();throw;
+      }
+    } else
+#endif
+      real=execute_circuit(circuit.get(),d,l,cinput,sinput,table);
     auto &output = real.output;
+    ByteWipe output_wipe{output.data(),output.size()*sizeof(Label)};
     tables.end();
     if (real.gates != count)
       throw std::runtime_error("E_BATCH_GATES");
@@ -860,7 +934,12 @@ struct BatchOps::Impl {
     counters.input_ot_choices += inbits;
     counters.masked_words += l.ow;
     counters.masked_bits += l.ob;
+    result_word_wipe.keep=true;result_bit_wipe.keep=true;
     return result;
+  }
+  BatchResult run(const BatchSpec& d,const std::vector<Word>& w,const std::vector<uint8_t>& b,const std::vector<Word>& table={}) {
+    try{return run_inner(d,w,b,table);}
+    catch(...){discard_gpu_backend();op.abort_session();throw;}
   }
 };
 BatchOps::BatchOps(SecureOps &o) : p_(std::make_unique<Impl>(o)) {}

@@ -17,6 +17,9 @@ public:
   GcBatchChannel(const GcBatchChannel &) = delete;
   void begin(std::size_t public_and_gates);
   void end();
+  // Active tables only: public contiguous byte count, always a multiple of 32.
+  void send_tables(const void *, std::size_t);
+  void recv_tables(void *, std::size_t);
   void send_data(const void *, int);
   void recv_data(void *, int);
 };

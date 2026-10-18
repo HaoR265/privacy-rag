@@ -30,6 +30,11 @@ class Packing {
   eval.add_inplace(left,difference);++stats_.merges;stats_.packing_ms+=ms(begin);return left;
 #endif
  }
+ experimental::resident::DeviceCipherBatch pair_device(const experimental::resident::DeviceCipherBatch& left,const experimental::resident::DeviceCipherBatch& right,unsigned level){
+  if(closing_||level>=9)throw std::invalid_argument("E_PACK_DEVICE_LEVEL");auto begin=Clock::now();
+  auto result=plans_[2*level]->packing_device(left,right,*plans_[2*level+1],level);
+  ++stats_.merges;stats_.packing_ms+=ms(begin);return result;
+ }
  Stats close()noexcept{
   if(stats_.closed)return stats_;closing_=true;auto begin=Clock::now();bool all=true;stats_.freed_bytes=stats_.wipe_synchronized_bytes=0;
   for(auto& p:plans_)if(p){auto c=p->close();all&=c.closed;stats_.freed_bytes+=c.freed_bytes;stats_.wipe_synchronized_bytes+=c.wipe_synchronized_bytes;if(!stats_.first_cuda_error&&c.first_cuda_error)stats_.first_cuda_error=c.first_cuda_error;}

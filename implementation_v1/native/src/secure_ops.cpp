@@ -153,11 +153,11 @@ struct SecureOps::Impl {
     if (role == sender) {
       std::vector<std::array<Word, 2>> m(n);
       std::vector<Word *> p(n);
-      RandomWords masks(bits == 59 ? n : 0);
+      RandomWords masks(n);
       for (size_t i = 0; i < a.size(); ++i)
         for (unsigned j = 0; j < bits; ++j) {
           size_t k = i * bits + j;
-          Word r = bits == 59 ? masks.next() : random_word();
+          Word r = masks.next();
           m[k] = {(-r) & MASK, ((a[i] << j) - r) & MASK};
           p[k] = m[k].data();
           out[i] = (out[i] + r) & MASK;

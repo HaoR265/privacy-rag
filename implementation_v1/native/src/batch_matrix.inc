@@ -52,6 +52,14 @@ std::vector<Word> BatchOps::matrix(
     p_->descriptor(qk_reverse64?103:102, rows, columns, {inner, Word(fx * 64 + fy), bound});
     auto &s = p_->op;
     auto &io = s.channel();
+    bool input_selected=false,phase_selected=false;
+#ifdef PRAG_MATRIX_INPUT_ENC_GPU
+    input_selected=rows==16 && ((inner==128 && columns==1280)||(inner==1280 && columns==128));
+#endif
+#ifdef PRAG_CLIENT_PHASE_GPU
+    phase_selected=rows==16 && inner==128 && columns==1280;
+#endif
+    s.begin_matrix_gpu_scope(input_selected,phase_selected);
     MatrixWords a(x.size()), b(y.size()), t(rows * columns),
         wire(x.size() + y.size()), peer(wire.values.size()),
         dx(x.size()), dy(y.size());
@@ -147,8 +155,10 @@ std::vector<Word> BatchOps::matrix(
           }
     }
     // Unsigned mod 2^64 intermediates reduce exactly into the divisor ring 2^59.
+    s.end_matrix_gpu_scope();
     return std::move(t.values);
   } catch (...) {
+    try{p_->op.end_matrix_gpu_scope();}catch(...){std::cerr<<"E_CLIENT_PHASE_SCOPE_FAILURE_CLEANUP\n";}
     p_->op.abort_session();
     throw;
   }

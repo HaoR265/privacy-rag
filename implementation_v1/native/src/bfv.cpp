@@ -1,3 +1,10 @@
+#ifdef PRAG_ENC0_GPU
+#include "enc0.hpp"
+#include <cstdlib>
+#endif
+#include <future>
+#include <exception>
+#include <memory>
 #if defined(PRAG_EXPERIMENTAL_TOKEN_GPU) && defined(PRAG_TOKEN_COORDINATE_PIPELINE)
 #include "token_coordinate_queue.hpp"
 #endif
@@ -40,6 +47,41 @@
 #ifdef SEAL_USE_INTEL_HEXL
 #error "The locked native profile was materialized without Intel HEXL"
 #endif
+
+#include "ntt.hpp"
+class ClientPhaseScope {
+ const seal::SEALContext& context;const char* kind;bool enabled;
+#ifdef PRAG_CLIENT_PHASE_GPU
+ std::unique_ptr<prag::experimental::ntt::NttBatch> gpu;
+#endif
+ double init_seconds=0,compute_seconds=0,close_seconds=0;size_t calls=0;bool done=false;
+ using Clock=std::chrono::steady_clock;
+ static double elapsed(Clock::time_point t){return std::chrono::duration<double>(Clock::now()-t).count();}
+ public:
+ ClientPhaseScope(const seal::SEALContext& c,const char* k,bool e=false):context(c),kind(k),enabled(e){}
+ void apply(std::vector<uint64_t>& component,const seal::SecretKey& sk){
+ const auto cd=context.first_context_data();const auto& qs=cd->parms().coeff_modulus();constexpr size_t n=16384;
+ for(size_t p=0;p<6;++p)for(size_t j=0;j<n;++j)if(component[p*n+j]>=qs[p].value())throw std::runtime_error("E_BFV_COMPONENT");
+#ifdef PRAG_CLIENT_PHASE_GPU
+ if(enabled&&!gpu){auto t=Clock::now();std::vector<uint64_t> key(sk.data().data(),sk.data().data()+6*n);struct Wipe{std::vector<uint64_t>& x;~Wipe(){OPENSSL_cleanse(x.data(),x.size()*8);}} wipe{key};gpu=std::make_unique<prag::experimental::ntt::NttBatch>(context,false,1);gpu->bind_client_key(context,key);init_seconds+=elapsed(t);}
+#endif
+ auto t=Clock::now();
+#ifdef PRAG_CLIENT_PHASE_GPU
+ if(enabled){auto out=gpu->client_phase(component);component.swap(out);OPENSSL_cleanse(out.data(),out.size()*8);}else
+#endif
+ {for(size_t p=0;p<6;++p){auto*a=component.data()+p*n;seal::util::ntt_negacyclic_harvey(a,cd->small_ntt_tables()[p]);seal::util::dyadic_product_coeffmod(a,sk.data().data()+p*n,n,qs[p],a);seal::util::inverse_ntt_negacyclic_harvey(a,cd->small_ntt_tables()[p]);}}
+ compute_seconds+=elapsed(t);++calls;
+ }
+ void finish(){if(done)return;auto t=Clock::now();prag::experimental::ntt::Cleanup c{};c.closed=true;
+#ifdef PRAG_CLIENT_PHASE_GPU
+ if(gpu)c=gpu->close();
+#endif
+ close_seconds+=elapsed(t);done=true;
+ if(calls)std::cerr<<"CLIENT_PHASE {\"kind\":\""<<kind<<"\",\"calls\":"<<calls<<",\"init_seconds\":"<<init_seconds<<",\"compute_seconds\":"<<compute_seconds<<",\"close_seconds\":"<<close_seconds<<",\"closed\":"<<(c.closed?"true":"false")<<",\"first_cuda_error\":"<<c.first_cuda_error<<",\"wipe_synchronized_bytes\":"<<c.wipe_synchronized_bytes<<"}\n";
+ if(!c.closed||c.first_cuda_error)throw std::runtime_error("E_CLIENT_PHASE_CLEANUP");}
+ ~ClientPhaseScope(){if(!done)try{finish();}catch(...){std::cerr<<"E_CLIENT_PHASE_FAILURE_CLEANUP\n";}}
+};
+
 namespace prag {
 static_assert(std::is_same<seal::SEAL_DEFAULT_PRNG_FACTORY,
                            seal::Blake2xbPRNGFactory>::value,
@@ -342,6 +384,11 @@ class BfvEngine {
   seal::SecretKey sk;
   std::unique_ptr<seal::Encryptor> enc;
   Decoder decoder;
+  std::unique_ptr<ClientPhaseScope> matrix_client_phase_;
+#ifdef PRAG_MATRIX_INPUT_ENC_GPU
+  std::unique_ptr<enc0_gpu::PublicZero> matrix_input_backend_;
+  size_t matrix_input_calls_=0;
+#endif
 
 public:
   BfvEngine(Role r, Channel &i)
@@ -364,6 +411,17 @@ public:
     }
     enc.reset(new seal::Encryptor(context, pk));
   }
+  ClientPhaseScope& matrix_client_phase(){if(!matrix_client_phase_)matrix_client_phase_=std::make_unique<ClientPhaseScope>(context,"matrix_standard_key_operation",true);return *matrix_client_phase_;}
+  void close_matrix_client_phase(){auto owned=std::move(matrix_client_phase_);if(owned)owned->finish();}
+#ifdef PRAG_MATRIX_INPUT_ENC_GPU
+  void close_matrix_input() {
+    if(!matrix_input_backend_)return;
+    auto cleanup=matrix_input_backend_->close();
+    matrix_input_backend_.reset();
+    if(!cleanup.closed||cleanup.first_cuda_error)throw std::runtime_error("E_INPUT_ENC_GPU_CLEANUP");
+    matrix_input_calls_=0;
+  }
+#endif
   ~BfvEngine() {
     if (role == Role::Client && token_final_sk.data().coeff_count())
       OPENSSL_cleanse(token_final_sk.data().data(),token_final_sk.data().coeff_count()*8);
@@ -648,8 +706,21 @@ std::vector<std::vector<Word>> SecureOps::private_matrix_impl(
       reserve_material("bfv_key_and_GC_independent_OT",1);
       bfv_=std::make_shared<BfvEngine>(role(),channel());
     }
-    return bfv_->matrix(*this,x,outputs,reader,qk_reverse64);
+    return bfv_->matrix(*this,x,outputs,reader,qk_reverse64,matrix_gpu_scope_&&matrix_input_gpu_enabled_,matrix_gpu_scope_&&matrix_phase_gpu_enabled_);
   } catch(...) {abort_session();throw;}
+}
+void SecureOps::begin_matrix_gpu_scope(bool input_enabled,bool phase_enabled){if(!session_active()||matrix_gpu_scope_)throw std::runtime_error("E_MATRIX_GPU_SCOPE");matrix_gpu_scope_=true;matrix_input_gpu_enabled_=input_enabled;matrix_phase_gpu_enabled_=phase_enabled;}
+void SecureOps::end_matrix_gpu_scope(){
+  matrix_gpu_scope_=false;
+  matrix_input_gpu_enabled_=false;
+  matrix_phase_gpu_enabled_=false;
+  if(!bfv_)return;
+  std::exception_ptr first;
+#ifdef PRAG_MATRIX_INPUT_ENC_GPU
+  try { bfv_->close_matrix_input(); } catch(...) { first=std::current_exception(); }
+#endif
+  try { bfv_->close_matrix_client_phase(); } catch(...) { if(!first)first=std::current_exception(); }
+  if(first)std::rethrow_exception(first);
 }
 #include "bfv_token_api.inc"
 } // namespace prag

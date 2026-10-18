@@ -46,6 +46,46 @@ void GcBatchChannel::recv_data(void *p, int n) {
   cursor_ += 32;
   consumed_ += 32;
 }
+void GcBatchChannel::send_tables(const void *p, std::size_t n) {
+  if (!active_ || !sender_ || n % 32 || n > expected_ - consumed_ || (n && !p))
+    throw std::runtime_error("E_GC_BATCH_SHAPE");
+  auto source = static_cast<const unsigned char *>(p);
+  while (n) {
+    if (cursor_ == 0 && n >= chunk_bytes) {
+      consumed_ += chunk_bytes;
+      wire_.send_data(source, chunk_bytes);
+      source += chunk_bytes; n -= chunk_bytes;
+    } else {
+      const auto take = std::min(n, chunk_bytes - cursor_);
+      std::memcpy(buffer_.data() + cursor_, source, take);
+      source += take; n -= take; cursor_ += take; consumed_ += take;
+      if (cursor_ == chunk_bytes) {
+        wire_.send_data(buffer_.data(), chunk_bytes);
+        cursor_ = 0;
+      }
+    }
+  }
+}
+void GcBatchChannel::recv_tables(void *p, std::size_t n) {
+  if (!active_ || sender_ || n % 32 || n > expected_ - consumed_ || (n && !p))
+    throw std::runtime_error("E_GC_BATCH_SHAPE");
+  auto destination = static_cast<unsigned char *>(p);
+  while (n) {
+    if (cursor_ == available_ && n >= chunk_bytes) {
+      wire_.recv_data(destination, chunk_bytes);
+      destination += chunk_bytes; n -= chunk_bytes; consumed_ += chunk_bytes;
+      cursor_ = available_ = 0;
+    } else {
+      if (cursor_ == available_) {
+        wire_.recv_data(buffer_.data(), chunk_bytes);
+        cursor_ = 0; available_ = chunk_bytes;
+      }
+      const auto take = std::min(n, available_ - cursor_);
+      std::memcpy(destination, buffer_.data() + cursor_, take);
+      destination += take; n -= take; cursor_ += take; consumed_ += take;
+    }
+  }
+}
 void GcBatchChannel::end() {
   if (!active_ || consumed_ != expected_)
     throw std::runtime_error("E_GC_BATCH_SHAPE");

@@ -1,6 +1,7 @@
 #include "resident.hpp"
 #include <seal/seal.h>
 #include <seal/util/ntt.h>
+#include <seal/util/uintarithsmallmod.h>
 #include <algorithm>
 #include <array>
 #include <stdexcept>
@@ -30,8 +31,33 @@ TokenWeights::TokenWeights(const seal::SEALContext& context,const std::vector<st
   std::copy_n(inputs[slot][block].data(component),limbs,dest);
   for(size_t prime=0;prime<primes;++prime)seal::util::ntt_negacyclic_harvey(dest+prime*degree,cd->small_ntt_tables()[prime]);
  }
- std::vector<uint64_t> moduli(primes),roots(primes*degree*2);
+ context_=std::make_shared<seal::SEALContext>(context);
+ std::vector<uint64_t> moduli(primes),roots(primes*degree*2),inverse(roots.size()),invn(2*primes);
  for(size_t k=0;k<primes;++k){moduli[k]=cd->parms().coeff_modulus()[k].value();for(size_t j=0;j<degree;++j){const auto r=cd->small_ntt_tables()[k].get_from_root_powers()[j];roots[(k*degree+j)*2]=r.operand;roots[(k*degree+j)*2+1]=r.quotient;}}
- initialize(slots,flat,moduli,roots);
+ for(size_t k=0;k<primes;++k){const auto& table=cd->small_ntt_tables()[k];
+  for(size_t j=0;j<degree;++j){auto v=table.get_from_inv_root_powers()[j];inverse[(k*degree+j)*2]=v.operand;inverse[(k*degree+j)*2+1]=v.quotient;}
+  auto n=table.inv_degree_modulo();invn[k*2]=n.operand;invn[k*2+1]=n.quotient;}
+ initialize(slots,flat,moduli,roots,inverse,invn);
 }
+
+DeviceCipherBatch TokenWeights::evaluate_finished(const std::vector<uint64_t>& weights,const std::vector<uint64_t>& local){
+ const auto cd=context_->first_context_data();const auto& q=cd->parms().coeff_modulus();
+ std::vector<uint64_t> scaled(local.size()*primes);LocalWiper wipe{scaled};
+ for(size_t slot=0;slot<local.size();++slot){auto m=local[slot];require(m<(uint64_t(1)<<59));
+  // SEAL scalingvariant.cpp: floor((r*m + plain_upper_half_threshold)/t).
+  const auto numerator=static_cast<unsigned __int128>(cd->coeff_modulus_mod_plain_modulus())*m+cd->plain_upper_half_threshold();
+  const uint64_t fix=uint64_t(numerator/(uint64_t(1)<<59));
+  for(size_t k=0;k<primes;++k)scaled[slot*primes+k]=seal::util::multiply_add_uint_mod(m,cd->coeff_div_plain_modulus()[k],fix,q[k]);
+ }
+ return evaluate_device(weights,scaled);
+}
+void TokenWeights::bind_local_shares(const std::vector<std::vector<uint64_t>>& shares){
+ const auto cd=context_->first_context_data();std::vector<uint64_t> flat,delta;LocalWiper wipe{flat};
+ require(!shares.empty()&&shares.size()<=4);flat.reserve(shares.size()*blocks*block_width);
+ for(const auto& row:shares){require(row.size()==blocks*block_width);for(auto x:row){require(x<(uint64_t(1)<<59));flat.push_back(x);}}
+ for(size_t k=0;k<primes;++k){const auto x=cd->coeff_div_plain_modulus()[k];delta.push_back(x.operand);delta.push_back(x.quotient);}
+ initialize_local(flat,delta,cd->coeff_modulus_mod_plain_modulus(),cd->plain_upper_half_threshold());
+}
+DeviceCipherBatch TokenWeights::evaluate_local_finished(const std::vector<uint64_t>& weights){return evaluate_device(weights,{});}
+
 }
